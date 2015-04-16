@@ -1,11 +1,9 @@
 {
-  "name": "my-webapp",
-  "version": "1.0.0",
-  "description": "Real time dashboards for ecommerce retailers",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC"
+  "name": "hello-world",
+  "description": "hello world test app",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "3.4.4"
+  }
 }
