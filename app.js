@@ -6,9 +6,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 var mongoose=require('mongoose');
-
-mongoose.connect('mongodb://cmpe280:cmpe280@ds061651.mongolab.com:61651/cmpe280');
-
+var autoIncrement = require('mongoose-auto-increment');
+var connection=mongoose.connect('mongodb://cmpe280:cmpe280@ds061651.mongolab.com:61651/cmpe280');
+autoIncrement.initialize(connection);
 var port = 80;
 
 //Routes for APIS

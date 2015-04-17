@@ -1,10 +1,5 @@
 module.exports = function(router) {
-    var Counters = require('../app/models/counters');
-
-    function getNextSequence(name) {
-        // get the user starlord55
-        console.log(name);
-    }
+    
     var UserSchema = require('../app/models/user/user');
     router.post('/signup', function(req, res, next) {
         var UserSchema = require('../app/models/user/user');
@@ -34,7 +29,7 @@ module.exports = function(router) {
                     userModel.password = req.body.password;
                     userModel.firstname = req.body.firstName;
                     userModel.lastname = req.body.lastName;
-                    getNextSequence("user");
+                   
                     userModel.save(function(err, user) {
                         res.json({
                             type: true,
