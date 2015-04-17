@@ -13,13 +13,8 @@ var port = 80;
 
 //Routes for APIS
 
-<<<<<<< HEAD
 var router=express.Router();
 
 var userRoutes=require('./routes/users')(router);
 app.use('/api',router);
 app.listen(port);
-=======
-//Testing from Tania
->>>>>>> b39011200d3f337ea21f300c5162666edc587012
-
