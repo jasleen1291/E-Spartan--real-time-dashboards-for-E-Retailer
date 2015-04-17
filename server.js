@@ -12,7 +12,9 @@ var app = express();
 var mysql = require('mysql');
 var http = require('http');
 var fs = require('fs');
+var mongoose=require('mongoose');
 
+mongoose.connect('mongodb://cmpe280:cmpe280@ds061651.mongolab.com:61651/cmpe280');
 
 //--------------------------------Default methods------------------------------
 // view engine setup
