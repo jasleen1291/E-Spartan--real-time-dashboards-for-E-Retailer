@@ -40,6 +40,33 @@ module.exports = function(router) {
             }
         });
     });
+    router.post('/login', function(req, res, next) {
+        var UserSchema = require('../app/models/user/user');
+
+        UserSchema.findOne({
+            username: req.body.userName,
+            password: req.body.password
+        }, function(err, user) {
+            if (err) {
+                console.log('err');
+                res.json({
+                    type: false,
+                    data: "Error occured: " + err
+                });
+            } else {
+                if (user) {
+                    
+                    res.json({
+                        type: true,
+                        data: user
+                    });
+                } else {
+                     type: false,
+                    data: "Invalid login"
+                }
+            }
+        });
+    });
     
 
 }
