@@ -13,5 +13,5 @@ var userSchema = new mongoose.Schema({
 	updated_at:Date
 });
 
-userSchema.plugin(autoIncrement.plugin, { model: 'User', field: 'user_id', startAt: 1 });
+userSchema.plugin(autoIncrement.plugin, { model: 'User', startAt: 1 });
 var User = mongoose.model('User', userSchema);
