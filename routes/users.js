@@ -1,8 +1,8 @@
 module.exports = function(router) {
     
-    var UserSchema = require('../app/models/user/user');
+    var UserSchema = require('../app/models/User.js');
     router.post('/signup', function(req, res, next) {
-        var UserSchema = require('../app/models/user/user');
+        var UserSchema = require('../app/models/User.js');
 
         UserSchema.findOne({
             username: req.body.userName,
@@ -41,7 +41,7 @@ module.exports = function(router) {
         });
     });
     router.post('/login', function(req, res, next) {
-        var UserSchema = require('../app/models/user/user');
+        var UserSchema = require('../app/models/User');
 
         UserSchema.findOne({
             username: req.body.userName,
@@ -61,8 +61,9 @@ module.exports = function(router) {
                         data: user
                     });
                 } else {
+                	res.json({
                      type: false,
-                    data: "Invalid login"
+                    data: "Invalid login"});
                 }
             }
         });
