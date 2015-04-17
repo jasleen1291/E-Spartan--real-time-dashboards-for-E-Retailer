@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <title>CmpE280: Assignment 6</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+      <script src="javascripts/jquery.min.js"></script>
+      <script src="javascripts/bootstrap.min.js"></script>
+      <style>
+         #menu{
+         }
+         .leftLink{
+         margin: 0.5em 0;
+         width:80%;
+         }
+         #content{
+         }
+         #contentLeft{
+         padding-top: 15%;
+         }
+         .item img{
+         height: 100%;
+         }
+         a{
+         text-decoration: none;
+         }
+         #footerContent{
+         padding: 5% 0 0 0 ; 
+         }
+      </style>
+   </head>
+   <body>
+      <div class="container" >
+         <header>
+            <nav class="navbar">
+               <div class="navbar-header">
+                  <a href="LandingPage.html">
+                  <img id="logo" src="images/logo.png" height=70px width=100px />
+                  </a>
+               </div>
+               <div class="collapse navbar-collapse" id="myNavbar">
+                  <ul class="nav navbar-nav navbar-right text-uppercase">
+                     <li class="active"><a href="LandingPage.html">Home</a></li>
+                     <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Products</a>
+                        <ul class="dropdown-menu">
+                           <li><a href="#">Mobile</a></li>
+                           <li><a href="BigDataPage.html">Big Data</a></li>
+                           <li><a href="IOTPage.html">IOE/IOT</a></li>
+                        </ul>
+                     </li>
+                     <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">About Us</a>
+                        <ul class="dropdown-menu">
+                           <li><a href="ManagementPage.html">Management</a></li>
+                           <li><a href="#">Code of Conduct</a></li>
+                           <li><a href="#">Business Product</a></li>
+                           <li><a href="LocationPage.html">Locations</a></li>
+                           <li><a href="#">Contacts</a></li>
+                        </ul>
+                     </li>
+                  </ul>
+               </div>
+            </nav>
+         </header>
+         <div id="content">
+            <div class="row">
+               <div id="contentLeft" class="col-sm-2">
+                  <a href="#" class="btn btn-info btn-lg leftLink">Brochure</a><br/>
+                  <a data-toggle="modal" data-target="#whitePaperModal" class="btn btn-info btn-lg leftLink">White Paper</a>
+               </div>
+               <div id="contentMiddle" class="col-sm-8 text-center">
+                  <h3>Internet of Things</h3>
+                  <p style="text-align:left; line-height:1.5em">The Internet of Things (IoT) is the network of physical objects or "things" embedded with electronics, software, sensors and connectivity to enable it to achieve greater value and service by exchanging data with the manufacturer, operator and/or other connected devices. Each thing is uniquely identifiable through its embedded computing system but is able to interoperate within the existing Internet infrastructure.<br/>The term “Internet of Things” was first documented by a British visionary, Kevin Ashton, in 1999. Typically, IoT is expected to offer advanced connectivity of devices, systems, and services that goes beyond machine-to-machine communications (M2M) and covers a variety of protocols, domains, and applications. The interconnection of these embedded devices (including smart objects), is expected to usher in automation in nearly all fields, while also enabling advanced applications like a Smart Grid.</p>
+                  <div class="col-sm-2"></div>
+                  <div class="col-sm-4">
+                     <a href="#" class="btn btn-info btn-lg"><span>Number of Sensors: 30<br/>Data Streams: 30 Kb/sec<br/>Price: $30/month</span></a>
+                  </div>
+                  <div class="col-sm-4">
+                     <a href="#" class="btn btn-info btn-lg"><span>Number of Sensors: 60<br/>Data Streams: 50 Kb/sec<br/>Price: $50/month</span></a>
+                  </div>
+                  <div class="col-sm-2"></div>
+                  <div class="modal fade" id="whitePaperModal" role="dialog" tabindex="-1">
+                     <div class="modal-dialog">
+                        <div class="modal-content">
+                           <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                              <h4 class="modal-title">Download White Paper</h4>
+                           </div>
+
+                           <div class="modal-body">
+                              <form class="form-horizontal" method="post" action="/savedata" id="formIOT">
+                                 <div class="form-group">
+                                    <label for="firstName" class="col-sm-3 control-label">First Name</label>
+                                    <div class="col-sm-9">
+                                       <input type="text" name="Fname" class="form-control" id="firstName">
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <label for="lastName" class="col-sm-3 control-label">Last Name</label>
+                                    <div class="col-sm-9">
+                                       <input type="text" name="Lname" class="form-control" id="lastName">
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <label for="email" class="col-sm-3 control-label">Email</label>
+                                    <div class="col-sm-9">
+                                       <input type="email" name="Email" class="form-control" id="email">
+                                    </div>
+                                 </div>
+                                 <a id="download" type="submit" class="btn btn-info btn-lg">Download</a>&nbsp;&nbsp;
+                                 <a href="#" class="btn btn-info btn-lg" data-dismiss="modal">Cancel</a>
+                              </form>
+                           </div>
+
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div id="contentRight" class="col-sm-2">
+                  <div class="bs-callout bs-callout-info">
+                     <h4>Info Callout</h4>
+                     This is an info callout.
+                  </div>
+                  <div class="bs-callout bs-callout-info">
+                     <h4>Info Callout</h4>
+                     This is an info callout.
+                  </div>
+               </div>
+            </div>
+         </div>
+         <footer id="footerContent" style="text-align:center;margin-left:auto;margin-right:auto;">
+            <hr>
+            <a style="float:left" href="LandingPage.html">Assignment Bootstrap</a>
+            <p style="float:right">© Team 9 - CmpE:280 Assignment Bootstrap</p>
+         </footer>
+         <script></script>
+      </div>
+
+    <script type="text/javascript">
+
+//------------------------------------------Ajax call code------------------------------------
+
+   document.getElementById("download").onclick = handleButtonPress;
+   var httpRequest;
+
+   function handleButtonPress(e) {
+      e.preventDefault();
+      var form = document.getElementById("formIOT");
+      var formData = new Object();
+      var inputElements = document.getElementsByClassName("form-control");
+
+      for (var i = 0; i < inputElements.length; i++) {
+         formData[inputElements[i].name] = inputElements[i].value;
+         console.log("new item");
+      }
+
+      httpRequest = new XMLHttpRequest();
+      httpRequest.onreadystatechange = handleResponse;
+      httpRequest.open("POST", form.action);
+
+      httpRequest.setRequestHeader("Content-Type", "application/json");
+      httpRequest.send(JSON.stringify(formData));
+   }
+
+   function handleResponse() {
+      if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+            //console.log("inside");
+            var myurl= "http://www.purdue.edu/discoverypark/cyber/assets/pdfs/BigDataWhitePaper.pdf";
+            window.open(myurl,'_self');
+      }
+   }
+
+   </script>  
+   </body>
+</html>
