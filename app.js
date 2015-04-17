@@ -14,8 +14,8 @@ var port = 80;
 //Routes for APIS
 
 var router=express.Router();
-router.get('/',function(req,res){res.json({message:'API'})});
 
+var userRoutes=require('./routes/users')(router);
 app.use('/api',router);
 app.listen(port);
 
