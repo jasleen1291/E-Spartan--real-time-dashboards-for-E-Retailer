@@ -18,6 +18,7 @@ var router=express.Router();
 var userRoutes=require('./routes/users')(router);
 app.use('/api',router);
 app.listen(port);
+<<<<<<< HEAD
 
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -40,3 +41,5 @@ var userRoutes=require('./routes/users')(router);
 app.use('/api',router);
 app.listen(port);
 
+=======
+>>>>>>> 3b62b86a5938d17651c97f37d4887ac7dc8827a1
