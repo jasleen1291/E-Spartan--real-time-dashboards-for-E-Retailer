@@ -5,7 +5,7 @@ var autoIncrement = require('mongoose-auto-increment');
 var categorySchema = new mongoose.Schema({
 	name: String,
     description: String,
-    isDeleted: Boolean,
+    isDeleted: {type:Boolean,default:false},
     parent_id: Number
 });
 
