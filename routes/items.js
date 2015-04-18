@@ -31,7 +31,7 @@ module.exports = function(router) {
                     itemModel.price = req.body.price;
                     itemModel.quantity = req.body.quantity;
                     itemModel.category_id = req.body.category_id;
-                   
+                    itemModel.retailer_id=req.body.retailer_id;
                     itemModel.save(function(err, user) {
                         res.json({
                             type: true,
@@ -74,10 +74,10 @@ module.exports = function(router) {
       return ItemSchema.findById(req.params.id, function (err, item) {
         item.title = req.body.name;
         item.description = req.body.description;
-        item.style = req.body.price;
-        item.title = req.body.quantity;
-        item.title = req.body.category_id;
-        item.title = req.body.retailer_id;
+        item.price = req.body.price;
+        item.quantity = req.body.quantity;
+        item.category_id = req.body.category_id;
+        item.discount = req.body.discount;
         return item.save(function (err) {
           if (!err) {
             console.log("updated");

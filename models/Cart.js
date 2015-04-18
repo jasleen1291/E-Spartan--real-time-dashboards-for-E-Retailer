@@ -1,13 +1,13 @@
 var mongoose = require('mongoose');
 var Schema=mongoose.Schema;
 var autoIncrement = require('mongoose-auto-increment');
-var CartItem = new Schema({ item:Object,quantity:Number,price:Number,discountedPrice:Number });
+
 var cart = new mongoose.Schema({
 	user_id:Number,
-	items:[CartItem],
-	total:Number
+	items:[],
+	total:{type:Number,default:0}
 });
 
-cart.plugin(autoIncrement.plugin, { model: 'Item', startAt: 1 });
-var item = mongoose.model('Item', cart);
+cart.plugin(autoIncrement.plugin, { model: 'Cart', startAt: 1 });
+var item = mongoose.model('Cart', cart);
 module.exports = item;

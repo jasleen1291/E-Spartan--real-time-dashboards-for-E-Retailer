@@ -7,7 +7,9 @@ var itemSchema = new mongoose.Schema({
 	name: String,
     description: String,
     price: Number,
-    quantity: Number
+    quantity: Number,
+    discount:Number,
+    retailer_id:Number
 });
 
 itemSchema.plugin(autoIncrement.plugin, { model: 'Item', startAt: 1 });
