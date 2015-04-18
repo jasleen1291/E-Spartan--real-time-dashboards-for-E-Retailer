@@ -3,7 +3,7 @@ module.exports = function(router) {
     var UserSchema = require('../models/User.js');
     router.post('/signup', function(req, res, next) {
         var UserSchema = require('../models/User.js');
-        
+
         UserSchema.findOne({
             username: req.body.userName,
             password: req.body.password
@@ -83,19 +83,21 @@ module.exports = function(router) {
             } else {
                 if (user) {
                     var userModel = user;
-                    userModel.username = req.body.userName;
-                    userModel.password = req.body.password;
-                    userModel.firstname = req.body.firstName;
-                    userModel.lastname = req.body.lastName;
-                   
-                    userModel.save(function(err, user) {
+                    user.username = req.body.newUserName;
+                    user.password = req.body.newPassword;
+                    user.firstname = req.body.firstName;
+                    user.lastname = req.body.lastName;
+                   console.log(user);
+                    user.save(function(err, user) {
                         res.json({
                             type: true,
                             data: user
                         });
-                    })
+                    });
                     }else {
-                    console.log('new');
+                    res.json({
+                            type: false
+                        });
                     
                 }
             }
