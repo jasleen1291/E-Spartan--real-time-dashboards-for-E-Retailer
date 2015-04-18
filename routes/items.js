@@ -56,7 +56,7 @@ var ItemSchema = require('../models/Item');
 });
     
 // get item by Id.
-router.get('/getItem/id', function (req, res){
+router.get('/getItem/:id', function (req, res){
     var ItemSchema = require('../models/Item');
   return ItemSchema.findById(req.params.id, function (err, item) {
     if (!err) {
@@ -69,7 +69,7 @@ router.get('/getItem/id', function (req, res){
 
 
 // update item by Id
-router.put('/getItem/id', function (req, res){
+router.put('/getItem/:id', function (req, res){
     var ItemSchema = require('../models/Item');
   return ItemSchema.findById(req.params.id, function (err, item) {
     item.title = req.body.name;
@@ -91,7 +91,7 @@ router.put('/getItem/id', function (req, res){
 
 
 // delete item by Id
-router.delete('/getItem/id', function (req, res){
+router.delete('/getItem/:id', function (req, res){
 var ItemSchema = require('../models/Item');
 return ItemSchema.findById(req.params.id, function (err, item) {
     return item.remove(function (err) {
