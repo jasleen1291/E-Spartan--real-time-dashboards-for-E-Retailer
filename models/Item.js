@@ -11,4 +11,5 @@ var itemSchema = new mongoose.Schema({
 });
 
 itemSchema.plugin(autoIncrement.plugin, { model: 'Item', startAt: 1 });
-var item = mongoose.model('Item', itemSchema);
+var Item = mongoose.model('Item', itemSchema);
+module.exports = Item; 

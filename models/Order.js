@@ -17,9 +17,10 @@ var orderSchema = new mongoose.Schema({
 	receipientName:String,
 	receipientPhoneNumber:String,
 	quantity:Number,
-	CreditCard:Number,
+	creditCard:Number,
 	created_at:Date,
-	updated_at:Date
+	updated_at:Date,
+    status: String
 });
 // on every save, add the date
 userSchema.pre('save', function(next) {
