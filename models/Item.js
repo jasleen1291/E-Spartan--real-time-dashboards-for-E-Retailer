@@ -8,7 +8,7 @@ var itemSchema = new mongoose.Schema({
     description: String,
     price: Number,
     quantity: Number,
-    discount:Number,
+    discount:{type:Number,default:0},
     retailer_id:Number
 });
 
