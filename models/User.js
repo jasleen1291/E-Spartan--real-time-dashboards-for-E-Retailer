@@ -27,3 +27,4 @@ userSchema.pre('save', function(next) {
 
 userSchema.plugin(autoIncrement.plugin, { model: 'User', field: 'user_id', startAt: 1 });
 var User = mongoose.model('User', userSchema);
+module.exports = User;

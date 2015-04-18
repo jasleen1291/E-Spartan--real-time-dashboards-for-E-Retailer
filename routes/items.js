@@ -5,8 +5,7 @@ module.exports = function(router) {
         var ItemSchema = require('../models/Item');
 
         ItemSchema.findOne({
-            name: req.body.name,
-            description: req.body.description
+            name: req.body.name
         }, function(err, item) {
             if (err) {
                 console.log('err');

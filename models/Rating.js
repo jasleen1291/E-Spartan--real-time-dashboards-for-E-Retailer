@@ -10,3 +10,4 @@ var ratingSchema = new mongoose.Schema({
 });
 
 var Rating = mongoose.model('Rating', ratingSchema);
+module.exports = Rating;

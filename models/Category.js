@@ -11,3 +11,4 @@ var categorySchema = new mongoose.Schema({
 
 categorySchema.plugin(autoIncrement.plugin, { model: 'Category', startAt: 1 });
 var Category = mongoose.model('Category', categorySchema);
+module.exports = Category; 

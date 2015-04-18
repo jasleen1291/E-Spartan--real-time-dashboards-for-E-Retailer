@@ -3,7 +3,7 @@ module.exports = function(router) {
     var UserSchema = require('../models/User.js');
     router.post('/signup', function(req, res, next) {
         var UserSchema = require('../models/User.js');
-
+        
         UserSchema.findOne({
             username: req.body.userName,
             password: req.body.password
@@ -68,6 +68,38 @@ module.exports = function(router) {
             }
         });
     });
-    
+    router.post('/editProfile', function(req, res, next) {
+        var UserSchema = require('../models/User.js');
+
+        UserSchema.findOne({
+            username: req.body.userName
+        }, function(err, user) {
+            if (err) {
+                console.log('err');
+                res.json({
+                    type: false,
+                    data: "Error occured: " + err
+                });
+            } else {
+                if (user) {
+                    var userModel = user;
+                    userModel.username = req.body.userName;
+                    userModel.password = req.body.password;
+                    userModel.firstname = req.body.firstName;
+                    userModel.lastname = req.body.lastName;
+                   
+                    userModel.save(function(err, user) {
+                        res.json({
+                            type: true,
+                            data: user
+                        });
+                    })
+                    }else {
+                    console.log('new');
+                    
+                }
+            }
+        });
+    });
 
 }

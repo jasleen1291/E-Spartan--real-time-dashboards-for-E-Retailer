@@ -37,3 +37,4 @@ userSchema.pre('save', function(next) {
 });
 orderSchema.plugin(autoIncrement.plugin, { model: 'Order', field: 'category_id', startAt: 1 });
 var Order = mongoose.model('Order', orderSchema);
+module.exports = Order;
