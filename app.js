@@ -22,6 +22,9 @@ var router=express.Router();
 var userRoutes=require('./routes/users')(router);
 require('./routes/cart')(router);
 require('./routes/items')(router);
+require('./routes/orders')(router);
+require('./routes/category')(router);
+//require('./routes/rating')(router);
 
 var port = 3000;
 

@@ -13,7 +13,7 @@ var orderSchema = new mongoose.Schema({
 		City:String,
 		State:String,
 		ZipCode:Number
-	}
+	},
 	receipientName:String,
 	receipientPhoneNumber:String,
 	quantity:Number,
@@ -23,7 +23,7 @@ var orderSchema = new mongoose.Schema({
     status: String
 });
 // on every save, add the date
-userSchema.pre('save', function(next) {
+orderSchema.pre('save', function(next) {
   // get the current date
   var currentDate = new Date();
   

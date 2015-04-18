@@ -3,7 +3,7 @@
 module.exports = function(router) {
     
     var ItemSchema = require('../models/Item');
-    router.post('/createItem', function(req, res, next) {
+    router.post('/item/create', function(req, res, next) {
         var ItemSchema = require('../models/Item');
 
         ItemSchema.findOne({
@@ -43,67 +43,67 @@ module.exports = function(router) {
         });
     });
 
-// get all the items
-router.get('/getItem', function (req, res){
-var ItemSchema = require('../models/Item');
-  return ItemSchema.find(function (err, items) {
-    if (!err) {
-      return res.send(items);
-    } else {
-      return console.log(err);
-    }
-  });
-});
-    
-// get item by Id.
-router.get('/getItem/:id', function (req, res){
+    // get all the items
+    router.get('/item', function (req, res){
     var ItemSchema = require('../models/Item');
-  return ItemSchema.findById(req.params.id, function (err, item) {
-    if (!err) {
-      return res.send(item);
-    } else {
-      return console.log(err);
-    }
-  });
-});
+      return ItemSchema.find(function (err, items) {
+        if (!err) {
+          return res.send(items);
+        } else {
+          return console.log(err);
+        }
+      });
+    });
+
+    // get item by Id.
+    router.get('/item/:id', function (req, res){
+        var ItemSchema = require('../models/Item');
+      return ItemSchema.findById(req.params.id, function (err, item) {
+        if (!err) {
+          return res.send(item);
+        } else {
+          return console.log(err);
+        }
+      });
+    });
 
 
-// update item by Id
-router.put('/getItem/:id', function (req, res){
+    // update item by Id
+    router.put('/item/update/:id', function (req, res){
+        var ItemSchema = require('../models/Item');
+      return ItemSchema.findById(req.params.id, function (err, item) {
+        item.title = req.body.name;
+        item.description = req.body.description;
+        item.style = req.body.price;
+        item.title = req.body.quantity;
+        item.title = req.body.category_id;
+        item.title = req.body.retailer_id;
+        return item.save(function (err) {
+          if (!err) {
+            console.log("updated");
+          } else {
+            console.log(err);
+          }
+          return res.send(item);
+        });
+      });
+    });
+
+
+    // delete item by Id
+    router.delete('/item/delete/:id', function (req, res){
     var ItemSchema = require('../models/Item');
-  return ItemSchema.findById(req.params.id, function (err, item) {
-    item.title = req.body.name;
-    item.description = req.body.description;
-    item.style = req.body.price;
-    item.title = req.body.quantity;
-    item.title = req.body.category_id;
-    item.title = req.body.retailer_id;
-    return item.save(function (err) {
-      if (!err) {
-        console.log("updated");
-      } else {
-        console.log(err);
-      }
-      return res.send(item);
+    return ItemSchema.findById(req.params.id, function (err, item) {
+        return item.remove(function (err) {
+          if (!err) {
+            console.log("removed");
+            return res.send('');
+          } else {
+            console.log(err);
+          }
+        });
+      });
     });
-  });
-});
 
-
-// delete item by Id
-router.delete('/getItem/:id', function (req, res){
-var ItemSchema = require('../models/Item');
-return ItemSchema.findById(req.params.id, function (err, item) {
-    return item.remove(function (err) {
-      if (!err) {
-        console.log("removed");
-        return res.send('');
-      } else {
-        console.log(err);
-      }
-    });
-  });
-});
-    
 
 }

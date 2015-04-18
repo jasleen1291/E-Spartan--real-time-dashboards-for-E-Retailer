@@ -22,15 +22,14 @@ module.exports = function(router) {
                         data: "User already exists!"
                     });
                 } else {
-                    console.log('new');
+                    console.log('Creating new user');
                     var userModel = new UserSchema();
-                    console.log("data: " + req.body.userName);
                     userModel.username = req.body.userName;
                     userModel.password = req.body.password;
                     userModel.firstname = req.body.firstName;
                     userModel.lastname = req.body.lastName;
-                   
                     userModel.save(function(err, user) {
+                        console.log("user: " + user);
                         res.json({
                             type: true,
                             data: user
@@ -83,23 +82,22 @@ module.exports = function(router) {
             } else {
                 if (user) {
                     var userModel = user;
-                    user.username = req.body.newUserName;
-                    user.password = req.body.newPassword;
-                    user.firstname = req.body.firstName;
-                    user.lastname = req.body.lastName;
-                   console.log(user);
-                    user.save(function(err, user) {
+                    userModel.username = req.body.newUserName;
+                    userModel.password = req.body.newPassword;
+                    userModel.firstname = req.body.firstName;
+                    userModel.lastname = req.body.lastName;
+                    userModel.save(function(err, user) {
+                        console.log("user: " + user);
                         res.json({
                             type: true,
                             data: user
                         });
                     });
                     }else {
-                    res.json({
-                            type: false
+                        res.json({
+                                type: false
                         });
-                    
-                }
+                    }
             }
         });
     });
