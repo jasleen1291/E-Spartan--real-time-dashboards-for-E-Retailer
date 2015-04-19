@@ -1,7 +1,6 @@
 var q = require('q');
 module.exports = function(router) {
-    
-    
+
     router.get('/user', function(req, res){
         var UserSchema = require('../models/User');
         
@@ -50,21 +49,7 @@ module.exports = function(router) {
                 console.log('Creating Order');
                 console.log(req.data);
                 var orderModel = new OrderSchema();
-                orderModel.userid = req.params.userid;
-                orderModel.retailerid = req.body.retailerid;
-                orderModel.itemid = req.body.itemid;
-                orderModel.shippingAddress = req.body.shippingAddress;
-                orderModel.receipientName = req.body.receipientName;
-                orderModel.receipientPhoneNumber = req.body.receipientPhoneNumber;
-                orderModel.quantity = req.body.quantity;
-                orderModel.creditCard = req.body.creditCard;
-                orderModel.status = "Pending";
-                orderModel.save(function(err, order) {
-                    res.json({
-                        type: true,
-                        data: order
-                    });
-                });
+                saveOrder(req, res, orderModel);                
             }
             
         });
@@ -224,24 +209,41 @@ module.exports = function(router) {
                         });
                     }
                     else{
-                        order.status = "Cancelled";
-                        order.save(function(err, order){
-                            if(err){
-                                res.json({
-                                    type: false,
-                                    data: "Error Occurred :" + err
-                                });
-                            }
-                            else{
-                                res.json({
-                                    type: true,
-                                    data: order
-                                });
-                            }
-                        });
+                        if(order.status!='Shipped'){
+                            console.log('Update Order');
+                            saveOrder(req, res, order);      
+                        }
                     }
                 });
             }
         });
+    });
+}
+
+
+function saveOrder(req, res, order){
+    console.log(req.data);
+    order.userid = req.params.userid;
+    order.retailerid = req.body.retailerid;
+    order.items = req.body.items;
+    order.shippingAddress = req.body.shippingAddress;
+    order.receipientName = req.body.receipientName;
+    order.receipientPhoneNumber = req.body.receipientPhoneNumber;
+    order.creditCard = req.body.creditCard;
+    order.status = "Pending";
+
+    order.save(function(err, order){
+        if(err){
+            res.json({
+                type: false,
+                data: "Error Occurred :" + err
+            });
+        }
+        else{
+            res.json({
+                type: true,
+                data: order
+            });
+        }
     });
 }

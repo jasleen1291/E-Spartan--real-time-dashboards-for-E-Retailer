@@ -4,7 +4,7 @@ var autoIncrement = require('mongoose-auto-increment');
 
 var cart = new mongoose.Schema({
 	user_id:Number,
-	items:[],
+	items:[{item_id :Number, quantity: Number}],
 	total:{type:Number,default:0}
 });
 

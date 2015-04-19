@@ -3,10 +3,10 @@ var Schema=mongoose.Schema;
 var autoIncrement = require('mongoose-auto-increment');
 
 var orderSchema = new mongoose.Schema({
-    
 	userid:Number,
 	retailerid:Number,
-	itemid:Number,
+	items:[{item_id:Number, quantity: Number, price: Number }],  //array of items, quantity and their price
+    //Total price can be calculated using price and quantity
 	shippingAddress:{
 		AddressLine1:String,
 		AddressLine2:String,
@@ -16,7 +16,6 @@ var orderSchema = new mongoose.Schema({
 	},
 	receipientName:String,
 	receipientPhoneNumber:String,
-	quantity:Number,
 	creditCard:Number,
 	created_at:Date,
 	updated_at:Date,
