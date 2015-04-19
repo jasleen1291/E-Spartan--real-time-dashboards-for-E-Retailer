@@ -33,12 +33,22 @@ module.exports = function(router) {
                     } else {
                         categoryModel.parent_id = 0;
                     }
+                    try{
+                    categoryModel.features=(JSON.parse(req.body.features));
                     categoryModel.save(function(err, category) {
                         res.json({
                             type: true,
                             data: category
                         });
-                    })
+                    });
+                    }catch(e)
+                    {
+                        res.json({
+                            type: false,
+                            data: "Invalid json"
+                        });
+                    }
+                    
                 }
             }
         });
@@ -77,14 +87,30 @@ router.put('/category/:id', function (req, res){
             } else {
                 category.parent_id = 0;
             }
-            return category.save(function (err) {
-                if (!err) {
-                    console.log("updated");
-                } else {
-                    console.log(err);
-                }
-                return res.send(category);
-            });
+             try{
+                    categoryModel.features=(JSON.parse(req.body.features));
+                    categoryModel.save(function(err, category) {
+                        if(!err)
+                        {
+                            res.json({
+                            type: true,
+                            data: category
+                            });
+                        }else{
+                            res.json({
+                            type: false,
+                            data: err
+                            });
+                        }
+
+                    });
+                    }catch(e)
+                    {
+                        res.json({
+                            type: false,
+                            data: "Invalid json"
+                        });
+                    }
         } else {
             res.json({
                 type: false,
