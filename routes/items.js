@@ -32,12 +32,30 @@ module.exports = function(router) {
                     itemModel.quantity = req.body.quantity;
                     itemModel.category_id = req.body.category_id;
                     itemModel.retailer_id=req.body.retailer_id;
-                    itemModel.save(function(err, user) {
+                    try
+                    {
+                    itemModel.features=JSON.parse(req.body.features);
+                    itemModel.save(function(err, item) {
+                        if(!err)
+                        {
                         res.json({
                             type: true,
                             data: item
                         });
-                    })
+                        }else{
+                            res.json({
+                            type: false,
+                            data: err
+                        });
+                        }
+                    });
+                    }catch(e)
+                    {
+                         res.json({
+                            type: false,
+                            data: e
+                        });
+                    }
                 }
             }
         });
@@ -72,20 +90,36 @@ module.exports = function(router) {
     router.put('/item/update/:id', function (req, res){
         var ItemSchema = require('../models/Item');
       return ItemSchema.findById(req.params.id, function (err, item) {
-        item.title = req.body.name;
-        item.description = req.body.description;
-        item.price = req.body.price;
-        item.quantity = req.body.quantity;
-        item.category_id = req.body.category_id;
-        item.discount = req.body.discount;
-        return item.save(function (err) {
-          if (!err) {
-            console.log("updated");
-          } else {
-            console.log(err);
-          }
-          return res.send(item);
-        });
+                    itemModel.name = req.body.name;
+                    itemModel.description = req.body.description;
+                    itemModel.price = req.body.price;
+                    itemModel.quantity = req.body.quantity;
+                    itemModel.category_id = req.body.category_id;
+                    itemModel.retailer_id=req.body.retailer_id;
+                    try
+                    {
+                    itemModel.features=JSON.parse(req.body.features);
+                    itemModel.save(function(err, item) {
+                        if(!err)
+                        {
+                        res.json({
+                            type: true,
+                            data: item
+                        });
+                        }else{
+                            res.json({
+                            type: false,
+                            data: err
+                        });
+                        }
+                    });
+                    }catch(e)
+                    {
+                         res.json({
+                            type: false,
+                            data: e
+                        });
+                    }
       });
     });
 

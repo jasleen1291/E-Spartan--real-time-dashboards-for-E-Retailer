@@ -32,13 +32,21 @@ module.exports = function(router) {
                     item.qty=req.body.qty;
                     item.price=req.body.price;
                     items.push(item);
-                    cart.total=cart.total+(req.body.price*req.body.qty);
+                    try{
+                        
+                        cart.total=cart.total+(req.body.price*req.body.qty);
                     cart.save(function(err,doc){
                         if(err)
                             res.send({type:false,message:"Error"+err});
                         else
                             res.send({type:true,message:"Ok"});
                     });
+                    }catch(e)
+                    {
+                        res.send({type:false,message:"Error Invalid JSON for items"});
+                    }
+
+                    
 
                 }
             });
