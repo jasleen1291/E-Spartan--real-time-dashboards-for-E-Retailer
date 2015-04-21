@@ -1,85 +1,86 @@
 var q = require('q');
 module.exports = function(router) {
 
-    router.get('/user', function(req, res){
+    router.get('/user', function(req, res) {
         var UserSchema = require('../models/User');
-        
+
         console.log("Getting list of users");
-          return UserSchema.find(function (err, users) {
+        return UserSchema.find(function(err, users) {
             if (!err) {
-              return res.send(users);
+                return res.send(users);
             } else {
-              return console.log(err);
+                return console.log(err);
             }
-          });
+        });
 
     });
-    
+
     var findUserObj = {
-        findUser: function(userid){
+        findUser: function(userid) {
             var deffered = q.defer();
             console.log("finding user with userid " + userid);
             var UserSchema = require('../models/User');
-            UserSchema.findOne({user_id:userid}, function(err, user){
-                if(err){
+            UserSchema.findOne({
+                user_id: userid
+            }, function(err, user) {
+                if (err) {
                     console.log("Error occured: " + err);
                     deffered.resolve("Error");
-                }else{
+                } else {
                     deffered.resolve(user);
                 }
             });
             return deffered.promise;
         }
     }
-        
+
     //Creating order for user - userid
     router.post('/user/:userid/order/create', function(req, res, next) {
         var OrderSchema = require('../models/Order');
         var UserSchema = require('../models/User');
-        
+
         var findUserRequest = findUserObj.findUser(req.params.userid);
-        findUserRequest.done(function(data){
-            if(data=="Error"){
+        findUserRequest.done(function(data) {
+            if (data == "Error") {
                 res.json({
-                    type:false,
+                    type: false,
                     data: "User not found"
                 });
-            }
-            else{
+            } else {
                 console.log('Creating Order');
                 console.log(req.data);
                 var orderModel = new OrderSchema();
-                saveOrder(req, res, orderModel);                
+                saveOrder(req, res, orderModel);
             }
-            
+
         });
-        
+
     });
-    
+
     //Getting list of orders for user - userid
-    router.get('/user/:userid/order', function(req, res){
+    router.get('/user/:userid/order', function(req, res) {
         var OrderSchema = require('../models/Order');
         var UserSchema = require('../models/User');
-        
+
         var findUserRequest = findUserObj.findUser(req.params.userid);
-        findUserRequest.done(function(data){
-            if(data=="Error"){
+        findUserRequest.done(function(data) {
+            if (data == "Error") {
                 res.json({
-                    type:false,
+                    type: false,
                     data: "User not found"
                 });
-            }
-            else{
+            } else {
                 console.log("User found");
-                console.log("Finding orders for user " +  req.params.userid);
-                OrderSchema.find({userid:req.params.userid},function(err, orders){
-                    if(err){
+                console.log("Finding orders for user " + req.params.userid);
+                OrderSchema.find({
+                    userid: req.params.userid
+                }, function(err, orders) {
+                    if (err) {
                         res.json({
                             type: false,
                             data: null
                         });
-                    }
-                    else{
+                    } else {
                         res.json({
                             type: true,
                             data: orders
@@ -88,46 +89,46 @@ module.exports = function(router) {
                 });
             }
         });
-        
-//        UserSchema.findOne({user_id:req.params.userid}, function(err, user){
-//            if(err){
-//                 res.json({
-//                        type: false,
-//                        data: "User not found"
-//                 });
-//            }
-//            else{
-//                if(user){
-//                }
-//            }            
-//        });
+
+        //        UserSchema.findOne({user_id:req.params.userid}, function(err, user){
+        //            if(err){
+        //                 res.json({
+        //                        type: false,
+        //                        data: "User not found"
+        //                 });
+        //            }
+        //            else{
+        //                if(user){
+        //                }
+        //            }            
+        //        });
     });
 
-    
+
     //Getting a specific order for user - userid
-    router.get('/user/:userid/order/:orderid', function(req, res){
+    router.get('/user/:userid/order/:orderid', function(req, res) {
         var OrderSchema = require('../models/Order');
         var UserSchema = require('../models/User');
-        
-        UserSchema.findOne({user_id:req.params.userid}, function(err, user){
-            if(err){
-                 res.json({
-                        type: false,
-                        data: "User not found"
-                 });
-            }
-            else{
-                if(user){
+
+        UserSchema.findOne({
+            user_id: req.params.userid
+        }, function(err, user) {
+            if (err) {
+                res.json({
+                    type: false,
+                    data: "User not found"
+                });
+            } else {
+                if (user) {
                     console.log("User found");
-                    console.log("Finding orders for user " +  req.params.userid);
-                    OrderSchema.findById(req.params.orderid,function(err, order){
-                        if(err){
+                    console.log("Finding orders for user " + req.params.userid);
+                    OrderSchema.findById(req.params.orderid, function(err, order) {
+                        if (err) {
                             res.json({
                                 type: false,
                                 data: null
                             });
-                        }
-                        else{
+                        } else {
                             res.json({
                                 type: true,
                                 data: order
@@ -135,43 +136,42 @@ module.exports = function(router) {
                         }
                     });
                 }
-            }            
+            }
         });
     });
-    
+
     //cancelling a order
-    router.put('/user/:userid/order/cancel/:orderid', function(req, res){
+    router.put('/user/:userid/order/cancel/:orderid', function(req, res) {
         var OrderSchema = require('../models/Order');
         var UserSchema = require('../models/User');
-        
-        UserSchema.findOne({user_id:req.params.userid}, function(err, user){
-            if(err){
-                 res.json({
-                        type: false,
-                        data: "User not found"
-                 });
-            }
-            else{
-                if(user){
+
+        UserSchema.findOne({
+            user_id: req.params.userid
+        }, function(err, user) {
+            if (err) {
+                res.json({
+                    type: false,
+                    data: "User not found"
+                });
+            } else {
+                if (user) {
                     console.log("User found");
-                    console.log("Finding orders for user " +  req.params.userid);
-                    OrderSchema.findById(req.params.orderid,function(err, order){
-                        if(err){
+                    console.log("Finding orders for user " + req.params.userid);
+                    OrderSchema.findById(req.params.orderid, function(err, order) {
+                        if (err) {
                             res.json({
                                 type: false,
                                 data: "No order found for this id"
                             });
-                        }
-                        else{
+                        } else {
                             order.status = "Cancelled";
-                            order.save(function(err, order){
-                                if(err){
+                            order.save(function(err, order) {
+                                if (err) {
                                     res.json({
                                         type: false,
                                         data: "Error Occurred :" + err
                                     });
-                                }
-                                else{
+                                } else {
                                     res.json({
                                         type: true,
                                         data: order
@@ -181,47 +181,171 @@ module.exports = function(router) {
                         }
                     });
                 }
-            }            
+            }
         });
     });
-    
+
     //updating order
-    router.put('/user/:userid/order/update/:orderid', function(req, res){
+    router.put('/user/:userid/order/update/:orderid', function(req, res) {
         var OrderSchema = require('../models/Order');
         var UserSchema = require('../models/User');
-        
+
         var findUserRequest = findUserObj.findUser();
-        findUserRequest.done(function(data){
-            if(data="Error"){
-                 res.json({
-                        type: false,
-                        data: "User not found"
-                 });
-            }
-            else{
+        findUserRequest.done(function(data) {
+            if (data = "Error") {
+                res.json({
+                    type: false,
+                    data: "User not found"
+                });
+            } else {
                 console.log("User found");
-                console.log("Finding orders for user " +  req.params.userid);
-                OrderSchema.findById(req.params.orderid,function(err, order){
-                    if(err){
+                console.log("Finding orders for user " + req.params.userid);
+                OrderSchema.findById(req.params.orderid, function(err, order) {
+                    if (err) {
                         res.json({
                             type: false,
                             data: "No order found for this id"
                         });
-                    }
-                    else{
-                        if(order.status!='Shipped'){
+                    } else {
+                        if (order.status != 'Shipped') {
                             console.log('Update Order');
-                            saveOrder(req, res, order);      
+                            saveOrder(req, res, order);
                         }
                     }
                 });
             }
         });
     });
+    router.get('/getAvgSalesByMonth', function(req, res) {
+        var yr = req.query.year;
+        var rid = req.query.retailerid;
+
+        var OrderSchema = require('../models/Order');
+        OrderSchema.aggregate([{
+            $project: {
+                year: {
+                    $year: "$updated_at"
+                },
+                month: {
+                    $month: "$updated_at"
+                },
+                retailer_id: "$retailerid",
+                total: {
+                    $multiply: ["$price", "$quantity"]
+                }
+            }
+        }, {
+            $match: {
+                year: Number(yr),
+                retailer_id: Number(rid)
+            }
+        }, {
+            $group: {
+                _id: "$month",
+                avg: {
+                    $avg: "$total"
+                }
+            }
+        }], function(err, result) {
+            res.send(result);
+        });
+    });
+    router.get('/getAvgSalesByYear', function(req, res) {
+        var rid = req.query.retailerid;
+
+        var OrderSchema = require('../models/Order');
+        OrderSchema.aggregate([{
+            $project: {
+                year: {
+                    $year: "$updated_at"
+                },
+                retailer_id: "$retailerid",
+                total: {
+                    $multiply: ["$price", "$quantity"]
+                }
+            }
+        }, {
+            $match: {
+                retailer_id: Number(rid)
+            }
+        }, {
+            $group: {
+                _id: "$year",
+                avg: {
+                    $avg: "$total"
+                }
+            }
+        }], function(err, result) {
+            res.send(result);
+        });
+    });
+    router.get('/getTotalSalesByYear', function(req, res) {
+        var rid = req.query.retailerid;
+
+        var OrderSchema = require('../models/Order');
+        OrderSchema.aggregate([{
+            $project: {
+                year: {
+                    $year: "$updated_at"
+                },
+                retailer_id: "$retailerid",
+                total: {
+                    $multiply: ["$price", "$quantity"]
+                }
+            }
+        }, {
+            $match: {
+                retailer_id: Number(rid)
+            }
+        }, {
+            $group: {
+                _id: "$year",
+                sum: {
+                    $sum: "$total"
+                }
+            }
+        }], function(err, result) {
+            res.send(result);
+        });
+    });
+    router.get('/getTotalSalesByMonth', function(req, res) {
+        var yr = req.query.year;
+        var rid = req.query.retailerid;
+
+        var OrderSchema = require('../models/Order');
+        OrderSchema.aggregate([{
+            $project: {
+                year: {
+                    $year: "$updated_at"
+                },
+                month: {
+                    $month: "$updated_at"
+                },
+                retailer_id: "$retailerid",
+                total: {
+                    $multiply: ["$price", "$quantity"]
+                }
+            }
+        }, {
+            $match: {
+                year: Number(yr),
+                retailer_id: Number(rid)
+            }
+        }, {
+            $group: {
+                _id: "$month",
+                sum: {
+                    $sum: "$total"
+                }
+            }
+        }], function(err, result) {
+            res.send(result);
+        });
+    });
 }
 
 
-function saveOrder(req, res, order){
+function saveOrder(req, res, order) {
     console.log(req.data);
     order.userid = req.params.userid;
     order.retailerid = req.body.retailerid;
@@ -232,14 +356,13 @@ function saveOrder(req, res, order){
     order.creditCard = req.body.creditCard;
     order.status = "Pending";
 
-    order.save(function(err, order){
-        if(err){
+    order.save(function(err, order) {
+        if (err) {
             res.json({
                 type: false,
                 data: "Error Occurred :" + err
             });
-        }
-        else{
+        } else {
             res.json({
                 type: true,
                 data: order
