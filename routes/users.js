@@ -28,13 +28,24 @@ module.exports = function(router) {
                     userModel.password = req.body.password;
                     userModel.firstname = req.body.firstName;
                     userModel.lastname = req.body.lastName;
+                    if(req.body.role)
+                    {
+                        userModel.role=req.body.role;
+                    }
                     userModel.save(function(err, user) {
-                        console.log("user: " + user);
-                        res.json({
-                            type: true,
-                            data: user
-                        });
-                    })
+                        if(!err)
+                        {
+                            res.json({
+                                type: true,
+                                data: user
+                            });
+                        }else{
+                            res.json({
+                                type:false,
+                                data:err
+                            })
+                        }
+                    });
                 }
             }
         });
