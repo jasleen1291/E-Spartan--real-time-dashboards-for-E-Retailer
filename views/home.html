@@ -1,439 +1,453 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+    <head>
 
-  <!--Let browser know website is optimized for mobile-->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <title>Home Page</title>
-  <!-- Compiled and minified CSS -->
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>Home Page</title>
+        <!-- Compiled and minified CSS -->
 
-  <!--Import materialize.css-->
-  <link type="text/css" rel="stylesheet" href="/stylesheets/materialize.min.css"  media="screen,projection"/>
-  <link type="text/css" rel="stylesheet" href="/stylesheets/materialize.css">
+        <!--Import materialize.css-->
+        <link type="text/css" rel="stylesheet" href="../public/stylesheets/materialize.min.css"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="../public/stylesheets/materialize.css">
+        <!--        <link type="text/css" rel="stylesheet" href="../public/stylesheets/ghpages-materialize.css">-->
 
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="/javascripts/materialize.js"></script>   
-  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.8.3/angular-material.min.css">
+        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="../public/javascripts/materialize.js"></script>   
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.8.3/angular-material.min.css">
 
-  <!-- HighCharts Library -->
-    <script src="http://code.highcharts.com/highcharts.js"></script>
-    <script src="http://code.highcharts.com/modules/exporting.js"></script>
-    
-    
+        <!-- HighCharts Library -->
+        <script src="http://code.highcharts.com/highcharts.js"></script>
+        <script src="http://code.highcharts.com/modules/exporting.js"></script>
 
-</head>
-<body>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-animate.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-aria.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.8.3/angular-material.min.js"></script>
+        <style>
+        </style>
 
-  <div class="navbar-fixed">
-    <nav class="grey darken-3 lighten-1" role="navigation">
-      <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Marketing Dashboard</a>
-        <ul class="right hide-on-med-and-down">
-          <li><a onclick="signOut();">Sign Out</a></li>
-        </ul>
-        <ul id="nav-mobile" class="side-nav">
-          <li><a onclick="signOut();">Sign Out</a></li>
-        </ul>
-        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
-      </div>
-    </nav>
-  </div>
+    </head>
+    <body>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-animate.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-aria.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.8.3/angular-material.min.js"></script>
 
-  <div class="container">
-    <div class="section">
-      <div class="row">
+        <div class="navbar-fixed">
+            <nav class="grey darken-3 lighten-1" role="navigation">
+                <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Marketing Dashboard</a>
+
+                    <!--
+<ul class="right hide-on-med-and-down">
+<li><a onclick="signOut();">Sign Out</a></li>
+</ul>
+
+<ul id="nav-mobile" class="side-nav">
+<li><a onclick="signOut();">Sign Out</a></li>
+</ul>
+-->
+                    <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+                </div>
+            </nav>
+        </div>
         <div class="row">
-          <div class="col s12">
-            <ul class="tabs">
-              <!-- <li class="tab col s4"><a class="active" href="#list">List</a></li> -->
-              <li class="tab col s6"><a href="#dashboard">Dashboard</a></li>
-              <li class="tab col s6"><a href="#launch">Launch Instance</a></li>              
-            </ul>
-          </div>
-          <div id="list" class="col s12">
-           
-          </div>
-          <div id="launch" class="col s12">
-            <div class="container">
-              <div id="deployVM" class="modal modal-fixed-footer" style="width:30%; height:45%;">
-                <div class="modal-content">
-                  <h2>Deploy VM</h2>
-                  <div class="input-field col s12">    
-                    <input id="vmName" type="text" class="validate">
-                    <label for="vmName">Name Your VM</label>
-                  </div>
-                  
-                </div>
-                <div class="modal-footer">
-                  <a class="modal-action modal-close waves-effect waves-green btn-flat" onclick='createVM()'>Create</a>
-                  <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-                </div>
-              </div>
-
-              <ul class="collapsible popout" data-collapsible="accordion">
-                <li>                  
-                  <div class="collapsible-header" data-target="modal1" class="modal-trigger">
-                    <span class="col s1">
-                    <i class="mdi-hardware-desktop-windows"></i>
-                    </span>
-                    <span class="col s11">Please select a template from below</span>
-                  </div>
-                </li>
-                <li>
-                  <div class="collapsible-header"><i class="mdi-maps-place"></i>Ubuntu</div>
-                  <div class="collapsible-body">
-                    <div class="row">                      
-                      <div class="col s12">
-                            <div class="input-field col s12 center">    
-                              <h3 class="card-title col s10">Ubuntu - 10GB</h3>
-                              <span class="col s2">
-                                <div class="btn-floating btn-large waves-effect waves-light red modal-trigger" onclick="openModal('Ubuntu')"><i class="mdi-content-add"></i></div>
-                              </span>
-                            </div>
-                            <div class="divider"></div>
-                            <div class="input-field col s12">    
-                              <span class="col s4">Type</span><span id="templateType" class="col s8">Plain</span>
-                            </div>
-                            <div class="input-field col s12">    
-                              <span class="col s4">OS</span><span id="templateOS" class="col s8">Ubuntu</span>
-                            </div>
-                            <div class="input-field col s12">    
-                              <span class="col s4">CPU</span><span id="templateCPU" class="col s8">2 core</span>
-                            </div>
-                            <div class="input-field col s12">    
-                              <span class="col s4">Memory</span><span id="templateMemory" class="col s8">2048 MB</span>
-                            </div>
-                            <div class="input-field col s12">
-                              <span class="col s4">Storage Capacity</span><span id="templateCapacity" class="col s8">10 GB</span>
-                            </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="collapsible-header"><i class="mdi-social-whatshot"></i>Windows</div>
-                  <div class="collapsible-body">
-                    <div class="row">                      
-                      <div class="col s12">
-                            <div class="input-field col s12 center">    
-                              <h3 class="card-title col s10">Windows - 20GB</h3>
-                              <span class="col s2">
-                                <div class="btn-floating btn-large waves-effect waves-light red modal-trigger"  onclick="openModal('Windows')"><i class="mdi-content-add"></i></div>
-                              </span>
-                            </div>
-                            <div class="divider"></div>
-                            <div class="input-field col s12">    
-                              <span class="col s4">Type</span><span id="templateType2" class="col s8">Plain</span>
-                            </div>
-                            <div class="input-field col s12">    
-                              <span class="col s4">OS</span><span id="templateOS2" class="col s8">Windows</span>
-                            </div>
-                            <div class="input-field col s12">    
-                              <span class="col s4">CPU</span><span id="templateCPU2" class="col s8">2 core</span>
-                            </div>
-                            <div class="input-field col s12">    
-                              <span class="col s4">Memory</span><span id="templateMemory2" class="col s8">4096 MB</span>
-                            </div>
-                            <div class="input-field col s12">
-                              <span class="col s4">Storage Capacity</span><span id="templateCapacity2" class="col s8">20 GB</span>
-                            </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-              
-            </div> 
-          </div>
-          <div id="dashboard" class="col s12">
-            <div class="col s12">
-              <!-- Modal Structure -->
-              <div id="vmDetails" class="modal modal-fixed-footer" style="width:80%; height:100%">
-                <div class="modal-content">
-
-                  <div class="row">                      
-                      <div class="col s12">
-                            <div class="input-field col s12 center">    
-                              <h3 class="card-title" id="vmDetailsHeading"></h3>
-                            </div>
-                            <div class="divider"></div>
-                            <div class="col s4" >                            
-                                      <div class="input-field col s12">    
-                                        <span class="col s4">OS</span><span id="vmDetailsType" class="col s8"></span>
-      </div>
-                                      <div class="input-field col s12">    
-                                        <span class="col s4">CPU</span><span id="vmDetailsCPU" class="col s8"></span>
-      </div>
-                                      <div class="input-field col s12">    
-                                        <span class="col s4">Memory</span><span id="vmDetailsRam" class="col s8"></span>
-      </div>
-                                      <div class="input-field col s12">
-                                        <span class="col s4">Status</span><span id="vmDetailsStatus" class="col s8"></span>
-                                      </div>
-                                    </div>
-                                  <div class="col s8">
-                                    <div id="vmStatsChart" style="margin: 0 auto"></div>
-                                  </div>
-
-                      </div>
-
-                    </div>
-                </div>
-                <div class="modal-footer center">
-                  <a class="modal-action modal-close waves-effect waves-green btn-flat" onclick="startStopVM();">Start/Stop</a>
-                  <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-                </div>
-              </div>
-
-                <table class="hoverable" id="vmList">
-                <thead>
-                  <tr>
-                      <th data-field="name">VM Name</th>
-                      <th data-field="type">Type</th>
-                      <th data-field="status">Status</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  <!-- <tr data-target="vmDetails" class="modal-trigger">                  
-                    <td>VM 1</td>
-                    <td>Linux</td>
-                    <td>Started</td>
-                  </tr>
-                   -->
-                </tbody>
-              </table>
+            <div class="col l2 s12">
+                <ul class="grey darken-3 collapsible collapsible-accordion">
+                    <li class="bold"><a href="" class="collapsible-header waves-effect" onclick="showDiv('dashboardDiv')">Dashboard</a></li>
+                    <li class="bold"><a class="collapsible-header  waves-effect">Items</a>
+                        <div class="collapsible-body" style="padding-left:5%">
+                            <ul>
+                                <li><a class="collapsible-header waves-effect" onclick="showDiv('addItemDiv')">Add Item</a></li>
+                                <li><a class="collapsible-header waves-effect" onclick="showDiv('listItemDiv')">View all Items</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="bold"><a class="collapsible-header  waves-effect">Orders</a>
+                        <div class="collapsible-body" style="padding-left:5%">
+                            <ul>
+                                <li><a class="collapsible-header waves-effect" href="#">Add Item</a></li>
+                                <li><a class="collapsible-header waves-effect" href="#">Update Orders</a></li>
+                                <li><a class="collapsible-header waves-effect" href="#">View all Orders</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="bold"><a onclick="signout()" class=" collapsible-header waves-effect waves-red">Sign Out</a></li>
+                </ul>
             </div>
-          </div>
-        </div>        
-      </div>
-    </div>   
-  </div>
+            <div class="col l10 s12">
+                <div class="container">
+                    <div class="section">
+                        <div class="row"  id="dashboardDiv">
+                        </div>
+                        <div class="row" id="listItemDiv">
+                            <div class="col s12 center-align ">
+                                <h3>View All Items</h3>
+                            </div>
+                            <table class="bordered hoverable centered" id="itemListTable"> 
+                                <thead>
+                                    <tr>
+                                        <th data-field="id">Item Id</th>
+                                        <th data-field="name">Item Name</th>
+                                        <th data-field="desc">Description</th>
+                                        <th data-field="price">Item Price</th>
+                                    </tr>
+                                </thead>
 
-  <footer class="page-footer grey darken-3">
+                                <tbody>
+                                    <tr class="modal-trigger" href="#itemDetailsModal">
+                                        <td>1234</td>
+                                        <td>Alvin</td>
+                                        <td>Eclair</td>
+                                        <td>$0.87</td>
+                                    </tr>
+                                    <tr class="modal-trigger" href="#itemDetailsModal">
+                                        <td>1234</td>
+                                        <td>Alan</td>
+                                        <td>Jellybean</td>
+                                        <td>$3.76</td>
+                                    </tr>
+                                    <tr class="modal-trigger" href="#itemDetailsModal">
+                                        <td>1234</td>
+                                        <td>Jonathan</td>
+                                        <td>Lollipop</td>
+                                        <td>$7.00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
-<div class="container">
-      <div class="row">
-        <div class="col l6 s12">
-          <h5 class="white-text">TEAM 01</h5>
-          <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+                            <!-- Modal Structure -->
+                            <div id="itemDetailsModal" class="modal">
+                                <div class="modal-content">
+                                    <h2 class="center-align">Item Details</h2>
+                                    <br>
+                                    <form class="col s12">
+                                        <div class="row">
+                                            <div class="input-field col s6">
+                                                <input id="name" type="text" class="validate">
+                                                <label for="name">Item Name</label>
+                                            </div>
+
+                                            <div class="input-field col s6">
+                                                <input id="desc" type="text" class="validate">
+                                                <label for="desc">Description</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="input-field col s6">
+                                                <input id="price" type="number" class="validate">
+                                                <label for="price">Price</label>
+                                            </div>
+
+                                            <div class="input-field col s6">
+                                                <input id="quantity" type="number" class="validate">
+                                                <label for="quantity">Quantity</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="input-field col s6">
+                                                <input id="features" type="text" class="validate">
+                                                <label for="features">Features</label>
+                                            </div>
+                                            <div class="input-field col s6">
+                                                <input id="discount" type="number" class="validate">
+                                                <label for="discount">Discount</label>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <p class="center-align"><a class="waves-effect waves-light btn"><i class="mdi-file-cloud left"></i>Update</a>
+                                        <a class="waves-effect waves-light btn"><i class="mdi-action-delete "></i></a></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">X</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="addItemDiv">
+                            <div class="col s12 center-align ">
+                                <a class="btn-floating btn-large waves-effect waves-light red" onclick="addItemInDb()"><i class="mdi-content-add"></i></a><h3>Add Item</h3>
+                            </div>
+                            <form class="col s12">
+                                <div class="row">
+                                    <div class="input-field col s6">
+                                        <input id="name" type="text" class="validate">
+                                        <label for="name">Item Name</label>
+                                    </div>
+
+                                    <div class="input-field col s6">
+                                        <input id="desc" type="text" class="validate">
+                                        <label for="desc">Description</label>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="input-field col s6">
+                                        <input id="price" type="number" class="validate">
+                                        <label for="price">Price</label>
+                                    </div>
+
+                                    <div class="input-field col s6">
+                                        <input id="quantity" type="number" class="validate">
+                                        <label for="quantity">Quantity</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="features" type="text" class="validate">
+                                        <label for="features">Enter the features</label>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="retailer_id" type="number" class="validate">
+                                        <label for="retailer_id">Enter your Retailer Id</label>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="discount" type="number" class="validate">
+                                        <label for="discount">Enter your Discount</label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="row"  id="listOrderDiv">
+                            <div class="col s12 center-align ">
+                                <h3>View All Orders</h3>
+                            </div>
+                            <table class="bordered hoverable centered" id="orderListTable"> 
+                                <thead>
+                                    <tr>
+                                        <th data-field="id">Item Id</th>
+                                        <th data-field="name">Reciepent's Name</th>
+                                        <th data-field="phone">Reciepent's Phone</th>
+                                        <th data-field="card">Reciepent's Card</th>
+                                        <th data-field="address">Address</th>
+                                        <th data-field="created">Created At</th>
+                                        <th data-field="created"> Status</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr class="modal-trigger" href="#itemDetailsModal">
+                                        <td>1234</td>
+                                        <td>Alvin</td>
+                                        <td>334455667</td>
+                                        <td>33344589990909999999999</td>
+                                        <td>1055 Escalon Ave, Sunnyvale, CA</td>
+                                        <td>12/2/1014</td>
+                                        <td>Pending</td>
+                                    </tr>
+                                    <tr class="modal-trigger" href="#itemDetailsModal">
+                                        <td>1234</td>
+                                        <td>Alvin</td>
+                                        <td>334455667</td>
+                                        <td>33344589990909999999999</td>
+                                        <td>1055 Escalon Ave, Sunnyvale, CA</td>
+                                        <td>12/2/1014</td>
+                                        <td>Pending</td>
+                                    </tr>
+                                    <tr class="modal-trigger" href="#itemDetailsModal">
+                                        <td>1234</td>
+                                        <td>Alvin</td>
+                                        <td>334455667</td>
+                                        <td>33344589990909999999999</td>
+                                        <td>1055 Escalon Ave, Sunnyvale, CA</td>
+                                        <td>12/2/1014</td>
+                                        <td>Pending</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- Modal Structure -->
+                            <div id="orderDetailsModal" class="modal">
+                                <div class="modal-content">
+                                    <h5 class="center-align">Order Summary</h5>
+                                    <form class="col s12">
+                                        <div class="row">
+                                            <div class="input-field col s4">
+                                                <input id="id" type="text" class="validate">
+                                                <label for="id">Item Id</label>
+                                            </div>
+
+                                            <div class="input-field col s4">
+                                                <input id="name" type="text" class="validate">
+                                                <label for="name">Reciepent's Name</label>
+                                            </div>
+
+                                            <div class="input-field col s4">
+                                                <input id="phone" type="number" class="validate">
+                                                <label for="phone">Reciepent's Phone</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="input-field col s4">
+                                                <input id="card" type="number" class="validate">
+                                                <label for="card">Reciepent's Card</label>
+                                            </div>
+
+                                            <div class="input-field col s6">
+                                                <input id="Address" type="number" class="validate">
+                                                <label for="Address">Address</label>
+                                            </div>
+                                            <div class="input-field col s2">
+                                                <input id="status" type="number" class="validate">
+                                                <label for="Status">Status</label>
+                                            </div>
+                                        </div>
+
+
+                                    </form>
+                                    <p class="center-align"><a class="waves-effect waves-light btn"><i class="mdi-file-cloud left"></i>Update</a>
+                                        <a class="waves-effect waves-light btn"><i class="mdi-action-delete "></i></a></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">X</a>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>   
+                </div>
+            </div>
         </div>
-        <div class="col l6 s12 right-align">
-          <h5 class="white-text">Team Members</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Piyush</a></li>
-            <li><a class="white-text" href="#!">Sumit</a></li>
-            <li><a class="white-text" href="#!">Vaibhav</a></li>
-            <li><a class="white-text" href="#!">Surabhi</a></li>
-            <li><a class="white-text" href="#!">Prajakta</a></li>
-          </ul>
-        </div>
-     </div>
-    </div>
-
-    <div class="footer-copyright">
-      <div class="container">
-      Made by <a class="green-text text-lighten-3" href="http://materializecss.com">CmpE 283: Team 01</a>
-      </div>
-    </div>
-  </footer>
-
-  <!--  Scripts-->
-  <script type="text/javascript">
-  $(document).ready(function(){
-     $('.modal-trigger').leanModal();
-     getVMList();
-  });
 
 
-  function getVMList(){
-  $("#vmList tbody").empty();
-   $.get("vm/list", function(res){
-      if(!res.type){
-          return;
-        }else{
-                 
-          res.data.forEach(function(thisdata){
+        <!--        Footer-->
+        <footer class="page-footer grey darken-3">
 
-            var tr = "<tr id=\""+ thisdata.name + "\" onclick=\"openVmDetails(\'" + thisdata.name + "\') \">";
-            tr+="<td>"+ thisdata.name +"</td>";
-            tr+="<td>"+ thisdata.type+"</td>";
-            tr+="<td>"+ thisdata.status +"</td>";
-            tr+="</tr>";
-            $("#vmList tbody").append(tr);              
+            <div class="container">
+                <div class="row">
+                    <div class="col l6 s12">
 
-            // var tab = document.getElementById("vmList");
-            // var row = tab.insertRow();
+                        <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+                    </div>
+                    <div class="col l6 s12 right-align">
 
-            // var cell1 = row.insertCell(0);
-            // var cell2 = row.insertCell(1);
-            // var cell3 = row.insertCell(2);
-            // cell1.innerHTML = thisdata.name;
-            // cell2.innerHTML = thisdata.type;
-            // cell3.innerHTML = thisdata.status;
-          });
-          sessionStorage.removeItem("instances"); 
-          sessionStorage.setItem("instances", JSON.stringify(res.data)); 
-      }
-    });
-}
+                        <ul>
+                            <li><a class="white-text" href="#!">Jasleen</a></li>
+                            <li><a class="white-text" href="#!">Mario</a></li>
+                            <li><a class="white-text" href="#!">Piyush</a></li>
+                            <li><a class="white-text" href="#!">Ramya</a></li>
+                            <li><a class="white-text" href="#!">Taniya</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
 
-function signOut(){
-  
-  console.log("signout");
+        <!--  Scripts-->
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $(".button-collapse").sideNav();
+                $('.modal-trigger').leanModal();
+                $('#dashboardDiv').show();
+                $('#listItemDiv').hide();
+                $('#addItemDiv').hide();
+                $('#listOrderDiv').hide();
+                getVMList();
+            });
 
-  $.post("/signout").done(function(res){
-    if(!res.type){
-      console.log("Please try again.");
-    }else{
-      window.location.href ="/";
-    }
-  });
-}
-
-function openVmDetails(vmName){
-  console.log("openVmDetails(" + vmName +")");
-  var instances= JSON.parse(sessionStorage.getItem("instances")); 
-  console.log('/vm/' + vmName + '/statistics');
-  $.ajax({
-     url: '/vm/' + vmName + '/statistics',
-     type: 'GET',
-     async: true,
-     crossDomain: true, // enable this
-     dataType: "json",
-     cache: false,
-     success: function (res) {
-       console.log(res.data);
-       visitorData(res.data);
-     }
-   });  
-  instances.forEach(function(thisinstance){
-    if(thisinstance.name==vmName){
-      console.log(thisinstance);
-      $('#vmDetailsHeading').text(thisinstance.name);
-      $('#vmDetailsType').text(thisinstance.type);
-      $('#vmDetailsRam').text(thisinstance.ram);
-      $('#vmDetailsCPU').text(thisinstance.cpu);
-      $('#vmDetailsStatus').text(thisinstance.status);
-    }
-    else{
-      return;
-    }
-  });
-  $('#vmDetails').openModal();
-}
-
-function openModal(templateName){
-  console.log(templateName);
-  templatenameglobal = templateName;
-  $('#deployVM').openModal(); 
-}
-
-function createVM(){
-  console.log(templatenameglobal);
-  var vmName = $('#vmName').val();
-  console.log(vmName);
-
-  if(vmName!=""){
-    var url = "/vm/" + templatenameglobal + "/create";
-
-    $.ajax({
-      type: "POST",
-      url: url,
-      data: {vmName:vmName},
-      dataType: "json",
-      timeout: 900000, // in milliseconds
-      success: function(res){
-            if(!res.type){
-              return ;
-            }
-            else{
-              console.log("VM added successfully.");
-              getVMList();
+            function showDiv(divid){
+                console.log(divid);
+                
+//                $('#addItemDiv').toggle();
+//                $('#listItemDiv').toggle();
+//                console.log('\'#' + divid + '\'');
+//                str = "\'#" + divid + "\'";
+                //$(str).show();
             }
 
-      },
-      error: function(request, status, err) {
-          if(status == "timeout") {
-              //gotoDir(pmcat_id, pcat_id);
-              console.log("Timeout");
-          }
-      }
-    });
-    
-    console.log("Adding a VM. It may take a while.");
-  }
-}
 
-function startStopVM(){
-  var url;
-  vmName = $('#vmDetailsHeading').html();
-  vmStatus = $('#vmDetailsStatus').html();
-  console.log(vmName);
-  console.log(vmStatus);
-  if( vmStatus == 'poweredOn'){
-    console.log("Stopping - " + vmName);
-    url = "/vm/" + vmName + "/stop";
-    $.get(url, function(res){
-      if(!res.type){
-        return;
-      }
-      else{
-        console.log("VM Stopping. Wait for a while......");
-        getVMList();
-      }
-    });
-  }else{
-    console.log("Starting - " + vmName);
-    url = "/vm/" + vmName + "/start";
-    $.get(url, function(res){
-      if(!res.type){
-        return;
-      }
-      else{
-        console.log("VM Starting. Wait for a while......");
-        getVMList();
-      }
-    });
-  }
-}
+            function getItemList(){
+                $("#itemListTable tbody").empty();
+                //Todo
+                $.get("vm/list", function(res){
+                    if(!res.type){
+                        return;
+                    }else{
 
-function visitorData (data) {
-  console.log(data[0]);
-  console.log(data[1]);
-  console.log(data[2]);
-  //console.log(data[3]);
+                        res.data.forEach(function(thisdata){
 
-  $('#vmStatsChart').highcharts({
-   
-    title: {
-      text: 'VM Stats'
-    },
-    subtitle: {
-      text: 'CPU & Memory',
-      x: -20
-    },
-    xAxis: {
-      categories: data[0]
-    },
-    yAxis: {
-      
-    },
-    series:  [{
-            name: 'CPU (MHz)',
-            data: data[1]
-        }, {
-            name: 'Memory (MB)',
-            data: data[2]
-        }]
-  });
-}
+                            var tr = "<tr id=\""+ thisdata.name + "\" onclick=\"openItemDetails(\'" + thisdata.name + "\') \">";
+                            tr+="<td>"+ thisdata.name +"</td>";
+                            tr+="<td>"+ thisdata.type+"</td>";
+                            tr+="<td>"+ thisdata.status +"</td>";
+                            tr+="</tr>";
+                            $("#vmList tbody").append(tr);              
 
-  </script>
-  
-  </body>
+                            // var tab = document.getElementById("vmList");
+                            // var row = tab.insertRow();
+
+                            // var cell1 = row.insertCell(0);
+                            // var cell2 = row.insertCell(1);
+                            // var cell3 = row.insertCell(2);
+                            // cell1.innerHTML = thisdata.name;
+                            // cell2.innerHTML = thisdata.type;
+                            // cell3.innerHTML = thisdata.status;
+                        });
+                        sessionStorage.removeItem("instances"); 
+                        sessionStorage.setItem("instances", JSON.stringify(res.data)); 
+                    }
+                });
+            }
+
+            function getOrderList(){
+            }
+
+            function signOut(){
+                console.log("signout");
+                $.post("/signout").done(function(res){
+                    if(!res.type){
+                        console.log("Please try again.");
+                    }else{
+                        window.location.href ="/";
+                    }
+                });
+            }
+
+            function openItemDetails(vmName){
+                console.log("openItemDetails(" + vmName +")");
+                var instances= JSON.parse(sessionStorage.getItem("instances")); 
+                console.log('/vm/' + vmName + '/statistics');
+                $.ajax({
+                    url: '/vm/' + vmName + '/statistics',
+                    type: 'GET',
+                    async: true,
+                    crossDomain: true, // enable this
+                    dataType: "json",
+                    cache: false,
+                    success: function (res) {
+                        console.log(res.data);
+                        visitorData(res.data);
+                    }
+                });  
+                instances.forEach(function(thisinstance){
+                    if(thisinstance.name==vmName){
+                        console.log(thisinstance);
+                        $('#vmDetailsHeading').text(thisinstance.name);
+                        $('#vmDetailsType').text(thisinstance.type);
+                        $('#vmDetailsRam').text(thisinstance.ram);
+                        $('#vmDetailsCPU').text(thisinstance.cpu);
+                        $('#vmDetailsStatus').text(thisinstance.status);
+                    }
+                    else{
+                        return;
+                    }
+                });
+                $('#vmDetails').openModal();
+            }
+
+            function openModal(templateName){
+                console.log(templateName);
+                templatenameglobal = templateName;
+                $('#deployVM').openModal(); 
+            }
+
+        </script>
+
+    </body>
 </html>
