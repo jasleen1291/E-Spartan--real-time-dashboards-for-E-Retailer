@@ -1,17 +1,39 @@
 module.exports = function(router) {
   router.post('/addToCart', function(req, res, next) {
                             var Cart = require("../models/Cart");
+                            var Item=require("../models/Item");
                             Cart.findOne({
                                 user_id: req.body.userid
                             }, function(err, doc) {
                                 if (err) {
                                     res.send({
                                         type: false,
-                                        message: "Error" + err
+                                        message: "Error in finding cart" + err
                                     });
                                 } else {
                                     if (doc) {
-                                        callback(doc);
+                                        Item.findOne({"_id":JSON.parse(req.body.item).item_id},function(err,item)
+                                        {
+                                            if(err)
+                                            {
+                                                res.send({
+                                                    type: false,
+                                                    message: "Error in finding item" + err
+                                                });
+                                            }else {
+                                                if(item)
+                                                {
+                                                    callback(doc,item);
+                                                }else{
+                                                    res.send({
+                                                    type: false,
+                                                    message: "Item not found"
+                                                });
+                                                }
+                                            }
+                                            
+                                        });
+                                        
 
                                     } else {
                                         var cart = new Cart({
@@ -22,31 +44,61 @@ module.exports = function(router) {
                                             if (err)
                                                 res.send({
                                                     type: false,
-                                                    message: "Error" + err
+                                                    message: "Error in saving to cart" + err
                                                 });
                                             else
-                                                callback(doc);
+                                                {
+                                                    Item.findOne({"_id":JSON.parse(req.body.item).item_id},function(err,item)
+                                        {
+                                            if(err)
+                                            {
+                                                res.send({
+                                                    type: false,
+                                                    message: "Error in finding item" + err
+                                                });
+                                            }else {
+                                                if(item)
+                                                {
+                                                    callback(doc,item);
+                                                }else{
+                                                    res.send({
+                                                    type: false,
+                                                    message: "Item not found"
+                                                });
+                                                }
+                                            }
+                                            
+                                        });
+                                        
+                                                }
                                         });
                                     }
                                 }
 
-                                function callback(cart) {
+                                function callback(cart,itemF) {
                                     try {
                                         var items = cart.items;
                                         var item = JSON.parse(req.body.item);
-                                        console.log(
-                                            "item:");
-                                         console.log(   item);
-                                        items.push(item);
+                                        if(item.quantity>itemF.quantity)
+                                        {
+                                           res.send({
+                                                    type: false,
+                                                    message: "Cannot add items more than in stock"
+                                                }); 
+                                        }
+                                        else
+                                        {
+                                            itemF.quantity=item.quantity;
+                                            items.push(itemF);
 
                                         cart.user_id = req.body.userid;
                                         cart.total = cart.total + (item.price * item.quantity);
-                                        
+                                        //console.log(cart);
                                         cart.save(function(err, doc) {
                                             if (err)
                                                 res.send({
                                                     type: false,
-                                                    message: "Error" + err
+                                                    message: "Error in cart" + err
                                                 });
                                             else
                                                 res.send({
@@ -54,6 +106,7 @@ module.exports = function(router) {
                                                     message: "Ok"
                                                 });
                                         });
+                                        }
                                     } catch (e) {
                                         res.send({
                                             type: false,
@@ -81,7 +134,7 @@ module.exports = function(router) {
                 } else {
                     if (doc) {
                         callback(doc);
-                        //console.log(doc);
+                        ////console.log(doc);
                     } else {
                         res.send({
                             type: false,
@@ -97,7 +150,7 @@ module.exports = function(router) {
                         var items = JSON.parse(req.body.items);
                         var total = 0;
                         for (q = 0; q < items.length; q++) {
-                            //console.log(items[q].quantity * items[q].price);
+                            ////console.log(items[q].quantity * items[q].price);
                             total = total + (items[q].quantity * items[q].price);
                         }
                         cart.total = total;
@@ -152,32 +205,32 @@ module.exports = function(router) {
                             function callback(cart) {
                                 try {
 
-//console.log(1);
+////console.log(1);
                                     var items = cart.items;
                                     var index = -1;
                                     for (q = 0; q < items.length; q++) {
 
-                                        if (items[q].itemid === req.body.itemid) {
+                                        if (items[q]._id === req.body.itemid) {
                                             index = q;
                                             break;
                                         }
                                     }
-                                    //console.log(2);
+                                    ////console.log(2);
                                     if (index === -1) {
                                         res.send({
                                             type: false,
                                             message: "Item not found"
                                         });
                                     } else {
-                                        //console.log(index);
+                                        ////console.log(index);
                                         items.splice(index,1);
-                                        //console.log(items);
+                                        ////console.log(items);
                                         var total = 0;
                                         for (q = 0; q < items.length; q++) {
-                                            //console.log(items[q]);
+                                            ////console.log(items[q]);
                                             total = total + (items[q].quantity * items[q].price);
                                         }
-                                        //console.log(4);
+                                        ////console.log(4);
                                         cart.total = total;
                                         cart.items = items;
                                         cart.save(function(err, doc) {
@@ -223,7 +276,7 @@ router.put('/emptyCart', function(req, res, next) {
                                 });
                             } else {
                                 if (doc) {
-                                    callback(doc);
+                                    callback(doc,req,res);
 
                                 } else {
                                     res.send({
@@ -233,10 +286,17 @@ router.put('/emptyCart', function(req, res, next) {
                                 }
                             }
 
-                            function callback(cart) {
+                            
+                        });
+
+                           });
+
+
+
+function callback(cart,req,res) {
                                 try {
 
-//console.log(1);
+////console.log(1);
                                     
                                         cart.total = 0;
                                         cart.items = [];
@@ -268,6 +328,76 @@ router.put('/emptyCart', function(req, res, next) {
                                     }
 
                             }
+router.post('/checkout', function(req, res, next) {
+                    var Cart = require("../models/Cart");
+                    var Order=require("../models/Order");
+                    var Item=require("../models/Item");
+                    Cart.findOne({
+                            user_id: req.body.userid
+                        }, function(err, doc) {
+                            if (err) {
+                                res.send({
+                                    type: false,
+                                    message: "Error" + err
+                                });
+                            } else {
+                                if (doc) {
+                                    if(doc.items.length>0)
+                                    {
+                                        var orders=[];
+                                        
+                                        for(i=0;i<doc.items.length;i++)
+                                        {
+                                            var item=doc.items[i];
+                                            var order=new Order();
+                                            order.userid = Number(req.body.userid);
+                                            order.retailerid = item.retailer_id;
+                                            order.item_id=item._id;
+                                            
+                                            order.quantity=item.quantity;
+                                            order.price=item.price ;
+                                            try{
+                                            order.shippingAddress = JSON.parse(req.body.shippingAddress);
+                                            order.receipientName = req.body.receipientName;
+                                            order.receipientPhoneNumber = req.body.receipientPhoneNumber;
+                                            order.creditCard = req.body.creditCard;
+                                            order.status = "Pending";
+                                            orders.push(order);
+                                            //console.log(order);
+
+                                            }catch(e)
+                                            {
+                                                //console.log("Error"+e);
+                                            }
+                                            
+                                            
+                                        }
+                                        
+                                        Order.create(orders, onInsert);
+                                        function onInsert(err, docs) {
+                                            if (err) {
+                                               res.send(err);
+                                            } else {
+                                                callback(doc,req,res);
+                                            }
+                                        }
+                                    }else
+                                    {
+                                        res.send({
+                                        type: false,
+                                        message: "No items in cart"
+                                    });
+                                    }
+
+                                } else {
+                                    res.send({
+                                        type: false,
+                                        message: "Cart not found"
+                                    });
+                                }
+                            }
+
+                           
                         });
 
                            });

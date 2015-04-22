@@ -27,6 +27,7 @@ module.exports = function(router) {
                     console.log("Error occured: " + err);
                     deffered.resolve("Error");
                 } else {
+                    console.log("User found");
                     deffered.resolve(user);
                 }
             });
@@ -122,11 +123,11 @@ module.exports = function(router) {
                 if (user) {
                     console.log("User found");
                     console.log("Finding orders for user " + req.params.userid);
-                    OrderSchema.findById(req.params.orderid, function(err, order) {
+                    OrderSchema.findOne({orderid:Number(req.params.orderid)}, function(err, order) {
                         if (err) {
                             res.json({
                                 type: false,
-                                data: null
+                                data: err
                             });
                         } else {
                             res.json({
@@ -156,8 +157,8 @@ module.exports = function(router) {
             } else {
                 if (user) {
                     console.log("User found");
-                    console.log("Finding orders for user " + req.params.userid);
-                    OrderSchema.findById(req.params.orderid, function(err, order) {
+                    console.log("Finding orders for user " + req.params.orderid);
+                    OrderSchema.findOne({orderid:Number(req.params.orderid)}, function(err, order) {
                         if (err) {
                             res.json({
                                 type: false,
@@ -189,10 +190,10 @@ module.exports = function(router) {
     router.put('/user/:userid/order/update/:orderid', function(req, res) {
         var OrderSchema = require('../models/Order');
         var UserSchema = require('../models/User');
-
-        var findUserRequest = findUserObj.findUser();
+        console.log(req.params.userid);
+        var findUserRequest = findUserObj.findUser(req.params.userid);
         findUserRequest.done(function(data) {
-            if (data = "Error") {
+            if (data == "Error") {
                 res.json({
                     type: false,
                     data: "User not found"
@@ -200,7 +201,7 @@ module.exports = function(router) {
             } else {
                 console.log("User found");
                 console.log("Finding orders for user " + req.params.userid);
-                OrderSchema.findById(req.params.orderid, function(err, order) {
+                OrderSchema.findOne({orderid:Number(req.params.orderid)}, function(err, order) {
                     if (err) {
                         res.json({
                             type: false,
@@ -368,7 +369,7 @@ router.get('/getSalesTrends', function(req, res) {
 
                     { 
                         $match:{
-                            retailerid: Number(1),
+                            retailerid: Number(req.query.retailerid),
                             "updated_at":
                                 updatedAtQuery
                             }
@@ -395,17 +396,35 @@ router.get('/getSalesTrends', function(req, res) {
 
 function saveOrder(req, res, order) {
     console.log(req.data);
-    order.userid = req.params.userid;
-    order.retailerid = req.body.retailerid;
-    order.item_id=req.body.item_id,
-    order.quantity=req.body.quantity, 
-    order.price=req.body.price ,
-    order.shippingAddress = req.body.shippingAddress;
-    order.receipientName = req.body.receipientName;
-    order.receipientPhoneNumber = req.body.receipientPhoneNumber;
-    order.creditCard = req.body.creditCard;
-    order.status = "Pending";
-
+    //Added if statements so that anything doesnt get set to undefined by accident
+    if(req.params.userid)
+        order.userid = req.params.userid;
+    if(req.body.retailerid)
+        order.retailerid = req.body.retailerid;
+    if(req.body.item_id)
+    order.item_id=req.body.item_id;
+    if(req.body.quantity)
+        order.quantity=req.body.quantity; 
+    if(req.body.price)
+        order.price=req.body.price ;
+    try{
+        if(req.body.shippingAddress)
+        order.shippingAddress = JSON.parse(req.body.shippingAddress);
+    }catch(e)
+    {
+        console.log("Error"+e);
+    }
+    if(req.body.receipientName)
+        order.receipientName = req.body.receipientName;
+    if(req.body.receipientPhoneNumber)
+        order.receipientPhoneNumber = req.body.receipientPhoneNumber;
+    if(req.body.creditCard)
+        order.creditCard = req.body.creditCard;
+    if(!req.body.status)
+        order.status = "Pending";
+    else
+        order.status = req.body.status;
+    console.log(req.body);
     order.save(function(err, order) {
         if (err) {
             res.json({
