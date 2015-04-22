@@ -4,7 +4,7 @@ var autoIncrement = require('mongoose-auto-increment');
 
 var cart = new mongoose.Schema({
 	user_id:Number,
-	items:[],
+	items:[],//deliberate - was leading to cast error
 	total:{type:Number,default:0}
 });
 
