@@ -1,4 +1,4 @@
-var q=require("q");
+var q = require("q");
 module.exports = function(router) {
 
     router.get('/user', function(req, res) {
@@ -27,6 +27,7 @@ module.exports = function(router) {
                     console.log("Error occured: " + err);
                     deffered.resolve("Error");
                 } else {
+                    console.log("User found");
                     deffered.resolve(user);
                 }
             });
@@ -122,11 +123,13 @@ module.exports = function(router) {
                 if (user) {
                     console.log("User found");
                     console.log("Finding orders for user " + req.params.userid);
-                    OrderSchema.findById(req.params.orderid, function(err, order) {
+                    OrderSchema.findOne({
+                        orderid: Number(req.params.orderid)
+                    }, function(err, order) {
                         if (err) {
                             res.json({
                                 type: false,
-                                data: null
+                                data: err
                             });
                         } else {
                             res.json({
@@ -156,8 +159,10 @@ module.exports = function(router) {
             } else {
                 if (user) {
                     console.log("User found");
-                    console.log("Finding orders for user " + req.params.userid);
-                    OrderSchema.findById(req.params.orderid, function(err, order) {
+                    console.log("Finding orders for user " + req.params.orderid);
+                    OrderSchema.findOne({
+                        orderid: Number(req.params.orderid)
+                    }, function(err, order) {
                         if (err) {
                             res.json({
                                 type: false,
@@ -189,10 +194,10 @@ module.exports = function(router) {
     router.put('/user/:userid/order/update/:orderid', function(req, res) {
         var OrderSchema = require('../models/Order');
         var UserSchema = require('../models/User');
-
-        var findUserRequest = findUserObj.findUser();
+        console.log(req.params.userid);
+        var findUserRequest = findUserObj.findUser(req.params.userid);
         findUserRequest.done(function(data) {
-            if (data = "Error") {
+            if (data == "Error") {
                 res.json({
                     type: false,
                     data: "User not found"
@@ -200,7 +205,9 @@ module.exports = function(router) {
             } else {
                 console.log("User found");
                 console.log("Finding orders for user " + req.params.userid);
-                OrderSchema.findById(req.params.orderid, function(err, order) {
+                OrderSchema.findOne({
+                    orderid: Number(req.params.orderid)
+                }, function(err, order) {
                     if (err) {
                         res.json({
                             type: false,
@@ -238,7 +245,9 @@ module.exports = function(router) {
             $match: {
                 year: Number(yr),
                 retailer_id: Number(rid),
-                status:{$nin:["Cancelled","cancelled"]}
+                status: {
+                    $nin: ["Cancelled", "cancelled"]
+                }
             }
         }, {
             $group: {
@@ -268,7 +277,9 @@ module.exports = function(router) {
         }, {
             $match: {
                 retailer_id: Number(rid),
-                status:{$nin:["Cancelled","cancelled"]}
+                status: {
+                    $nin: ["Cancelled", "cancelled"]
+                }
             }
         }, {
             $group: {
@@ -298,7 +309,9 @@ module.exports = function(router) {
         }, {
             $match: {
                 retailer_id: Number(rid),
-                status:{$nin:["Cancelled","cancelled"]}
+                status: {
+                    $nin: ["Cancelled", "cancelled"]
+                }
             }
         }, {
             $group: {
@@ -324,7 +337,7 @@ module.exports = function(router) {
                 month: {
                     $month: "$updated_at"
                 },
-                status:"$status",
+                status: "$status",
                 retailer_id: "$retailerid",
                 total: {
                     $multiply: ["$price", "$quantity"]
@@ -334,7 +347,9 @@ module.exports = function(router) {
             $match: {
                 year: Number(yr),
                 retailer_id: Number(rid),
-                status:{$nin:["Cancelled","cancelled"]}
+                status: {
+                    $nin: ["Cancelled", "cancelled"]
+                }
             }
         }, {
             $group: {
@@ -348,76 +363,234 @@ module.exports = function(router) {
         });
     });
 
-router.get('/getSalesTrends', function(req, res) {
-        var date=new Date();
-        date.setDate(date.getDate()-30);
-        var updatedAtQuery={}
-        if(req.query.startDate&&req.query.endDate)
-        {
-            updatedAtQuery["$gte"]=new Date(Date.parse(req.query.startDate));
-            updatedAtQuery["$lte"]=new Date(Date.parse(req.query.endDate));
-        }else{
-             updatedAtQuery["$gte"]=date;
+    router.get('/getSalesTrends', function(req, res) {
+        var date = new Date();
+        date.setDate(date.getDate() - 30);
+        var updatedAtQuery = {}
+        if (req.query.startDate && req.query.endDate) {
+            updatedAtQuery["$gte"] = new Date(Date.parse(req.query.startDate));
+            updatedAtQuery["$lte"] = new Date(Date.parse(req.query.endDate));
+        } else {
+            updatedAtQuery["$gte"] = date;
         }
-        
+
         var rid = req.query.retailerid;
 
         var OrderSchema = require('../models/Order');
         OrderSchema.aggregate(
-                [
+            [
 
-                    { 
-                        $match:{
-                            retailerid: Number(1),
-                            "updated_at":
-                                updatedAtQuery
-                            }
-                    },
-                    {   
-                        $project:{
-                            "date":"$updated_at",
-                            "sale":{$multiply:["$price","$quantity"]},
-                            "_id":0
-                            }
+                {
+                    $match: {
+                        retailerid: Number(req.query.retailerid),
+                        "updated_at": updatedAtQuery
                     }
-   
-    ]
-, function(err, result) {
-    if(!err)
-            res.send(result);
-        else{
-            res.send(err);
-        }
-        });
-   
-});
+                }, {
+                    $project: {
+                        "date": "$updated_at",
+                        "sale": {
+                            $multiply: ["$price", "$quantity"]
+                        },
+                        "_id": 0
+                    }
+                }
 
-
-function saveOrder(req, res, order) {
-    console.log(req.data);
-    order.userid = req.params.userid;
-    order.retailerid = req.body.retailerid;
-    order.item_id=req.body.item_id,
-    order.quantity=req.body.quantity, 
-    order.price=req.body.price ,
-    order.shippingAddress = req.body.shippingAddress;
-    order.receipientName = req.body.receipientName;
-    order.receipientPhoneNumber = req.body.receipientPhoneNumber;
-    order.creditCard = req.body.creditCard;
-    order.status = "Pending";
-
-    order.save(function(err, order) {
-        if (err) {
-            res.json({
-                type: false,
-                data: "Error Occurred :" + err
+            ],
+            function(err, result) {
+                if (!err)
+                    res.send(result);
+                else {
+                    res.send(err);
+                }
             });
-        } else {
-            res.json({
-                type: true,
-                data: order
-            });
-        }
+
     });
-}
+    router.get('/getTopProducts', function(req, res) {
+        var date=new Date();
+        var year=date.getFullYear(),month=date.getMonth()+1;
+        if(req.query.year)
+        {
+            year=Number(req.query.year);
+        }
+        if(req.query.month)
+        {
+            month=Number(req.query.month);
+        }
+        var OrderSchema = require('../models/Order');
+        OrderSchema.aggregate(
+            [{
+            $project: {
+                year: {
+                    $year: "$updated_at"
+                },
+                month: {
+                    $month: "$updated_at"
+                },
+                item_id:"$item_id",
+                retailer_id: "$retailerid",
+                qty:"$quantity"
+            }
+        }, {
+            $match: {
+                year: year,
+                month:month,
+                retailer_id: Number(req.query.retailerid),
+                status:{$nin:["Cancelled","cancelled"]}
+            }
+        }, {
+            $group: {
+                _id: "$item_id",
+                
+                qty: {
+                    $sum: "$qty"
+                }
+            }
+        },{ $sort : { qty : -1 } }, { $limit : 5 }],
+            function(err, result) {
+                if (!err)
+                    res.send(result);
+                else {
+                    res.send(err);
+                }
+            });
+
+    });
+    router.get("/getSaleByLocation",function(req,res){
+            var match={
+                
+                status:{$nin:["Cancelled","cancelled"]}
+            };
+            if(req.query.year){
+                match["year"]=Number(req.query.year);
+                if(req.query.month)
+                    match["month"]=Number(req.query.month);
+
+            }
+            match["retailer_id"]=Number(req.query.retailerid);
+            var OrderSchema = require('../models/Order');
+            OrderSchema.aggregate([{
+            $project: {
+                year: {
+                    $year: "$updated_at"
+                },
+                month: {
+                    $month: "$updated_at"
+                },
+                item_id:"$item_id",
+                retailer_id: "$retailerid",
+                state:"$shippingAddress.State",
+                total: {
+                    $multiply: ["$price", "$quantity"]
+                },qty:"$quantity"
+            }
+        }, {
+            $match: match
+        }, {
+            $group: {
+                _id: "$state",
+                
+                qty: {
+                    $sum: "$total"
+                }
+            }
+        }],function(err, result) {
+                if (!err)
+                    res.send(result);
+                else {
+                    res.send(err);
+                }
+            });
+    });
+router.get("/getSaleByLocation/:state",function(req,res){
+            var match={
+                
+                status:{$nin:["Cancelled","cancelled"]},
+                state:req.params.state
+            };
+            if(req.query.year){
+                match["year"]=Number(req.query.year);
+                if(req.query.month)
+                    match["month"]=Number(req.query.month);
+
+            }
+            match["retailer_id"]=Number(req.query.retailerid);
+            var OrderSchema = require('../models/Order');
+            OrderSchema.aggregate([{
+            $project: {
+                year: {
+                    $year: "$updated_at"
+                },
+                month: {
+                    $month: "$updated_at"
+                },
+                item_id:"$item_id",
+                retailer_id: "$retailerid",
+                state:"$shippingAddress.State",
+                city:"$shippingAddress.City",
+                total: {
+                    $multiply: ["$price", "$quantity"]
+                },qty:"$quantity"
+            }
+        }, {
+            $match: match
+        }, {
+            $group: {
+                _id: "$city",
+                
+                qty: {
+                    $sum: "$total"
+                }
+            }
+        }],function(err, result) {
+                if (!err)
+                    res.send(result);
+                else {
+                    res.send(err);
+                }
+            });
+    });
+    function saveOrder(req, res, order) {
+        console.log(req.data);
+        //Added if statements so that anything doesnt get set to undefined by accident
+        if (req.params.userid)
+            order.userid = req.params.userid;
+        if (req.body.retailerid)
+            order.retailerid = req.body.retailerid;
+        if (req.body.item_id)
+            order.item_id = req.body.item_id;
+        if (req.body.quantity)
+            order.quantity = req.body.quantity;
+        if (req.body.price)
+            order.price = req.body.price;
+        try {
+            if (req.body.shippingAddress)
+                order.shippingAddress = JSON.parse(req.body.shippingAddress);
+        } catch (e) {
+            console.log("Error" + e);
+        }
+        if (req.body.receipientName)
+            order.receipientName = req.body.receipientName;
+        if (req.body.receipientPhoneNumber)
+            order.receipientPhoneNumber = req.body.receipientPhoneNumber;
+        if (req.body.creditCard)
+            order.creditCard = req.body.creditCard;
+        if (!req.body.status)
+            order.status = "Pending";
+        else
+            order.status = req.body.status;
+        console.log(req.body);
+        order.save(function(err, order) {
+            if (err) {
+                res.json({
+                    type: false,
+                    data: "Error Occurred :" + err
+                });
+            } else {
+                res.json({
+                    type: true,
+                    data: order
+                });
+            }
+        });
+    }
 }
