@@ -33,14 +33,15 @@ module.exports = function(router) {
                                 function callback(cart) {
                                     try {
                                         var items = cart.items;
-                                        var item = {};
-                                        item.item = JSON.parse(req.body.item);
-                                        item.qty = req.body.qty;
-                                        item.price = req.body.price;
+                                        var item = JSON.parse(req.body.item);
+                                        console.log(
+                                            "item:");
+                                         console.log(   item);
                                         items.push(item);
 
-                                        cart.user_id = req.body.user_id;
-                                        cart.total = cart.total + (req.body.price * req.body.qty);
+                                        cart.user_id = req.body.userid;
+                                        cart.total = cart.total + (item.price * item.quantity);
+                                        
                                         cart.save(function(err, doc) {
                                             if (err)
                                                 res.send({

@@ -1,4 +1,4 @@
-var q = require('q');
+
 module.exports = function(router) {
 
     router.get('/user', function(req, res) {
@@ -237,7 +237,8 @@ module.exports = function(router) {
         }, {
             $match: {
                 year: Number(yr),
-                retailer_id: Number(rid)
+                retailer_id: Number(rid),
+                status:{$nin:["Cancelled","cancelled"]}
             }
         }, {
             $group: {
@@ -266,7 +267,8 @@ module.exports = function(router) {
             }
         }, {
             $match: {
-                retailer_id: Number(rid)
+                retailer_id: Number(rid),
+                status:{$nin:["Cancelled","cancelled"]}
             }
         }, {
             $group: {
@@ -295,7 +297,8 @@ module.exports = function(router) {
             }
         }, {
             $match: {
-                retailer_id: Number(rid)
+                retailer_id: Number(rid),
+                status:{$nin:["Cancelled","cancelled"]}
             }
         }, {
             $group: {
@@ -321,6 +324,7 @@ module.exports = function(router) {
                 month: {
                     $month: "$updated_at"
                 },
+                status:"$status",
                 retailer_id: "$retailerid",
                 total: {
                     $multiply: ["$price", "$quantity"]
@@ -329,7 +333,8 @@ module.exports = function(router) {
         }, {
             $match: {
                 year: Number(yr),
-                retailer_id: Number(rid)
+                retailer_id: Number(rid),
+                status:{$nin:["Cancelled","cancelled"]}
             }
         }, {
             $group: {
@@ -342,7 +347,50 @@ module.exports = function(router) {
             res.send(result);
         });
     });
-}
+
+router.get('/getSalesTrends', function(req, res) {
+        var date=new Date();
+        date.setDate(date.getDate()-30);
+        var updatedAtQuery={}
+        if(req.query.startDate&&req.query.endDate)
+        {
+            updatedAtQuery["$gte"]=new Date(Date.parse(req.query.startDate));
+            updatedAtQuery["$lte"]=new Date(Date.parse(req.query.endDate));
+        }else{
+             updatedAtQuery["$gte"]=date;
+        }
+        
+        var rid = req.query.retailerid;
+
+        var OrderSchema = require('../models/Order');
+        OrderSchema.aggregate(
+                [
+
+                    { 
+                        $match:{
+                            retailerid: Number(1),
+                            "updated_at":
+                                updatedAtQuery
+                            }
+                    },
+                    {   
+                        $project:{
+                            "date":"$updated_at",
+                            "sale":{$multiply:["$price","$quantity"]},
+                            "_id":0
+                            }
+                    }
+   
+    ]
+, function(err, result) {
+    if(!err)
+            res.send(result);
+        else{
+            res.send(err);
+        }
+        });
+   
+});
 
 
 function saveOrder(req, res, order) {
@@ -355,7 +403,7 @@ function saveOrder(req, res, order) {
     order.receipientPhoneNumber = req.body.receipientPhoneNumber;
     order.creditCard = req.body.creditCard;
     order.status = "Pending";
-
+    order.total=req.body.total;
     order.save(function(err, order) {
         if (err) {
             res.json({
@@ -369,4 +417,5 @@ function saveOrder(req, res, order) {
             });
         }
     });
+}
 }

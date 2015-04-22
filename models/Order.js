@@ -14,6 +14,7 @@ var orderSchema = new mongoose.Schema({
 		State:String,
 		ZipCode:Number
 	},
+	total:Number,
 	receipientName:String,
 	receipientPhoneNumber:String,
 	creditCard:Number,
@@ -35,6 +36,6 @@ orderSchema.pre('save', function(next) {
 
   next();
 });
-orderSchema.plugin(autoIncrement.plugin, { model: 'Order', field: 'category_id', startAt: 1 });
+orderSchema.plugin(autoIncrement.plugin, { model: 'Order', field: 'orderid', startAt: 1 });
 var Order = mongoose.model('Order', orderSchema);
 module.exports = Order;
