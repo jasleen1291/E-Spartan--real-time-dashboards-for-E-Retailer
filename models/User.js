@@ -8,7 +8,7 @@ var userSchema = new mongoose.Schema({
 	password: { type: String, required: true },
 	firstname: String,
 	lastname: String,
-    retailer: {type:Boolean,default:false},
+    role: {type:String,enum:['admin','user','retailer']},
     created_at:Date,
 	updated_at:Date
 });
