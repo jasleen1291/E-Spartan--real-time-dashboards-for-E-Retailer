@@ -1,4 +1,4 @@
-
+var q=require("q");
 module.exports = function(router) {
 
     router.get('/user', function(req, res) {
@@ -397,13 +397,15 @@ function saveOrder(req, res, order) {
     console.log(req.data);
     order.userid = req.params.userid;
     order.retailerid = req.body.retailerid;
-    order.items = req.body.items;
+    order.item_id=req.body.item_id,
+    order.quantity=req.body.quantity, 
+    order.price=req.body.price ,
     order.shippingAddress = req.body.shippingAddress;
     order.receipientName = req.body.receipientName;
     order.receipientPhoneNumber = req.body.receipientPhoneNumber;
     order.creditCard = req.body.creditCard;
     order.status = "Pending";
-    order.total=req.body.total;
+
     order.save(function(err, order) {
         if (err) {
             res.json({
