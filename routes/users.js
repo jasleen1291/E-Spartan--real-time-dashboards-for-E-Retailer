@@ -78,6 +78,19 @@ module.exports = function(router) {
             }
         });
     });
+    router.post('/logout', function(req, res){
+        try{
+            console.log("logout api called Node.");
+            req.session = null;
+            res.json({
+                type: true,
+                data: "Sign Out successfull"
+            });
+            
+        }catch(e){
+            console.log("Entering catch block: " + e);
+        }
+    });
     router.post('/editProfile', function(req, res, next) {
         var UserSchema = require('../models/User.js');
 
