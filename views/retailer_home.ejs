@@ -76,17 +76,17 @@
                         </div>
                         <div class="mainmenu pull-left">
                             <ul class="nav navbar-nav collapse navbar-collapse">
-                                <li><a href="retailer_dashboard.html" class="active">Dashboard</a></li>
+                                <li><a onclick="showDashboard()" class="active">Dashboard</a></li>
                                 <li class="dropdown"><a href="#">Items<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="shop.html">Add Items</a></li>
-                                        <li><a href="#">View Items</a></li>
+                                        <li><a onclick="addItem()">Add Items</a></li>
+                                        <li><a onclick="getItemList()">View Items</a></li>
                                     </ul>
                                 </li>
                                 <li class="dropdown"><a href="#">Orders<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="shop.html">Update Orders</a></li>
-                                        <li><a href="#">View Orders</a></li>
+                                        <li><a onclick="updateOrder()">Update Orders</a></li>
+                                        <li><a onclick="getOrderList()">View Orders</a></li>
                                     </ul>
                                 </li>
 
@@ -706,11 +706,7 @@
         $(document).ready(function() {
             $(".button-collapse").sideNav();
             $('.modal-trigger').leanModal();
-            $('#retailerDashboard').show();
-            $('#listItem').hide();
-            $('#addItem').hide();
-            $('#listOrder').hide();
-            loadCards();
+            showDashboard();
         });
 
         function loadCards() {
@@ -801,26 +797,62 @@
             //                str = "\'#" + divid + "\'";
             //$(str).show();
         }
-
+		
+		function showDashboard(){
+			$('#retailerDashboard').show();
+            $('#listItem').hide();
+            $('#addItem').hide();
+            $('#listOrder').hide();
+            loadCards();
+		}
+		
+		function addItem(){
+			$('#retailerDashboard').hide();
+			$('#retailerDashboard2').hide();
+            $('#listItem').hide();
+            $('#addItem').show();
+            $('#listOrder').hide();
+		}
+		
+		function updateOrder(){
+			$('#retailerDashboard').hide();
+			$('#retailerDashboard2').hide();
+            $('#listItem').hide();
+            $('#addItem').hide();
+            $('#listOrder').hide();
+		}
         function getItemList() {
             console.log("getting Item List");
             $("#itemListTable tbody").empty();
             $.get("item", function(res) {
                 console.log("success");
                 console.log(res);
-                res.data.forEach(function(thisdata) {
+                res.forEach(function(thisdata) {
                     var tr = "<tr id=\"" + thisdata.name + "\" onclick=\"openItemDetails(\'" + thisdata.name + "\') \">";
-                    tr += "<td>" + thisdata.itemid + "</td>";
+                    tr += "<td>" + thisdata._id + "</td>";
                     tr += "<td>" + thisdata.name + "</td>";
                     tr += "<td>" + thisdata.description + "</td>";
-                    tr += "<td>" + thisdata.price + "</td>";
+                    tr += "<td>" + "$"+thisdata.price + "</td>";
                     tr += "</tr>";
                     $("#itemListTable tbody").append(tr);
                 });
             });
+			$('#retailerDashboard').hide();
+			$('#retailerDashboard2').hide();
+            $('#listItem').show();
+            $('#addItem').hide();
+            $('#listOrder').hide();
         }
 
-        function getOrderList() {}
+        function getOrderList() {
+			console.log("getting order List");
+            
+			$('#retailerDashboard').hide();
+			$('#retailerDashboard2').hide();
+            $('#listItem').hide();
+            $('#addItem').hide();
+            $('#listOrder').show();
+		}
 
         function logOut() {
             console.log("logout");

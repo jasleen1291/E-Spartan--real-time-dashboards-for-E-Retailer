@@ -367,8 +367,13 @@
                         return;
                     }
                     else{
-                        console.log("login successfull");
-                        window.location.href = data.data;
+                        var role = data.data.role;
+						if(role == "retailer") {
+							window.location.href ="/api/retailerhome";
+						}
+						//else {
+							//window.location.href ="/api/home";
+						//}
                         // var url = '/home';
                         //  var form = $('<form action="' + url + '" method="post">' +
                         //    '<input type="text" name="api_url" value="' +url + '" />' +
