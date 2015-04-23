@@ -33,9 +33,7 @@ module.exports = function(router) {
                             data: rating
                         });
                     })
-
                 }
-
             }
         });
     });
