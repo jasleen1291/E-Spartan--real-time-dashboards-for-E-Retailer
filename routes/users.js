@@ -42,7 +42,7 @@ module.exports = function(router) {
                         }else{
                             res.json({
                                 type:false,
-                                data:err
+                                data:""+err
                             })
                         }
                     });

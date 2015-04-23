@@ -168,10 +168,19 @@
 					<div class="signup-form"><!--sign up form-->
 						<h2>New User Signup!</h2>
 						<form action="#">
-							<input type="text" placeholder="Name"/>
-							<input type="email" placeholder="Email Address"/>
-							<input type="password" placeholder="Password"/>
-							<button type="submit" class="btn btn-default">Signup</button>
+							<input type="text" placeholder="First Name" id="firstName"/>
+							<input type="text" placeholder="Last Name" id="lastName"/>
+							<input type="email" placeholder="Email Address" id="emailAddress"/>
+							<input type="password" placeholder="Password" id="signupPassword"/>
+							<select id="userRole">
+  								  <option value="retailer">retailer</option>
+								  <option value="user">user</option>
+							</select>
+							<button type="submit" class="btn btn-default" onclick="event.preventDefault(); signup();">Signup</button>
+							<br /><br />
+							<button type="reset" class="btn btn-danger" id="signuperror" style="display:none;background:red">Sign up Error! </button>
+							<br />
+							<button type="reset" class="btn btn-success" id="signupsuccessful" style="display:none;">Sign up Successful!</button>
 						</form>
 					</div><!--/sign up form-->
 				</div>
@@ -368,6 +377,44 @@
                     else{
                         console.log("login successfull");
                         window.location.href ="/api/retailerhome";
+                        // var url = '/home';
+                        //  var form = $('<form action="' + url + '" method="post">' +
+                        //    '<input type="text" name="api_url" value="' +url + '" />' +
+                        //    '</form>');
+                        //  $('body').append(form);
+                        //  form.submit();
+                    }
+                });
+            }
+        }
+
+        function signup()
+        {
+            var firstName= $('#firstName').val();
+            var lastName= $('#lastName').val();
+            var emailAddress= $('#emailAddress').val();
+            var password= $('#signupPassword').val();
+            var x = document.getElementById("userRole").selectedIndex;
+			var y = document.getElementById("userRole").options;
+			var role = y[x].text;
+            //console.log(username + " : " + password);
+            $("#signuperror").css("display", "none");
+            $("#signupsuccessful").css("display", "none");
+            if (emailAddress == ''|| password == '' || firstName == '' || lastName == '') {
+                console.log("error")
+                $('#error').text("error");
+                return;
+            }else{
+                $.post("/api/signup",{ "userName":emailAddress,"password":password,"firstName":firstName,"lastName":lastName,"role":role,"password":password}).done(function(data){        
+                    if(!data.type){
+                    	console.log("Signup Error:"+data.data)
+                    	$("#signuperror").show();
+                        return;
+                    }
+                    else{
+                        console.log("Signup successfull");
+                        $("#signupsuccessful").show();
+                        //window.location.href ="/api/retailerhome";
                         // var url = '/home';
                         //  var form = $('<form action="' + url + '" method="post">' +
                         //    '<input type="text" name="api_url" value="' +url + '" />' +
