@@ -1,5 +1,5 @@
 module.exports = function(router) {
-    
+
     var UserSchema = require('../models/User.js');
     router.post('/signup', function(req, res, next) {
         var UserSchema = require('../models/User.js');
@@ -28,21 +28,19 @@ module.exports = function(router) {
                     userModel.password = req.body.password;
                     userModel.firstname = req.body.firstName;
                     userModel.lastname = req.body.lastName;
-                    if(req.body.role)
-                    {
-                        userModel.role=req.body.role;
+                    if (req.body.role) {
+                        userModel.role = req.body.role;
                     }
                     userModel.save(function(err, user) {
-                        if(!err)
-                        {
+                        if (!err) {
                             res.json({
                                 type: true,
                                 data: user
                             });
-                        }else{
+                        } else {
                             res.json({
-                                type:false,
-                                data:""+err
+                                type: false,
+                                data: "" + err
                             })
                         }
                     });
@@ -65,29 +63,30 @@ module.exports = function(router) {
                 });
             } else {
                 if (user) {
-                    
+
                     res.json({
                         type: true,
                         data: user
                     });
                 } else {
-                	res.json({
-                     type: false,
-                    data: "Invalid login"});
+                    res.json({
+                        type: false,
+                        data: "Invalid login"
+                    });
                 }
             }
         });
     });
-    router.post('/logout', function(req, res){
-        try{
+    router.post('/logout', function(req, res) {
+        try {
             console.log("logout api called Node.");
             req.session = null;
             res.json({
                 type: true,
                 data: "Sign Out successfull"
             });
-            
-        }catch(e){
+
+        } catch (e) {
             console.log("Entering catch block: " + e);
         }
     });
@@ -117,13 +116,12 @@ module.exports = function(router) {
                             data: user
                         });
                     });
-                    }else {
-                        res.json({
-                                type: false
-                        });
-                    }
+                } else {
+                    res.json({
+                        type: false
+                    });
+                }
             }
         });
     });
-
 }

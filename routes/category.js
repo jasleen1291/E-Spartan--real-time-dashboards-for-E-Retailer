@@ -1,10 +1,9 @@
-
 //create category
 module.exports = function(router) {
-    
+
     var CategorySchema = require('../models/Category');
     router.post('/category/create', function(req, res, next) {
-    var CategorySchema = require('../models/Category');
+        var CategorySchema = require('../models/Category');
 
         CategorySchema.findOne({
             name: req.body.name
@@ -28,124 +27,118 @@ module.exports = function(router) {
                     console.log("data: " + req.body.name);
                     categoryModel.name = req.body.name;
                     categoryModel.description = req.body.description;
-                    if(req.body.parentId != "" || req.body.parentId != null){
+                    if (req.body.parentId != "" || req.body.parentId != null) {
                         categoryModel.parent_id = req.body.parentId;
                     } else {
                         categoryModel.parent_id = 0;
                     }
-                    try{
-                    categoryModel.features=(JSON.parse(req.body.features));
-                    categoryModel.save(function(err, category) {
-                        res.json({
-                            type: true,
-                            data: category
+                    try {
+                        categoryModel.features = (JSON.parse(req.body.features));
+                        categoryModel.save(function(err, category) {
+                            res.json({
+                                type: true,
+                                data: category
+                            });
                         });
-                    });
-                    }catch(e)
-                    {
+                    } catch (e) {
                         res.json({
                             type: false,
                             data: "Invalid json"
                         });
                     }
-                    
+
                 }
             }
         });
     });
 
-// get category by Id.
-router.get('/category/:id', function (req, res){
-    var CategorySchema = require('../models/Category');
-    return CategorySchema.findById(req.params.id, function (err, category) {
-    if (!err) {
-        if(category.isDeleted == false){
-            return res.send(category);
-        }
-        else {
-            res.json({
-                type: false,
-                data: "Category does not exist."
-            });
-            return console.log("Category does not exist.");
-        }
-    } else {
-      return console.log(err);
-    }
-  });
-});
-
-// update category by Id
-router.put('/category/:id', function (req, res){
-    var CategorySchema = require('../models/Category');
-    return CategorySchema.findById(req.params.id, function (err, category) {
-        if(category.isDeleted == false) {
-            category.name = req.body.name;
-            category.description = req.body.description;
-            if(req.body.parentId != "" || req.body.parentId != null){
-                category.parent_id = req.body.parentId;
+    // get category by Id.
+    router.get('/category/:id', function(req, res) {
+        var CategorySchema = require('../models/Category');
+        return CategorySchema.findById(req.params.id, function(err, category) {
+            if (!err) {
+                if (category.isDeleted == false) {
+                    return res.send(category);
+                } else {
+                    res.json({
+                        type: false,
+                        data: "Category does not exist."
+                    });
+                    return console.log("Category does not exist.");
+                }
             } else {
-                category.parent_id = 0;
+                return console.log(err);
             }
-             try{
-                    categoryModel.features=(JSON.parse(req.body.features));
+        });
+    });
+
+    // update category by Id
+    router.put('/category/:id', function(req, res) {
+        var CategorySchema = require('../models/Category');
+        return CategorySchema.findById(req.params.id, function(err, category) {
+            if (category.isDeleted == false) {
+                category.name = req.body.name;
+                category.description = req.body.description;
+                if (req.body.parentId != "" || req.body.parentId != null) {
+                    category.parent_id = req.body.parentId;
+                } else {
+                    category.parent_id = 0;
+                }
+                try {
+                    categoryModel.features = (JSON.parse(req.body.features));
                     categoryModel.save(function(err, category) {
-                        if(!err)
-                        {
+                        if (!err) {
                             res.json({
-                            type: true,
-                            data: category
+                                type: true,
+                                data: category
                             });
-                        }else{
+                        } else {
                             res.json({
-                            type: false,
-                            data: err
+                                type: false,
+                                data: err
                             });
                         }
 
                     });
-                    }catch(e)
-                    {
-                        res.json({
-                            type: false,
-                            data: "Invalid json"
-                        });
-                    }
-        } else {
-            res.json({
-                type: false,
-                data: "Category does not exist."
-            });
-            return console.log("Category does not exist.");
-        }
-    });
-});
-
-
-// delete category by Id
-router.delete('/category/:id', function (req, res){
-var CategorySchema = require('../models/Category');
-return CategorySchema.findById(req.params.id, function (err, category) {
-    if(category.isDeleted == false){
-        category.isDeleted = true;
-        return category.save(function (err) {
-            if (!err) {
-                console.log("deleted");
+                } catch (e) {
+                    res.json({
+                        type: false,
+                        data: "Invalid json"
+                    });
+                }
             } else {
-                console.log(err);
-            }            
-            return res.send(category);
+                res.json({
+                    type: false,
+                    data: "Category does not exist."
+                });
+                return console.log("Category does not exist.");
+            }
         });
-    }
-    else {
-        res.json({
-            type: false,
-            data: "Category does not exist."
+    });
+
+
+    // delete category by Id
+    router.delete('/category/:id', function(req, res) {
+        var CategorySchema = require('../models/Category');
+        return CategorySchema.findById(req.params.id, function(err, category) {
+            if (category.isDeleted == false) {
+                category.isDeleted = true;
+                return category.save(function(err) {
+                    if (!err) {
+                        console.log("deleted");
+                    } else {
+                        console.log(err);
+                    }
+                    return res.send(category);
+                });
+            } else {
+                res.json({
+                    type: false,
+                    data: "Category does not exist."
+                });
+                return console.log("Category does not exist.");
+            }
         });
-        return console.log("Category does not exist.");
-    }
-  });
-});
-    
+    });
 
 }

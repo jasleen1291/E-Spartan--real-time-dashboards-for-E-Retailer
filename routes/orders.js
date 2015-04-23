@@ -224,6 +224,7 @@ module.exports = function(router) {
         });
     });
     router.get('/getAvgSalesByMonth', function(req, res) {
+        console.log("getAvgSalesByMonth API called");
         var yr = req.query.year;
         var rid = req.query.retailerid;
 
@@ -257,10 +258,12 @@ module.exports = function(router) {
                 }
             }
         }], function(err, result) {
+            console.log(result);
             res.send(result);
         });
     });
     router.get('/getAvgSalesByYear', function(req, res) {
+        console.log("getAvgSalesByYear API called");
         var rid = req.query.retailerid;
 
         var OrderSchema = require('../models/Order');
@@ -289,10 +292,12 @@ module.exports = function(router) {
                 }
             }
         }], function(err, result) {
+            console.log(result);
             res.send(result);
         });
     });
     router.get('/getTotalSalesByYear', function(req, res) {
+        console.log("getTotalSalesByYear API called");
         var rid = req.query.retailerid;
 
         var OrderSchema = require('../models/Order');
@@ -325,6 +330,7 @@ module.exports = function(router) {
         });
     });
     router.get('/getTotalSalesByMonth', function(req, res) {
+        console.log("getTotalSalesByMonth API called");
         var yr = req.query.year;
         var rid = req.query.retailerid;
 
@@ -364,6 +370,7 @@ module.exports = function(router) {
     });
 
     router.get('/getSalesTrends', function(req, res) {
+        console.log("getSalesTrends API called");
         var date = new Date();
         date.setDate(date.getDate() - 30);
         var updatedAtQuery = {}
@@ -406,46 +413,54 @@ module.exports = function(router) {
 
     });
     router.get('/getTopProducts', function(req, res) {
-        var date=new Date();
-        var year=date.getFullYear(),month=date.getMonth()+1;
-        if(req.query.year)
-        {
-            year=Number(req.query.year);
+        console.log("getTopProducts API called");
+        var date = new Date();
+        var year = date.getFullYear(),
+            month = date.getMonth() + 1;
+        if (req.query.year) {
+            year = Number(req.query.year);
         }
-        if(req.query.month)
-        {
-            month=Number(req.query.month);
+        if (req.query.month) {
+            month = Number(req.query.month);
         }
         var OrderSchema = require('../models/Order');
         OrderSchema.aggregate(
             [{
-            $project: {
-                year: {
-                    $year: "$updated_at"
-                },
-                month: {
-                    $month: "$updated_at"
-                },
-                item_id:"$item_id",
-                retailer_id: "$retailerid",
-                qty:"$quantity"
-            }
-        }, {
-            $match: {
-                year: year,
-                month:month,
-                retailer_id: Number(req.query.retailerid),
-                status:{$nin:["Cancelled","cancelled"]}
-            }
-        }, {
-            $group: {
-                _id: "$item_id",
-                
-                qty: {
-                    $sum: "$qty"
+                $project: {
+                    year: {
+                        $year: "$updated_at"
+                    },
+                    month: {
+                        $month: "$updated_at"
+                    },
+                    item_id: "$item_id",
+                    retailer_id: "$retailerid",
+                    qty: "$quantity"
                 }
-            }
-        },{ $sort : { qty : -1 } }, { $limit : 5 }],
+            }, {
+                $match: {
+                    year: year,
+                    month: month,
+                    retailer_id: Number(req.query.retailerid),
+                    status: {
+                        $nin: ["Cancelled", "cancelled"]
+                    }
+                }
+            }, {
+                $group: {
+                    _id: "$item_id",
+
+                    qty: {
+                        $sum: "$qty"
+                    }
+                }
+            }, {
+                $sort: {
+                    qty: -1
+                }
+            }, {
+                $limit: 5
+            }],
             function(err, result) {
                 if (!err)
                     res.send(result);
@@ -455,20 +470,23 @@ module.exports = function(router) {
             });
 
     });
-    router.get("/getSaleByLocation",function(req,res){
-            var match={
-                
-                status:{$nin:["Cancelled","cancelled"]}
-            };
-            if(req.query.year){
-                match["year"]=Number(req.query.year);
-                if(req.query.month)
-                    match["month"]=Number(req.query.month);
+    router.get("/getSaleByLocation", function(req, res) {
+        console.log("getSaleByLocation API called");
+        var match = {
 
+            status: {
+                $nin: ["Cancelled", "cancelled"]
             }
-            match["retailer_id"]=Number(req.query.retailerid);
-            var OrderSchema = require('../models/Order');
-            OrderSchema.aggregate([{
+        };
+        if (req.query.year) {
+            match["year"] = Number(req.query.year);
+            if (req.query.month)
+                match["month"] = Number(req.query.month);
+
+        }
+        match["retailer_id"] = Number(req.query.retailerid);
+        var OrderSchema = require('../models/Order');
+        OrderSchema.aggregate([{
             $project: {
                 year: {
                     $year: "$updated_at"
@@ -476,46 +494,50 @@ module.exports = function(router) {
                 month: {
                     $month: "$updated_at"
                 },
-                item_id:"$item_id",
+                item_id: "$item_id",
                 retailer_id: "$retailerid",
-                state:"$shippingAddress.State",
+                state: "$shippingAddress.State",
                 total: {
                     $multiply: ["$price", "$quantity"]
-                },qty:"$quantity"
+                },
+                qty: "$quantity"
             }
         }, {
             $match: match
         }, {
             $group: {
                 _id: "$state",
-                
+
                 qty: {
                     $sum: "$total"
                 }
             }
-        }],function(err, result) {
-                if (!err)
-                    res.send(result);
-                else {
-                    res.send(err);
-                }
-            });
-    });
-router.get("/getSaleByLocation/:state",function(req,res){
-            var match={
-                
-                status:{$nin:["Cancelled","cancelled"]},
-                state:req.params.state
-            };
-            if(req.query.year){
-                match["year"]=Number(req.query.year);
-                if(req.query.month)
-                    match["month"]=Number(req.query.month);
-
+        }], function(err, result) {
+            if (!err)
+                res.send(result);
+            else {
+                res.send(err);
             }
-            match["retailer_id"]=Number(req.query.retailerid);
-            var OrderSchema = require('../models/Order');
-            OrderSchema.aggregate([{
+        });
+    });
+    router.get("/getSaleByLocation/:state", function(req, res) {
+        console.log("getSaleByLocation:" + state + " API called");
+        var match = {
+
+            status: {
+                $nin: ["Cancelled", "cancelled"]
+            },
+            state: req.params.state
+        };
+        if (req.query.year) {
+            match["year"] = Number(req.query.year);
+            if (req.query.month)
+                match["month"] = Number(req.query.month);
+
+        }
+        match["retailer_id"] = Number(req.query.retailerid);
+        var OrderSchema = require('../models/Order');
+        OrderSchema.aggregate([{
             $project: {
                 year: {
                     $year: "$updated_at"
@@ -523,32 +545,34 @@ router.get("/getSaleByLocation/:state",function(req,res){
                 month: {
                     $month: "$updated_at"
                 },
-                item_id:"$item_id",
+                item_id: "$item_id",
                 retailer_id: "$retailerid",
-                state:"$shippingAddress.State",
-                city:"$shippingAddress.City",
+                state: "$shippingAddress.State",
+                city: "$shippingAddress.City",
                 total: {
                     $multiply: ["$price", "$quantity"]
-                },qty:"$quantity"
+                },
+                qty: "$quantity"
             }
         }, {
             $match: match
         }, {
             $group: {
                 _id: "$city",
-                
+
                 qty: {
                     $sum: "$total"
                 }
             }
-        }],function(err, result) {
-                if (!err)
-                    res.send(result);
-                else {
-                    res.send(err);
-                }
-            });
+        }], function(err, result) {
+            if (!err)
+                res.send(result);
+            else {
+                res.send(err);
+            }
+        });
     });
+
     function saveOrder(req, res, order) {
         console.log(req.data);
         //Added if statements so that anything doesnt get set to undefined by accident

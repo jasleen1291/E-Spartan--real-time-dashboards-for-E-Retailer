@@ -1,17 +1,17 @@
 module.exports = function(router) {
 
-router.get('/', function(req, res) {
-  res.render('index');
-});
+    router.get('/', function(req, res) {
+        res.render('index');
+    });
 
-router.get('/retailerhome', function(req, res) {
-  res.render('retailer_home');
-});
+    router.get('/retailerhome', function(req, res) {
+        res.render('retailer_home');
+    });
 
 
-router.get('/login', function(req, res) {
-  res.render('user_login');
-});
+    router.get('/login', function(req, res) {
+        res.render('user_login');
+    });
 
 }
 
@@ -19,7 +19,6 @@ router.get('/login', function(req, res) {
 //var router = express.Router();
 //var mysql = require('mysql');
 // var md5 = require('MD5');
-
 
 
 
@@ -53,8 +52,8 @@ router.get('/login', function(req, res) {
  var CreateQuery="CREATE TABLE saveAsgnData ( Fname VARCHAR(150) PRIMARY KEY NOT NULL, Lname VARCHAR(150), Email VARCHAR(250)); "; 
 
  connection.query(CreateQuery,function(err,rows){
- 	if(err)
- 		console.log("Error tada", err);
+  if(err)
+    console.log("Error tada", err);
  });
 
 var query = connection.query("INSERT INTO saveAsgnData set ? ",data, function(err, rows)
@@ -64,7 +63,7 @@ var query = connection.query("INSERT INTO saveAsgnData set ? ",data, function(er
             console.log("Error inserting  blah blah: %s ",err );
 
           else{
-          	res.send(200);
+            res.send(200);
           }  
           
         });
