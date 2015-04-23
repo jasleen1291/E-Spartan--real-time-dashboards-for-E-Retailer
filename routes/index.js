@@ -1,30 +1,30 @@
-var express = require('express');
-var router = express.Router();
-var mysql = require('mysql');
+module.exports = function(router) {
+
+router.get('/', function(req, res) {
+  res.render('index');
+});
+
+router.get('/retailerhome', function(req, res) {
+  res.render('retailer_home');
+});
+
+
+router.get('/login', function(req, res) {
+  res.render('user_login');
+});
+
+}
+
+//var express = require('express');
+//var router = express.Router();
+//var mysql = require('mysql');
 // var md5 = require('MD5');
 
 
-router.get('/', function(req, res) {
-	res.sendfile('public/html/LandingPage.html');
-});
-router.get('/LandingPage.html', function(req, res) {
-	res.sendfile('public/html/LandingPage.html');
-});
-
-router.get('/BigDataPage.html', function(req, res) {
-	res.sendfile('public/html/BigDataPage.html');
-});
-router.get('/IOTPage.html', function(req, res) {
-	res.sendfile('public/html/IOTPage.html');
-});
-router.get('/LocationPage.html', function(req, res) {
-	res.sendfile('public/html/LocationPage.html');
-});
-router.get('/ManagementPage.html', function(req, res) {
-	res.sendfile('public/html/ManagementPage.html');
-});
 
 
+
+/*
   router.post('/savedata', function (req, res) {
   //res.send('Got a POST request');
   var connection = mysql.createConnection({
@@ -71,5 +71,5 @@ var query = connection.query("INSERT INTO saveAsgnData set ? ",data, function(er
   connection.end();
 
 });
-
-module.exports = router;
+*/
+//module.exports = router;

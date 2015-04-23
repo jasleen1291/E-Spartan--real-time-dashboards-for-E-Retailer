@@ -24,13 +24,17 @@ require('./routes/orders')(router);
 require('./routes/category')(router);
 //require('./routes/rating')(router);
 
+//Routes for Pages
+require('./routes/index')(router);
+
 var port = 3000;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use('/api',router);
-
+var publicDir = require('path').join(__dirname, '/public');
+app.use(express.static(publicDir)); 
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB Connection error: Unable to connect. Resolve connection issue before starting application'));
