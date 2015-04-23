@@ -6,7 +6,7 @@ var categorySchema = new mongoose.Schema({
 	name: String,
     description: String,
     isDeleted: {type:Boolean,default:false},
-    parent_id: Number,
+    parent_id: {type:Number, default:0},
     features:[]
 });
 
