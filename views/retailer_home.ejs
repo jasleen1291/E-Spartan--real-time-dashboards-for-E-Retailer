@@ -109,9 +109,10 @@
                     <div class="section">
                         <div class="row">
                             <div class="col-lg-3 col-md-6 col-sm-12">
-                                <div class="card">
-                                    <div class="card-image waves-effect waves-block waves-light">
-                                        <img class="activator" src="/images/girl1.jpg">
+                                <div class="card" id="dateCard">
+                                    <div class="card-content waves-effect waves-block waves-light">
+                                        <span class="activator card-title" id="dateCard-date"></span>
+                                        <span class="activator card-title" id="dateCard-time"></span>
                                     </div>
                                     <div class="card-reveal">
                                         <span class="card-title grey-text text-darken-4">Item Name <i class="mdi-navigation-close right"></i></span>
@@ -130,7 +131,7 @@
 
                             </div>
                             <div class="col-lg-3 col-md-6 col-sm-12">
-                                <div class="card">
+                                <div class="card" id="avgSaleCard">
                                     <div class="card-image waves-effect waves-block waves-light">
                                         <img class="activator" src="/images/girl1.jpg">
                                     </div>
@@ -139,7 +140,7 @@
                                         <p>Here is some more information about this product that is only revealed once clicked on.</p>
                                     </div>
                                 </div>
-                                <div class="card">
+                                <div class="card" id="totalSaleCard">
                                     <div class="card-image waves-effect waves-block waves-light">
                                         <img class="activator" src="/images/girl1.jpg">
                                     </div>
@@ -573,7 +574,42 @@
             $('#listItem').hide();
             $('#addItem').hide();
             $('#listOrder').hide();
+            getItemList();
         });
+
+        function loadCards(){
+        }
+
+        function loadDateCard(){
+          console.log("loadDateCard");
+          var d = new Date();
+          $('#dateCard-date').html(d.getDate());
+          $('#dateCard-time').html(d.getDate());
+
+          $('#dateCard').highcharts({
+
+            title: {
+              text: 'VM Stats'
+            },
+            subtitle: {
+              text: 'CPU & Memory',
+              x: -20
+            },
+            xAxis: {
+              categories: data[0]
+            },
+            yAxis: {
+              
+            },
+            series:  [{
+                    name: 'CPU (MHz)',
+                    data: data[1]
+                }, {
+                    name: 'Memory (MB)',
+                    data: data[2]
+                }]
+          });
+        }
 
         function showDiv(divid) {
             console.log(divid);
@@ -586,31 +622,20 @@
         }
 
         function getItemList() {
+          console.log("getting Item List");
             $("#itemListTable tbody").empty();
-            //Todo
-            $.get("vm/list", function(res) {
-                if (!res.type) {
-                    return;
-                } else {
-                    res.data.forEach(function(thisdata) {
-                        var tr = "<tr id=\"" + thisdata.name + "\" onclick=\"openItemDetails(\'" + thisdata.name + "\') \">";
-                        tr += "<td>" + thisdata.name + "</td>";
-                        tr += "<td>" + thisdata.type + "</td>";
-                        tr += "<td>" + thisdata.status + "</td>";
-                        tr += "</tr>";
-                        $("#vmList tbody").append(tr);
-                        // var tab = document.getElementById("vmList");
-                        // var row = tab.insertRow();
-                        // var cell1 = row.insertCell(0);
-                        // var cell2 = row.insertCell(1);
-                        // var cell3 = row.insertCell(2);
-                        // cell1.innerHTML = thisdata.name;
-                        // cell2.innerHTML = thisdata.type;
-                        // cell3.innerHTML = thisdata.status;
-                    });
-                    sessionStorage.removeItem("instances");
-                    sessionStorage.setItem("instances", JSON.stringify(res.data));
-                }
+            $.get("item", function(res) {
+                console.log("success");
+                console.log(res);
+                  res.data.forEach(function(thisdata) {
+                      var tr = "<tr id=\"" + thisdata.name + "\" onclick=\"openItemDetails(\'" + thisdata.name + "\') \">";
+                      tr += "<td>" + thisdata.itemid + "</td>";
+                      tr += "<td>" + thisdata.name + "</td>";
+                      tr += "<td>" + thisdata.description + "</td>";
+                      tr += "<td>" + thisdata.price + "</td>";
+                      tr += "</tr>";
+                      $("#itemListTable tbody").append(tr);
+                  });
             });
         }
 
