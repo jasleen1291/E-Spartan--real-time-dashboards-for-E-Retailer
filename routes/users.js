@@ -66,7 +66,8 @@ module.exports = function(router) {
 
                     res.json({
                         type: true,
-                        data: user
+                        //data: user
+                        data: "/api/retailerhome"
                     });
                 } else {
                     res.json({
