@@ -35,28 +35,7 @@ module.exports = function(router) {
         }
     }
 
-    var findItemName = {
-        findItem: function(result){
-            var deffered = q.defer();
-            var ItemSchema = require('../models/Item');
-            console.log("Getting Items Name");
-            var itemName = [];
-            result.forEach(function(item){
-                ItemSchema.findOne({_id:item._id},function(item){
-                    itemName[itemName.length] = item.name;
-                });
-            }, function(err, itemName){
-                if (err) {
-                    console.log("Error occured: " + err);
-                    deffered.resolve("Error");
-                } else {
-                    console.log("User found");
-                    deffered.resolve(itemName);
-                }
-            });
-            return deffered.promise;
-        }
-    }
+    
 
     //Creating order for user - userid
     router.post('/user/:userid/order/create', function(req, res, next) {
@@ -492,18 +471,17 @@ module.exports = function(router) {
             }, {
                 $limit: 5
             }], function(err, result) {
-                var findItemRequest = findItemName.findItem(result);
-                findItemRequest.done(function(data) {
+                // var findItemRequest = findItemName.findItem(result);
+                // findItemRequest.done(function(data) {
 
                     if (!err){
-                        console.log(data);
-                        res.send(data);
-                        res.send(result);
+                       
+                        prettyify(result,req,res);
                     }
                     else {
                         res.send(err);
                     }
-                });
+                // });
             });
     });
     
@@ -561,7 +539,7 @@ module.exports = function(router) {
     
     //get Sale by State
     router.get("/getSaleByLocation/:state", function(req, res) {
-        console.log("getSaleByLocation:" + state + " API called");
+        console.log("getSaleByLocation:" + req.params.state + " API called");
         var match = {
 
             status: {
@@ -656,5 +634,33 @@ module.exports = function(router) {
                 });
             }
         });
+    }
+    function prettyify(result,req,res)
+    {
+        var ids={};
+        var id=[]
+        for(i=0;i<result.length;i++)
+        {
+            ids[result[i]._id]=result[i];
+            id.push(Number(result[i]._id));
+        }
+        var Item = require('../models/Item');
+        Item.find({_id:{$in:id}},function(err,result)
+            {
+                if(!err)
+                {   var results=[]
+                    for(i=0;i<result.length;i++)
+                    {
+                        //ids[result[i]._id].push(result[i]);
+                        var r= JSON.parse(JSON.stringify(result[i]));
+                        r["qty"]=ids[result[i]._id].qty;
+                        console.log(typeof result[i]);
+                        results.push(r);
+                    }
+                    res.send(results);
+                }else{
+                    res.send(err);
+                }
+            });
     }
 }
