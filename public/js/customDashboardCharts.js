@@ -4,18 +4,6 @@
  *
  */
 
-/* Chart of sale trends */
-$(function () {
-
-    // Get the CSV and create the chart
-    $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=analytics.csv&callback=?', function (csv) {
-
-    });
-
-});
-
-/* Theme for above graph */
-
 /**
  * Dark theme for Highcharts JS
  * @author Torstein Honsi
@@ -283,7 +271,7 @@ $(function () {
 /* Chart of top Products */
 
 $(function () {
-    $('#topProductsChart').highcharts({
+    $('#topProductsChartSample').highcharts({
         chart: {
             type: 'bar',
         },

@@ -35,6 +35,29 @@ module.exports = function(router) {
         }
     }
 
+    var findItemName = {
+        findItem: function(result){
+            var deffered = q.defer();
+            var ItemSchema = require('../models/Item');
+            console.log("Getting Items Name");
+            var itemName = [];
+            result.forEach(function(item){
+                ItemSchema.findOne({_id:item._id},function(item){
+                    itemName[itemName.length] = item.name;
+                });
+            }, function(err, itemName){
+                if (err) {
+                    console.log("Error occured: " + err);
+                    deffered.resolve("Error");
+                } else {
+                    console.log("User found");
+                    deffered.resolve(itemName);
+                }
+            });
+            return deffered.promise;
+        }
+    }
+
     //Creating order for user - userid
     router.post('/user/:userid/order/create', function(req, res, next) {
         var OrderSchema = require('../models/Order');
@@ -53,9 +76,7 @@ module.exports = function(router) {
                 var orderModel = new OrderSchema();
                 saveOrder(req, res, orderModel);
             }
-
         });
-
     });
 
     //Getting list of orders for user - userid
@@ -223,6 +244,8 @@ module.exports = function(router) {
             }
         });
     });
+
+    //get Average Sales By Month
     router.get('/getAvgSalesByMonth', function(req, res) {
         console.log("getAvgSalesByMonth API called");
         var yr = req.query.year;
@@ -262,6 +285,8 @@ module.exports = function(router) {
             res.send(result);
         });
     });
+
+    //get Average Sales By Year
     router.get('/getAvgSalesByYear', function(req, res) {
         console.log("getAvgSalesByYear API called");
         var rid = req.query.retailerid;
@@ -296,6 +321,8 @@ module.exports = function(router) {
             res.send(result);
         });
     });
+
+    //get Total Sales By Year
     router.get('/getTotalSalesByYear', function(req, res) {
         console.log("getTotalSalesByYear API called");
         var rid = req.query.retailerid;
@@ -329,6 +356,8 @@ module.exports = function(router) {
             res.send(result);
         });
     });
+
+    //get Total Sales By Month
     router.get('/getTotalSalesByMonth', function(req, res) {
         console.log("getTotalSalesByMonth API called");
         var yr = req.query.year;
@@ -368,7 +397,8 @@ module.exports = function(router) {
             res.send(result);
         });
     });
-
+    
+    //get Sales Trends
     router.get('/getSalesTrends', function(req, res) {
         console.log("getSalesTrends API called");
         var date = new Date();
@@ -410,8 +440,9 @@ module.exports = function(router) {
                     res.send(err);
                 }
             });
-
     });
+    
+    //get Top Products
     router.get('/getTopProducts', function(req, res) {
         console.log("getTopProducts API called");
         var date = new Date();
@@ -424,6 +455,7 @@ module.exports = function(router) {
             month = Number(req.query.month);
         }
         var OrderSchema = require('../models/Order');
+
         OrderSchema.aggregate(
             [{
                 $project: {
@@ -449,7 +481,6 @@ module.exports = function(router) {
             }, {
                 $group: {
                     _id: "$item_id",
-
                     qty: {
                         $sum: "$qty"
                     }
@@ -460,16 +491,23 @@ module.exports = function(router) {
                 }
             }, {
                 $limit: 5
-            }],
-            function(err, result) {
-                if (!err)
-                    res.send(result);
-                else {
-                    res.send(err);
-                }
-            });
+            }], function(err, result) {
+                var findItemRequest = findItemName.findItem(result);
+                findItemRequest.done(function(data) {
 
+                    if (!err){
+                        console.log(data);
+                        res.send(data);
+                        res.send(result);
+                    }
+                    else {
+                        res.send(err);
+                    }
+                });
+            });
     });
+    
+    //get Sale by Location
     router.get("/getSaleByLocation", function(req, res) {
         console.log("getSaleByLocation API called");
         var match = {
@@ -520,6 +558,8 @@ module.exports = function(router) {
             }
         });
     });
+    
+    //get Sale by State
     router.get("/getSaleByLocation/:state", function(req, res) {
         console.log("getSaleByLocation:" + state + " API called");
         var match = {

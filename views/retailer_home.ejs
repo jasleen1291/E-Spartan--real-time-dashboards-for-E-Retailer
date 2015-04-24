@@ -36,6 +36,15 @@
         .card-header {
             font-size: 1.2em;
         }
+        #dateCard-time{
+            font-size: 1.5em;
+        }
+        #dateCard-day{
+            font-size: 0.8em;
+        }
+        #dateCard-date{
+            font-size: 0.8em;
+        }
     </style>
 
 </head>
@@ -115,13 +124,14 @@
                             <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12">
                                 <div class="card grey darken-3" id="dateCard">
                                     <div class="card-content waves-effect waves-block waves-dark">
-                                        <div class="card-header white-text">Date</div>
-                                        <div class="center">
-                                            <span id="dateCard-day" class="white-text"></span>
-                                            <br/>
-                                            <span class="white-text" id="dateCard-date"></span>
-                                            <br/>
+                                        <!-- <div class="card-header white-text">Date</div> -->
+                                        <div class="center-align">
                                             <span class="white-text " id="dateCard-time"></span>
+                                            <span id="dateCard-day" class="white-text left-align"></span>
+                                            <br/>
+                                            <span class="white-text left-align" id="dateCard-date"></span>
+                                            <br/>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -168,7 +178,6 @@
                             </div>
                             <div class="col-lg-4 col-md-8 col-sm-6 col-xs-12">
                                 <div class="card">
-
                                     <!-- <div class="card-header black-text">Sale Trends</div> -->
                                     <div id="saleTrendsGraph" class="center card-image waves-effect waves-block waves-light">
                                         <!--<img class="activator" src="/images/girl1.jpg">-->
@@ -181,13 +190,11 @@
                             </div>
                             <div class="col-lg-4 col-md-8 col-sm-6 col-xs-12">
                                 <div class="card">
-                                    <div class="card-image waves-effect waves-block waves-light">
-                                        <img class="activator" src="/images/girl1.jpg">
+                                    <!-- <div class="card-header black-text">Sale Trends</div> -->
+                                    <div id="topProductsChartSample" class="center card-image waves-effect waves-block waves-light">
+                                        <!--<img class="activator" src="/images/girl1.jpg">-->
                                     </div>
-                                    <div class="card-reveal">
-                                        <span class="card-header grey-text text-darken-4">Item Name <i class="mdi-navigation-close right"></i></span>
-                                        <p>Here is some more information about this product that is only revealed once clicked on.</p>
-                                    </div>
+                                
                                 </div>
                             </div>
                         </div>
@@ -704,8 +711,7 @@
                 endDate: new Date(),
                 retailerid: rid
             }, function(res) {
-                console.log(res);
-                //console.log(res.length);
+                //console.log(res);
                 var date = [];
                 var sale = [];
                 res.forEach(function(obj) {
@@ -713,49 +719,51 @@
                     date[date.length] = d.getDate() + "-" + (d.getMonth() + 1);
                     sale[sale.length] = obj.sale;
                 });
-                console.log(date);
-                console.log(sale);
+                // console.log(date);
+                // console.log(sale);
+                generateSaleTrendsGraph(date, sale);
+            });
 
-                $('#saleTrendsGraph').highcharts({
-                    chart: {
-
-                        height: 300
-                    },
-
-                    title: {
-                        text: 'Sale Trends'
-                    },
-                    xAxis: {
-                        categories: date
-                    },
-                    yAxis: {
-                        title: {
-                            text: 'Sales'
-                        },
+            $.get("getTopProducts", {year:2015, month:4, retailerid:rid} ,function(res) {
+                console.log(res);
+                var productIds = [];
+                var quantity = [];
+                res.forEach(function(obj) {
+                    productIds[productIds.length] = obj._id;
+                    quantity[quantity.length] = obj.qty;
+                });
+                
+                $('#topProductsChart').highcharts({
+                    chart:{type:'bar'},
+                    title:{text:'Top Products'},
+                    xAxis:{categories: productIds, title:{text:null}},
+                    yAxis:{min:0, title:{text:null, align: 'high'}},
+                    plotOptions: {
+                        bar: {
+                            dataLabels: {
+                                enabled: true,
+                                borderWidth: 0
+                            },
+                            borderWidth: 0
+                        }
                     },
                     series: [{
-                        name: 'Date',
-                        data: sale
+                        name: 'This Month',
+                        data: quantity
                     }]
+                    
                 });
-
-                $('#totalSaleCardyear').html("$" + res + "/Year");
-            });
-            $.get("getTopProducts", function(res) {
-                $('#totalSaleCardyear').html("$" + res + "http://www.ndtv.com//Year");
             });
             $.get("getSaleByLocation", function(res) {
                 $('#totalSaleCardyear').html("$" + res + "/Year");
             });
 
-
-            // getSalesTrends
             // getTopProducts
             // ge2tSaleByLocation
         }
 
         function loadDateCard() {
-            console.log("loadDateCard");
+            //console.log("loadDateCard");
             var d = new Date();
             var weekday = new Array(7);
             weekday[0] = "Sunday";
@@ -770,30 +778,6 @@
             $('#dateCard-day').html(day);
             $('#dateCard-date').html(d.toLocaleDateString());
             $('#dateCard-time').html(d.toLocaleTimeString());
-            /*
-            $('#dateCard').highcharts({
-
-              title: {
-                text: 'VM Stats'
-              },
-              subtitle: {
-                text: 'CPU & Memory',
-                x: -20
-              },
-              xAxis: {
-                categories: data[0]
-              },
-              yAxis: {
-                
-              },
-              series:  [{
-                      name: 'CPU (MHz)',
-                      data: data[1]
-                  }, {
-                      name: 'Memory (MB)',
-                      data: data[2]
-                  }]
-            }); */
         }
 
         function showDashboard() {
@@ -900,6 +884,32 @@
             templatenameglobal = templateName;
             $('#deployVM').openModal();
         }
+
+        function generateSaleTrendsGraph(date, sale){
+                $('#saleTrendsGraph').highcharts({
+                    chart: {
+
+                        height: 300
+                    },
+
+                    title: {
+                        text: 'Sale Trends'
+                    },
+                    xAxis: {
+                        categories: date
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Sales'
+                        },
+                    },
+                    series: [{
+                        name: 'Date',
+                        data: sale
+                    }]
+                });
+        }
+
     </script>
 
 </body>
