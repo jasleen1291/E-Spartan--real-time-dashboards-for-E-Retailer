@@ -5609,78 +5609,6 @@ button.btn-floating {
 a.waves-effect .waves-ripple {
   z-index: -1; }
 
-.modal {
-  display: none;
-  position: fixed;
-  left: 0;
-  right: 0;
-  background-color: #fafafa;
-  padding: 0;
-  max-height: 70%;
-  width: 55%;
-  margin: auto;
-  overflow-y: auto;
-  z-index: 1000;
-  border-radius: 2px;
-  -webkit-transform: translate(0);
-  -moz-transform: translate(0);
-  -ms-transform: translate(0);
-  -o-transform: translate(0);
-  transform: translate(0);
-  will-change: top, opacity; }
-  @media only screen and (max-width : 992px) {
-    .modal {
-      width: 80%; } }
-  .modal h1, .modal h2, .modal h3, .modal h4 {
-    margin-top: 0; }
-  .modal .modal-content {
-    padding: 24px; }
-  .modal .modal-footer {
-    border-radius: 0 0 2px 2px;
-    background-color: #fafafa;
-    padding: 4px 6px;
-    height: 56px;
-    width: 100%; }
-    .modal .modal-footer .btn, .modal .modal-footer .btn-large, .modal .modal-footer .btn-flat {
-      float: right;
-      margin: 6px 0; }
-
-#lean-overlay {
-  position: fixed;
-  z-index: 999;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  height: 115%;
-  width: 100%;
-  background: #000;
-  display: none;
-  will-change: opacity; }
-
-.modal.modal-fixed-footer {
-  padding: 0;
-  height: 70%; }
-  .modal.modal-fixed-footer .modal-content {
-    position: fixed;
-    max-height: 100%;
-    padding-bottom: 64px;
-    width: 100%;
-    overflow-y: auto; }
-  .modal.modal-fixed-footer .modal-footer {
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    position: fixed;
-    bottom: 0; }
-
-.modal.bottom-sheet {
-  top: auto;
-  bottom: -100%;
-  margin: 0;
-  width: 100%;
-  max-height: 45%;
-  border-radius: 0;
-  will-change: bottom, opacity; }
-
 .collapsible {
   border-top: 1px solid #ddd;
   border-right: 1px solid #ddd;
@@ -5824,7 +5752,7 @@ input[type=text], input[type=password], input[type=email], input[type=url], inpu
   outline: none;
   height: 3rem;
   width: 100%;
-  font-size: 1rem;
+  font-size: 1em;
   margin: 0 0 15px 0;
   padding: 0;
   box-shadow: none;
@@ -5857,7 +5785,7 @@ input[type=text], input[type=password], input[type=email], input[type=url], inpu
     position: absolute;
     top: 0.8rem;
     left: 0.75rem;
-    font-size: 1rem;
+    font-size: 1em;
     cursor: text;
     -webkit-transition: .2s ease-out;
     -moz-transition: .2s ease-out;

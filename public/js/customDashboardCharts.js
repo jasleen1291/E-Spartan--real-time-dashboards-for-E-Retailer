@@ -230,8 +230,6 @@ $(function () {
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
                 plotShadow: false,
-                width: 250,
-                height: 200
             },
             title: {
                 text: 'Store vs Online'
@@ -244,7 +242,7 @@ $(function () {
                     allowPointSelect: true,
                     cursor: 'pointer',
                     dataLabels: {
-                        enabled: false
+                        enabled: true
                     },
                     showInLegend: true,
                     borderWidth: 0
@@ -328,80 +326,5 @@ $(function () {
             name: 'This Year',
             data: [133, 156, 947, 408, 6]
         }]
-    });
-});
-
-/* Chart for sale locations */
-
-$(function () {
-
-    $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=us-population-density.json&callback=?', function (data) {
-
-        console.log("Sample Map:");
-        //console.log(data);
-        // Make codes uppercase to match the map data
-        var str = ""
-        $.each(data, function () {
-            this.code = this.code.toUpperCase();
-            str+=this.code + ":" + this.value +",";
-        });
-        console.log(str);
-
-        // Instanciate the map
-        $('#usMapSalesChartSample').highcharts('Map', {
-
-            chart : {
-                borderWidth : 1
-            },
-
-            title : {
-                text : 'Sale Locations'
-            },
-
-            legend: {
-                layout: 'horizontal',
-                borderWidth: 0,
-                backgroundColor: '#0EA4C9',
-                floating: true,
-                verticalAlign: 'top',
-                y: 25
-            },
-
-            mapNavigation: {
-                enabled: true
-            },
-
-            colorAxis: {
-                min: 10,
-                type: 'logarithmic',
-                minColor: '#FFFFFF',
-                maxColor: '#0EA4C9',
-                stops: [
-                    [0, '#FFFFFF'],
-                    [0.67, '#0EA4C9'],
-                    [1, '#0EA4C9']
-                ]
-            },
-
-            series : [{
-                animation: {
-                    duration: 1000
-                },
-                 minColor: '#FFFFFF',
-                maxColor: '#0EA4C9',
-                data : data,
-                mapData: Highcharts.maps['countries/us/us-all'],
-                joinBy: ['postal-code', 'code'],
-                dataLabels: {
-                    enabled: true,
-                    color: 'white',
-                    format: '{point.code}'
-                },
-                name: 'Sale Count',
-                tooltip: {
-                    pointFormat: '{point.code}: {point.value}'
-                }
-            }]
-        });
     });
 });

@@ -70,7 +70,7 @@
                     <div class="col-sm-8">
                         <div class="shop-menu pull-right">
                             <ul class="nav navbar-nav">
-                                <li><a onclick="logOut()"><i class="fa fa-lock"></i> Log Out</a></li>
+                                <li><a id="logOut"><i class="fa fa-lock"></i> Log Out</a></li>
                             </ul>
                         </div>
                     </div>
@@ -144,8 +144,7 @@
                                     </div>
                                 </div>
                                 <div class="card ">
-                                    <div class="card-image waves-effect waves-block waves-light">
-                                        <img class="activator" src="/images/girl1.jpg">
+                                    <div id="" class="center card-image waves-effect waves-block waves-light">
                                     </div>
                                     <div class="card-reveal">
                                         <span class="card-header grey-text text-darken-4">Item Name <i class="mdi-navigation-close right"></i></span>
@@ -158,7 +157,7 @@
                                 <div class="card  grey darken-3" id="avgSaleCard">
                                     <div class="card-content waves-effect waves-block waves-dark">
                                         <div class="card-header white-text">Average Sale</div>
-                                        <div class="right-align white-text">
+                                        <div class="left-align white-text">
                                             <span class="largetext" id="avgSaleCard-month"></span><span class="normaltext">&nbsp;This Month</span>
                                             <br/>
                                             <span class="largetext" id="avgSaleCard-year"></span><span class="normaltext">&nbsp;This Year</span>
@@ -172,7 +171,7 @@
                                 <div class="card  grey darken-3" id="totalSaleCard">
                                     <div class="card-content waves-effect waves-block waves-dark">
                                         <div class="card-header white-text">Total Sale</div>
-                                        <div class="right-align white-text">
+                                        <div class="left-align white-text">
                                             <span class="largetext" id="totalSaleCard-month"></span><span class="normaltext">&nbsp;This Month</span>
                                             <br/>
                                             <span class="largetext" id="totalSaleCard-year"></span><span class="normaltext">&nbsp;This Year</span>
@@ -184,11 +183,24 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-8 col-sm-6 col-xs-12">
+                            <div class="col-lg-6 col-md-8 col-sm-6 col-xs-12">
                                 <div class="card">
                                     <!-- <div class="card-header black-text">Sale Trends</div> -->
-                                    <div id="saleTrendsGraph" class="center card-image">
+                                    <div id="usMapSalesChart" class="center card-image">
                                         <!--<img class="activator" src="/images/girl1.jpg">-->
+                                    </div>
+                                    <div class="card-reveal">
+                                        <span class="card-title grey-text text-darken-4">Item Name <i class="mdi-navigation-close right"></i></span>
+                                        <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="row2">
+                            <div class="col-lg-3 col-md-6 col-sm-12">
+                                <div class="card">
+                                    <!-- <div class="card-header black-text">Store Comparison</div> -->
+                                    <div id="storeComparisonGraph" class="center card-image waves-effect waves-block waves-light">
                                     </div>
                                     <div class="card-reveal">
                                         <span class="card-title grey-text text-darken-4">Item Name <i class="mdi-navigation-close right"></i></span>
@@ -205,23 +217,10 @@
 
                                 </div>
                             </div>
-                        </div>
-                        <div class="row" id="row2">
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <div class="card">
-                                    <!-- <div class="card-header black-text">Store Comparison</div> -->
-                                    <div id="storeComparisonGraph" class="center card-image waves-effect waves-block waves-light">
-                                    </div>
-                                    <div class="card-reveal">
-                                        <span class="card-title grey-text text-darken-4">Item Name <i class="mdi-navigation-close right"></i></span>
-                                        <p>Here is some more information about this product that is only revealed once clicked on.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-12 col-sm-12">
+                            <div class="col-lg-4 col-md-12 col-sm-12">
                                 <div class="card">
                                     <!-- <div class="card-header black-text">Sales Location</div> -->
-                                    <div id="usMapSalesChart" class="center card-image">
+                                    <div id="saleTrendsGraph" class="center card-image">
 
                                     </div>
                                 </div>
@@ -237,82 +236,119 @@
         <div class="container">
             <div class="row">
                 <div class="row" id="listItemDiv">
-                    <div class="col s12 center-align ">
+                    <div class="col-sm-12 center-align ">
                         <h3>View All Items</h3>
                     </div>
-                    <table class="bordered hoverable centered" id="itemListTable">
-                        <thead>
-                            <tr>
-                                <th data-field="id">Item Id</th>
-                                <th data-field="name">Item Name</th>
-                                <th data-field="desc">Description</th>
-                                <th data-field="price">Item Price</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="modal-trigger" href="#itemDetailsModal">
-                                <td>1234</td>
-                                <td>Sample Data</td>
-                                <td>Eclair</td>
-                                <td>$0.87</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
 
-                    <!-- Modal Structure -->
-                    <div id="itemDetailsModal" class="modal">
-                        <div class="modal-content">
-                            <h2 class="center-align">Item Details</h2>
-                            <br>
-                            <form class="col s12">
-                                <div class="row">
-                                    <div class="input-field col s6">
-                                        <input id="name" type="text" class="validate">
-                                        <label for="name">Item Name</label>
+                        <table class="bordered hoverable centered" id="itemListTable">
+                            <thead>
+                                <tr>
+                                    <th data-field="id">Item Id</th>
+                                    <th data-field="name">Item Name</th>
+                                    <th data-field="desc">Description</th>
+                                    <th data-field="price">Item Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table>
+
+                        <!-- Modal Structure -->
+                        <div id="itemDetailsModal" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="itemDetails-header">Item Details</h4>
                                     </div>
+                                    <div class="modal-body">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                            <form class="col-lg-12 col-md-12 col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-sm-2">
+                                                        <span class="">Item Id</span>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <input id="itemDetails-id" type="text" class="validate">
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <span class="">Category Id</span>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <input id="itemDetails-categoryid" type="text" class="validate">
+                                                    </div>
 
-                                    <div class="input-field col s6">
-                                        <input id="desc" type="text" class="validate">
-                                        <label for="desc">Description</label>
+
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-2">
+                                                        <span class="">Name</span>
+                                                    </div>
+                                                    <div class="col-sm-10">
+                                                        <input id="itemDetails-name" type="text" class="validate">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-2">
+                                                        <span class="">Description</span>
+                                                    </div>
+                                                    <div class="col-sm-10">
+                                                        <input id="itemDetails-desc" type="text" class="validate">
+
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-2">
+                                                        <span class="">Features</span>
+                                                    </div>
+                                                    <div class="col-sm-10">
+                                                        <input id="itemDetails-features" type="text" class="validate">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-2">
+                                                        <span class="">Price</span>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <input id="itemDetails-price" type="number" class="validate">
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <span class="">Quantity</span>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <input id="itemDetails-quantity" type="number" class="validate">
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <span class="">Discount</span>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <input id="itemDetails-discount" type="number" class="validate">
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a class="waves-effect waves-light btn" id="updateItem"><i class="mdi-file-cloud left"></i>Update</a>
+                                        <a class="waves-effect waves-light btn" id="deleteItem"><i class="mdi-action-delete"></i>Delete</a>
+                                        <a class="waves-effect waves-light btn" data-dismiss="modal">Close</a>
                                     </div>
                                 </div>
-
-                                <div class="row">
-                                    <div class="input-field col s6">
-                                        <input id="price" type="number" class="validate">
-                                        <label for="price">Price</label>
-                                    </div>
-
-                                    <div class="input-field col s6">
-                                        <input id="quantity" type="number" class="validate">
-                                        <label for="quantity">Quantity</label>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="input-field col s6">
-                                        <input id="features" type="text" class="validate">
-                                        <label for="features">Features</label>
-                                    </div>
-                                    <div class="input-field col s6">
-                                        <input id="discount" type="number" class="validate">
-                                        <label for="discount">Discount</label>
-                                    </div>
-                                </div>
-                            </form>
-                            <p class="center-align"><a class="waves-effect waves-light btn"><i class="mdi-file-cloud left"></i>Update</a>
-                                <a class="waves-effect waves-light btn"><i class="mdi-action-delete "></i></a></p>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
                         </div>
-                        <div class="modal-footer">
-                            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">X</a>
-                        </div>
+                        <!-- /.modal -->
                     </div>
                 </div>
-
             </div>
-        </div>
-        </div>
-        </div>
         </div>
     </section>
 
@@ -322,52 +358,61 @@
                 <div class="col-sm-12">
                     <div class="section">
                         <div class="row" id="addItemDiv">
-                            <div class="col s12 center-align ">
-                                <a class="btn-floating btn-large waves-effect waves-light red" onclick="addItemInDb()"><i class="mdi-content-add"></i></a>
+                            <div class="col-sm-12 col-lg-6 col-md-12 center-align ">
                                 <h3>Add Item</h3>
                             </div>
-                            <form class="col s12">
+                            <form id="addItemForm" class="col-sm-12">
                                 <div class="row">
-                                    <div class="input-field col s6">
-                                        <input id="name" type="text" class="validate">
-                                        <label for="name">Item Name</label>
-                                    </div>
-
-                                    <div class="input-field col s6">
-                                        <input id="desc" type="text" class="validate">
-                                        <label for="desc">Description</label>
+                                    <div class="input-field col-sm-12 col-lg-6 col-md-12">
+                                        <input id="addItem-name" type="text" class="validate" in >
+                                        <label for="addItem-name">Item Name</label>
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="input-field col s6">
-                                        <input id="price" type="number" class="validate">
-                                        <label for="price">Price</label>
-                                    </div>
-
-                                    <div class="input-field col s6">
-                                        <input id="quantity" type="number" class="validate">
-                                        <label for="quantity">Quantity</label>
+                                    <div class="input-field col-sm-12 col-lg-6 col-md-12">
+                                        <input id="addItem-desc" type="text" class="validate">
+                                        <label for="addItem-desc">Description</label>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="input-field col s12">
-                                        <input id="features" type="text" class="validate">
-                                        <label for="features">Enter the features</label>
+                                    <div class="input-field col-sm-12 col-lg-6 col-md-12">
+                                        <input id="addItem-categoryid" type="text" class="validate">
+                                        <label for="addItem-categoryid">Category</label>
                                     </div>
                                 </div>
 
+
                                 <div class="row">
-                                    <div class="input-field col s12">
-                                        <input id="retailer_id" type="number" class="validate">
-                                        <label for="retailer_id">Enter your Retailer Id</label>
+                                    <div class="input-field col-sm-12 col-lg-6 col-md-12">
+                                        <input id="addItem-price" type="number" class="validate">
+                                        <label for="addItem-price">Price</label>
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="input-field col s12">
-                                        <input id="discount" type="number" class="validate">
-                                        <label for="discount">Enter your Discount</label>
+                                    <div class="input-field col-sm-12 col-lg-6 col-md-12">
+                                        <input id="addItem-quantity" type="number" class="validate">
+                                        <label for="addItem-quantity">Quantity</label>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="input-field col-sm-12 col-lg-6 col-md-12">
+                                        <input id="addItem-discount" type="number" class="validate">
+                                        <label for="addItem-discount">Enter your Discount</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col-sm-12 col-lg-6 col-md-12">
+                                        <input id="addItem-features" type="text" class="validate">
+                                        <label for="addItem-features">Enter the features</label>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="input-field col-sm-12 col-lg-6 col-md-12 center-align">
+                                        <a class="btn-floating btn-large waves-effect waves-light red" id="addItemLink"><i class="mdi-content-add"></i></a>
                                     </div>
                                 </div>
                             </form>
@@ -439,7 +484,7 @@
                                                 <label for="card">Reciepent's Card</label>
                                             </div>
 
-                                            <div class="input-field col s6">
+                                            <div class="input-field col-sm-12 col-lg-6 col-md-12">
                                                 <input id="Address" type="number" class="validate">
                                                 <label for="Address">Address</label>
                                             </div>
@@ -542,6 +587,7 @@
 
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="/javascripts/materialize.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
 
     <!-- HighCharts Library -->
     <script src="http://code.highcharts.com/highcharts.js"></script>
@@ -574,6 +620,7 @@
             yr = d.getFullYear();
             month = d.getMonth() + 1;
             rid = 4;
+            startDate = month + "/01/" + yr;
 
 
             $.get("getAvgSalesByMonth", {
@@ -583,7 +630,7 @@
                 // console.log(res);
                 res.forEach(function(obj) {
                     if (obj._id == month) {
-                        avg = parseFloat(obj.avg).toFixed(2);
+                        avg = parseFloat(obj.avg).toFixed(0);
                         $('#avgSaleCard-month').html("$" + avg);
                     }
                 });
@@ -595,7 +642,7 @@
                 res.forEach(function(obj) {
 
                     if (obj._id == yr) {
-                        avg = parseFloat(obj.avg).toFixed(2);
+                        avg = parseFloat(obj.avg).toFixed(0);
                         $('#avgSaleCard-year').html("$" + avg);
                     }
                 });
@@ -625,7 +672,7 @@
             });
 
             $.get("getSalesTrends", {
-                startDate: "01/01/2015",
+                startDate: startDate,
                 endDate: new Date(),
                 retailerid: rid
             }, function(res) {
@@ -643,8 +690,8 @@
             });
 
             $.get("getTopProducts", {
-                year: 2015,
-                month: 4,
+                year: yr,
+                month: month,
                 retailerid: rid
             }, function(res) {
                 //console.log(res);
@@ -696,18 +743,18 @@
 
 
             $.get("getSaleByLocation", {
-                year: 2015,
+                year: yr,
                 retailerid: rid
             }, function(res) {
-                console.log("Original Map:")
-               // console.log(res);
+                //console.log("Original Map:")
+                    // console.log(res);
 
                 var state = [];
                 var str = "";
                 res.forEach(function(obj) {
-                    str+=obj._id+ ":"+ obj.qty+", ";
+                    str += obj._id + ":" + obj.qty + ", ";
                 });
-                console.log(str);
+              //  console.log(str);
 
                 $('#usMapSalesChart').highcharts('Map', {
 
@@ -741,7 +788,7 @@
                             [0.8, '#0EA4C9'],
                             [1, '#0EA4C9']
                         ]
-                        
+
                     },
 
                     series: [{
@@ -771,7 +818,7 @@
 
         function loadUSMapChartCard() {
             //console.log("loadDateCard");
-            
+
 
         }
 
@@ -799,29 +846,6 @@
             $('#listOrder').hide();
         }
 
-        function getItemList() {
-            console.log("getting Item List");
-            $("#itemListTable tbody").empty();
-            $.get("item", function(res) {
-                console.log("success");
-                console.log(res);
-                res.forEach(function(thisdata) {
-                    var tr = "<tr id=\"" + thisdata.name + "\" onclick=\"openItemDetails(\'" + thisdata.name + "\') \">";
-                    tr += "<td>" + thisdata._id + "</td>";
-                    tr += "<td>" + thisdata.name + "</td>";
-                    tr += "<td>" + thisdata.description + "</td>";
-                    tr += "<td>" + "$" + thisdata.price + "</td>";
-                    tr += "</tr>";
-                    $("#itemListTable tbody").append(tr);
-                });
-            });
-            $('#retailerDashboard').hide();
-            $('#retailerDashboard2').hide();
-            $('#listItem').show();
-            $('#addItem').hide();
-            $('#listOrder').hide();
-        }
-
         function getOrderList() {
             console.log("getting order List");
 
@@ -832,16 +856,24 @@
             $('#listOrder').show();
         }
 
-        function logOut() {
+        $('#logOut').click(function() {
             console.log("logout");
-            $.post("/logout").done(function(res) {
-                if (!res.type) {
-                    console.log("Please try again.");
-                } else {
-                    window.location.href = "/";
+             $.ajax({
+                url: 'logout',
+                type: 'POST',
+                async: true,
+                cache: false,
+                crossDomain: true,
+                dataType: "json",
+                success: function(res) {
+                    if (!res.type) {
+                        console.log("Please try again.");
+                    } else {
+                        window.location.href = "/";
+                    }
                 }
             });
-        }
+        });
 
         function startTime() {
             var today = new Date();
@@ -876,36 +908,152 @@
             return i;
         }
 
-        function openItemDetails(vmName) {
-            console.log("openItemDetails(" + vmName + ")");
-            var instances = JSON.parse(sessionStorage.getItem("instances"));
-            console.log('/vm/' + vmName + '/statistics');
+        function getItemList() {
+            console.log("getting Item List");
+            $("#itemListTable tbody").empty();
+            $.get("item", function(res) {
+                console.log("success");
+                console.log(res);
+                res.forEach(function(thisdata) {
+                    var tr = "<tr id=\"" + thisdata.name + "\" onclick=\"openItemDetails(\'" + thisdata._id + "\') \">";
+                    tr += "<td>" + thisdata._id + "</td>";
+                    if (thisdata.name.length > 50) {
+                        name = thisdata.name.substring(0, 48) + "...";
+                    } else {
+                        name = thisdata.name;
+                    }
+                    if (thisdata.description.length > 100) {
+                        description = thisdata.description.substring(0, 98) + "...";
+                    } else {
+                        description = thisdata.description;
+                    }
+                    tr += "<td>" + name + "</td>";
+                    tr += "<td>" + description + "</td>";
+                    tr += "<td>" + "$" + thisdata.price + "</td>";
+                    tr += "</tr>";
+                    $("#itemListTable tbody").append(tr);
+                });
+            });
+            $('#retailerDashboard').hide();
+            $('#retailerDashboard2').hide();
+            $('#listItem').show();
+            $('#addItem').hide();
+            $('#listOrder').hide();
+        }
+
+        function openItemDetails(itemId) {
+            console.log("openItemDetails(" + itemId + ")");
             $.ajax({
-                url: '/vm/' + vmName + '/statistics',
+                url: 'item/' + itemId,
                 type: 'GET',
                 async: true,
                 crossDomain: true, // enable this
                 dataType: "json",
                 cache: false,
                 success: function(res) {
-                    console.log(res.data);
-                    visitorData(res.data);
+                    console.log(res);
+                    $('#itemDetails-id').val(res._id);
+                    $('#itemDetails-categoryid').val(res.category_id);
+                    
+                    $('#itemDetails-name').val(res.name);
+                    $('#itemDetails-desc').val(res.description);
+                    $('#itemDetails-price').val(res.price);
+                    $('#itemDetails-discount').val(res.discount);
+                    $('#itemDetails-quantity').val(res.quantity);
+                    $('#itemDetails-features').val(JSON.parse(res.features));
                 }
             });
-            instances.forEach(function(thisinstance) {
-                if (thisinstance.name == vmName) {
-                    console.log(thisinstance);
-                    $('#vmDetailsHeading').text(thisinstance.name);
-                    $('#vmDetailsType').text(thisinstance.type);
-                    $('#vmDetailsRam').text(thisinstance.ram);
-                    $('#vmDetailsCPU').text(thisinstance.cpu);
-                    $('#vmDetailsStatus').text(thisinstance.status);
-                } else {
-                    return;
-                }
-            });
-            $('#vmDetails').openModal();
+
+            $('#itemDetailsModal').modal('show');
         }
+
+        $('#addItemLink').click(function(){
+            
+            var category_id= $('#addItem-categoryid').val();
+            var name = $('#addItem-name').val();
+            var description= $('#addItem-desc').val();
+            var price= $('#addItem--price').val();
+            var discount= $('#addItem-discount').val();
+            var quantity= $('#addItem-quantity').val();
+            var features = JSON.stringify($('#addItem-features').val());
+            $.ajax({
+                url: 'item/create',
+                type: 'POST',
+                async: true,
+                cache: false,
+                crossDomain: true,
+                dataType: "json",
+                data: {
+                    name: name,
+                    description: description,
+                    price: price,
+                    quantity: quantity,
+                    category_id: category_id,
+                    discount: discount,
+                    features: features
+                },
+                success: function(){
+
+                    $("#addItemForm input[type=text], textarea").val("");
+                }
+            });
+
+        });
+
+
+        $('#updateItem').click(function(){
+            var id = $('#itemDetails-id').val();
+            var category_id= $('#itemDetails-categoryid').val();
+            var name = $('#itemDetails-name').val();
+            var description= $('#itemDetails-desc').val();
+            var price= $('#itemDetails-price').val();
+            var discount= $('#itemDetails-discount').val();
+            var quantity= $('#itemDetails-quantity').val();
+            var features = JSON.stringify($('#itemDetails-features').val());
+
+            if(id!=null){
+                $.ajax({
+                    url: 'item/update/' + id,
+                    type: 'PUT',
+                    async: true,
+                    cache: false,
+                    crossDomain: true,
+                    dataType: "json",
+                    data: {
+                        name: name,
+                        description: description,
+                        price: price,
+                        quantity: quantity,
+                        category_id: category_id,
+                        discount: discount,
+                        features: features
+                    },
+                    success: function(){
+                        alert('Item Updated');
+                        getItemList();
+                        $('#itemDetailsModal').modal('hide');
+                    }
+                });
+            }
+
+        });
+
+        $('#deleteItem').click(function(){
+            var id = $('#itemDetails-id').val();
+            if(id!=null){
+                $.ajax({
+                    url: 'item/delete/' + id,
+                    type: 'DELETE',
+                    async: 'true',
+                    crossDomain: true,
+                    success: function(){
+                        alert('Item Deleted');
+                        getItemList();
+                        $('#itemDetailsModal').modal('hide');
+                    }
+                });
+            }
+        });
 
         function openModal(templateName) {
             console.log(templateName);

@@ -32,11 +32,15 @@ module.exports = function(router) {
                     itemModel.price = req.body.price;
                     itemModel.quantity = req.body.quantity;
                     itemModel.category_id = req.body.category_id;
-                    itemModel.retailer_id = req.body.retailer_id;
+                    itemModel.retailer_id = req.session.user.user_id;
+                    //console.log("retailer_id:" + retailer_id);
+                    itemModel.discount = req.body.discount;
                     try {
                         itemModel.features = JSON.parse(req.body.features);
                         itemModel.save(function(err, item) {
                             if (!err) {
+                                console.log("New Item Added");
+                                //console.log(item);
                                 res.json({
                                     type: true,
                                     data: item
@@ -88,16 +92,18 @@ module.exports = function(router) {
     router.put('/item/update/:id', function(req, res) {
         var ItemSchema = require('../models/Item');
         return ItemSchema.findById(req.params.id, function(err, item) {
-            itemModel.name = req.body.name;
-            itemModel.description = req.body.description;
-            itemModel.price = req.body.price;
-            itemModel.quantity = req.body.quantity;
-            itemModel.category_id = req.body.category_id;
-            itemModel.retailer_id = req.body.retailer_id;
+            item.name = req.body.name;
+            item.description = req.body.description;
+            item.price = req.body.price;
+            item.quantity = req.body.quantity;
+            item.category_id = req.body.category_id;
+            item.discount = req.body.discount;
+            //item.retailer_id = req.body.retailer_id;
             try {
-                itemModel.features = JSON.parse(req.body.features);
-                itemModel.save(function(err, item) {
+                item.features = JSON.parse(req.body.features);
+                item.save(function(err, item) {
                     if (!err) {
+                        console.log("Item Updated");
                         res.json({
                             type: true,
                             data: item
@@ -125,7 +131,7 @@ module.exports = function(router) {
         return ItemSchema.findById(req.params.id, function(err, item) {
             return item.remove(function(err) {
                 if (!err) {
-                    console.log("removed");
+                    console.log("Item Deleted");
                     return res.send('');
                 } else {
                     console.log(err);

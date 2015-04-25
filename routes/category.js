@@ -85,8 +85,8 @@ module.exports = function(router) {
                     category.parent_id = 0;
                 }
                 try {
-                    categoryModel.features = (JSON.parse(req.body.features));
-                    categoryModel.save(function(err, category) {
+                    category.features = (JSON.parse(req.body.features));
+                    category.save(function(err, category) {
                         if (!err) {
                             res.json({
                                 type: true,

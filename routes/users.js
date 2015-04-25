@@ -63,6 +63,8 @@ module.exports = function(router) {
                 });
             } else {
                 if (user) {
+                    req.session.user = user;
+                    console.log(req.session.user.user_id);
 
                     res.json({
                         type: true,

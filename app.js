@@ -3,6 +3,8 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var mongoose=require('mongoose');
 var autoIncrement = require('mongoose-auto-increment');
+var cookieParser = require('cookie-parser');
+var session = require('cookie-session');
 
 var connection=mongoose.connect('mongodb://cmpe280:cmpe280@ds061651.mongolab.com:61651/cmpe280');
 autoIncrement.initialize(connection);
@@ -32,9 +34,16 @@ var port = 3000;
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+app.use(cookieParser());
+app.use(session({
+    keys: ['key1','key2']
+}));
+
 app.use('/api',router);
 var publicDir = require('path').join(__dirname, '/public');
 app.use(express.static(publicDir)); 
+
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB Connection error: Unable to connect. Resolve connection issue before starting application'));

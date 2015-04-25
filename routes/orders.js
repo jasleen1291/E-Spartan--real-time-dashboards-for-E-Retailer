@@ -382,6 +382,7 @@ module.exports = function(router) {
         console.log("getSalesTrends API called");
         var date = new Date();
         date.setDate(date.getDate() - 30);
+        //console.log(date);
         var updatedAtQuery = {}
         if (req.query.startDate && req.query.endDate) {
             updatedAtQuery["$gte"] = new Date(Date.parse(req.query.startDate));
@@ -408,6 +409,10 @@ module.exports = function(router) {
                             $multiply: ["$price", "$quantity"]
                         },
                         "_id": 0
+                    }
+                },{
+                    $sort: {
+                        "date" : 1
                     }
                 }
 
