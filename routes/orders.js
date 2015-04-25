@@ -496,8 +496,8 @@ module.exports = function(router) {
         };
         if (req.query.year) {
             match["year"] = Number(req.query.year);
-            if (req.query.month)
-                match["month"] = Number(req.query.month);
+            // if (req.query.month)
+            //     match["month"] = Number(req.query.month);
 
         }
         match["retailer_id"] = Number(req.query.retailerid);
@@ -507,9 +507,9 @@ module.exports = function(router) {
                 year: {
                     $year: "$updated_at"
                 },
-                month: {
-                    $month: "$updated_at"
-                },
+                // month: {
+                //     $month: "$updated_at"
+                // },
                 item_id: "$item_id",
                 retailer_id: "$retailerid",
                 state: "$shippingAddress.State",

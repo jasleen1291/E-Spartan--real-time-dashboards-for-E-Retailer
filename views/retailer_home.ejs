@@ -36,13 +36,20 @@
         .card-header {
             font-size: 1.2em;
         }
-        #dateCard-time{
+        
+        .largetext {
+            font-size: 2.5em;
+        }
+        
+        .mediumtext {
             font-size: 1.5em;
         }
-        #dateCard-day{
-            font-size: 0.8em;
+        
+        .normaltext {
+            font-size: 1em;
         }
-        #dateCard-date{
+        
+        .smalltext {
             font-size: 0.8em;
         }
     </style>
@@ -126,12 +133,13 @@
                                     <div class="card-content waves-effect waves-block waves-dark">
                                         <!-- <div class="card-header white-text">Date</div> -->
                                         <div class="center-align">
-                                            <span class="white-text " id="dateCard-time"></span>
-                                            <span id="dateCard-day" class="white-text left-align"></span>
+                                            <span class="white-text mediumtext" id="dateCard-time"></span>
                                             <br/>
-                                            <span class="white-text left-align" id="dateCard-date"></span>
+                                            <span id="dateCard-day" class="white-text normaltext"></span>
                                             <br/>
-                                            
+                                            <span class="white-text normaltext" id="dateCard-date"></span>
+                                            <br/>
+
                                         </div>
                                     </div>
                                 </div>
@@ -146,14 +154,14 @@
                                 </div>
 
                             </div>
-                            <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12">
+                            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                                 <div class="card  grey darken-3" id="avgSaleCard">
                                     <div class="card-content waves-effect waves-block waves-dark">
                                         <div class="card-header white-text">Average Sale</div>
-                                        <div class="center">
-                                            <span class="white-text" id="avgSaleCard-month"></span>
+                                        <div class="right-align white-text">
+                                            <span class="largetext" id="avgSaleCard-month"></span><span class="normaltext">&nbsp;This Month</span>
                                             <br/>
-                                            <span class="white-text" id="avgSaleCard-year"></span>
+                                            <span class="largetext" id="avgSaleCard-year"></span><span class="normaltext">&nbsp;This Year</span>
                                         </div>
                                     </div>
                                     <div class="card-reveal">
@@ -164,10 +172,10 @@
                                 <div class="card  grey darken-3" id="totalSaleCard">
                                     <div class="card-content waves-effect waves-block waves-dark">
                                         <div class="card-header white-text">Total Sale</div>
-                                        <div class="center">
-                                            <span class="white-text" id="totalSaleCard-month"></span>
+                                        <div class="right-align white-text">
+                                            <span class="largetext" id="totalSaleCard-month"></span><span class="normaltext">&nbsp;This Month</span>
                                             <br/>
-                                            <span class="white-text" id="totalSaleCard-year"></span>
+                                            <span class="largetext" id="totalSaleCard-year"></span><span class="normaltext">&nbsp;This Year</span>
                                         </div>
                                     </div>
                                     <div class="card-reveal">
@@ -176,10 +184,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-md-8 col-sm-6 col-xs-12">
+                            <div class="col-lg-3 col-md-8 col-sm-6 col-xs-12">
                                 <div class="card">
                                     <!-- <div class="card-header black-text">Sale Trends</div> -->
-                                    <div id="saleTrendsGraph" class="center card-image waves-effect waves-block waves-light">
+                                    <div id="saleTrendsGraph" class="center card-image">
                                         <!--<img class="activator" src="/images/girl1.jpg">-->
                                     </div>
                                     <div class="card-reveal">
@@ -191,45 +199,14 @@
                             <div class="col-lg-4 col-md-8 col-sm-6 col-xs-12">
                                 <div class="card">
                                     <!-- <div class="card-header black-text">Sale Trends</div> -->
-                                    <div id="topProductsChartSample" class="center card-image waves-effect waves-block waves-light">
+                                    <div id="topProductsChart" class="center card-image waves-effect waves-block waves-light">
                                         <!--<img class="activator" src="/images/girl1.jpg">-->
                                     </div>
-                                
+
                                 </div>
                             </div>
                         </div>
                         <div class="row" id="row2">
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-
-
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <div class="card">
-                                    <!-- <div class="card-header black-text">Top Products</div> -->
-                                    <div id="topProductsChart" class="center card-image waves-effect waves-block waves-light">
-
-                                    </div>
-                                    <div class="card-reveal">
-                                        <span class="card-title grey-text text-darken-4">Item Name <i class="mdi-navigation-close right"></i></span>
-                                        <p>Here is some more information about this product that is only revealed once clicked on.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                <div class="card">
-                                    <!-- <div class="card-header black-text">Sales Location</div> -->
-                                    <div id="usMapSalesChart" class="center card-image waves-effect waves-block waves-light">
-
-                                    </div>
-                                    <div class="card-reveal">
-                                        <span class="card-title grey-text text-darken-4">Item Name <i class="mdi-navigation-close right"></i></span>
-                                        <p>Here is some more information about this product that is only revealed once clicked on.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col-lg-3 col-md-6 col-sm-12">
                                 <div class="card">
                                     <!-- <div class="card-header black-text">Store Comparison</div> -->
@@ -241,41 +218,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-6 col-sm-12">
+                            <div class="col-lg-6 col-md-12 col-sm-12">
                                 <div class="card">
-                                    <div class="card-image waves-effect waves-block waves-light">
-                                        <img class="activator" src="/images/girl1.jpg">
-                                    </div>
-                                    <div class="card-reveal">
-                                        <span class="card-title grey-text text-darken-4">Item Name <i class="mdi-navigation-close right"></i></span>
-                                        <p>Here is some more information about this product that is only revealed once clicked on.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <div class="card">
-                                    <div class="card-image waves-effect waves-block waves-light">
-                                        <img class="activator" src="/images/girl1.jpg">
-                                    </div>
-                                    <div class="card-reveal">
-                                        <span class="card-title grey-text text-darken-4">Item Name <i class="mdi-navigation-close right"></i></span>
-                                        <p>Here is some more information about this product that is only revealed once clicked on.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <div class="card">
-                                    <div id="" class="card-image waves-effect waves-block waves-light">
+                                    <!-- <div class="card-header black-text">Sales Location</div> -->
+                                    <div id="usMapSalesChart" class="center card-image">
 
-                                    </div>
-                                    <div class="card-reveal">
-                                        <span class="card-title grey-text text-darken-4">Item Name <i class="mdi-navigation-close right"></i></span>
-                                        <p>Here is some more information about this product that is only revealed once clicked on.</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -285,7 +236,6 @@
     <section id="listItem">
         <div class="container">
             <div class="row">
-
                 <div class="row" id="listItemDiv">
                     <div class="col s12 center-align ">
                         <h3>View All Items</h3>
@@ -299,25 +249,12 @@
                                 <th data-field="price">Item Price</th>
                             </tr>
                         </thead>
-
                         <tbody>
                             <tr class="modal-trigger" href="#itemDetailsModal">
                                 <td>1234</td>
-                                <td>Alvin</td>
+                                <td>Sample Data</td>
                                 <td>Eclair</td>
                                 <td>$0.87</td>
-                            </tr>
-                            <tr class="modal-trigger" href="#itemDetailsModal">
-                                <td>1234</td>
-                                <td>Alan</td>
-                                <td>Jellybean</td>
-                                <td>$3.76</td>
-                            </tr>
-                            <tr class="modal-trigger" href="#itemDetailsModal">
-                                <td>1234</td>
-                                <td>Jonathan</td>
-                                <td>Lollipop</td>
-                                <td>$7.00</td>
                             </tr>
                         </tbody>
                     </table>
@@ -445,9 +382,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
-
                     <div class="section">
-
                         <div class="row" id="listOrderDiv">
                             <div class="col s12 center-align ">
                                 <h3>View All Orders</h3>
@@ -464,31 +399,12 @@
                                         <th data-field="created"> Status</th>
                                     </tr>
                                 </thead>
-
                                 <tbody>
                                     <tr class="modal-trigger" href="#itemDetailsModal">
                                         <td>1234</td>
                                         <td>Alvin</td>
                                         <td>334455667</td>
-                                        <td>33344589990909999999999</td>
-                                        <td>1055 Escalon Ave, Sunnyvale, CA</td>
-                                        <td>12/2/1014</td>
-                                        <td>Pending</td>
-                                    </tr>
-                                    <tr class="modal-trigger" href="#itemDetailsModal">
-                                        <td>1234</td>
-                                        <td>Alvin</td>
-                                        <td>334455667</td>
-                                        <td>33344589990909999999999</td>
-                                        <td>1055 Escalon Ave, Sunnyvale, CA</td>
-                                        <td>12/2/1014</td>
-                                        <td>Pending</td>
-                                    </tr>
-                                    <tr class="modal-trigger" href="#itemDetailsModal">
-                                        <td>1234</td>
-                                        <td>Alvin</td>
-                                        <td>334455667</td>
-                                        <td>33344589990909999999999</td>
+                                        <td>Sample Data</td>
                                         <td>1055 Escalon Ave, Sunnyvale, CA</td>
                                         <td>12/2/1014</td>
                                         <td>Pending</td>
@@ -641,14 +557,16 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
+            startTime();
             $(".button-collapse").sideNav();
             $('.modal-trigger').leanModal();
             showDashboard();
         });
 
         function loadCards() {
-            loadDateCard();
             loadSaleCard();
+            loadUSMapChartCard();
+
         }
 
         function loadSaleCard() {
@@ -666,7 +584,7 @@
                 res.forEach(function(obj) {
                     if (obj._id == month) {
                         avg = parseFloat(obj.avg).toFixed(2);
-                        $('#avgSaleCard-month').html("$" + avg + "/Month");
+                        $('#avgSaleCard-month').html("$" + avg);
                     }
                 });
             });
@@ -678,7 +596,7 @@
 
                     if (obj._id == yr) {
                         avg = parseFloat(obj.avg).toFixed(2);
-                        $('#avgSaleCard-year').html("$" + avg + "/Year");
+                        $('#avgSaleCard-year').html("$" + avg);
                     }
                 });
             });
@@ -690,7 +608,7 @@
                 //console.log(res);
                 res.forEach(function(obj) {
                     if (obj._id == month) {
-                        $('#totalSaleCard-month').html("$" + obj.sum + "/Month");
+                        $('#totalSaleCard-month').html("$" + obj.sum);
                     }
                 });
 
@@ -701,7 +619,7 @@
                 //console.log(res);
                 res.forEach(function(obj) {
                     if (obj._id == yr) {
-                        $('#totalSaleCard-year').html("$" + obj.sum + "/Year");
+                        $('#totalSaleCard-year').html("$" + obj.sum);
                     }
                 });
             });
@@ -724,20 +642,41 @@
                 generateSaleTrendsGraph(date, sale);
             });
 
-            $.get("getTopProducts", {year:2015, month:4, retailerid:rid} ,function(res) {
-                console.log(res);
+            $.get("getTopProducts", {
+                year: 2015,
+                month: 4,
+                retailerid: rid
+            }, function(res) {
+                //console.log(res);
                 var productIds = [];
                 var quantity = [];
+                var productName = [];
                 res.forEach(function(obj) {
                     productIds[productIds.length] = obj._id;
+                    productName[productName.length] = obj.name;
                     quantity[quantity.length] = obj.qty;
                 });
-                
+
                 $('#topProductsChart').highcharts({
-                    chart:{type:'bar'},
-                    title:{text:'Top Products'},
-                    xAxis:{categories: productIds, title:{text:null}},
-                    yAxis:{min:0, title:{text:null, align: 'high'}},
+                    chart: {
+                        type: 'bar'
+                    },
+                    title: {
+                        text: 'Top Products'
+                    },
+                    xAxis: {
+                        categories: productName,
+                        title: {
+                            text: null
+                        }
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: null,
+                            align: 'high'
+                        }
+                    },
                     plotOptions: {
                         bar: {
                             dataLabels: {
@@ -751,33 +690,89 @@
                         name: 'This Month',
                         data: quantity
                     }]
-                    
+
                 });
             });
-            $.get("getSaleByLocation", function(res) {
-                $('#totalSaleCardyear').html("$" + res + "/Year");
+
+
+            $.get("getSaleByLocation", {
+                year: 2015,
+                retailerid: rid
+            }, function(res) {
+                console.log("Original Map:")
+               // console.log(res);
+
+                var state = [];
+                var str = "";
+                res.forEach(function(obj) {
+                    str+=obj._id+ ":"+ obj.qty+", ";
+                });
+                console.log(str);
+
+                $('#usMapSalesChart').highcharts('Map', {
+
+                    chart: {
+                        borderWidth: 1
+                    },
+
+                    title: {
+                        text: 'Sale Locations'
+                    },
+
+                    legend: {
+                        layout: 'horizontal',
+                        borderWidth: 0,
+                        backgroundColor: '#0EA4C9',
+                        floating: true,
+                        verticalAlign: 'top',
+                        y: 25
+                    },
+
+                    mapNavigation: {
+                        enabled: true
+                    },
+
+                    colorAxis: {
+                        min: 1000,
+                        max: 10000,
+                        type: 'logarithmic',
+                        stops: [
+                            [0, '#FFFFFF'],
+                            [0.8, '#0EA4C9'],
+                            [1, '#0EA4C9']
+                        ]
+                        
+                    },
+
+                    series: [{
+                        animation: {
+                            duration: 1000
+                        },
+                        minColor: '#FFFFFF',
+                        maxColor: '#0EA4C9',
+                        data: res,
+                        mapData: Highcharts.maps['countries/us/us-all'],
+                        joinBy: ['postal-code', '_id'],
+                        dataLabels: {
+                            enabled: true,
+                            color: 'white',
+                            format: '{point._id}'
+                        },
+                        name: 'Sale Count',
+                        tooltip: {
+                            pointFormat: '{point._id}: {point.qty}'
+                        }
+                    }]
+                });
             });
 
-            // getTopProducts
-            // ge2tSaleByLocation
+
         }
 
-        function loadDateCard() {
+        function loadUSMapChartCard() {
             //console.log("loadDateCard");
-            var d = new Date();
-            var weekday = new Array(7);
-            weekday[0] = "Sunday";
-            weekday[1] = "Monday";
-            weekday[2] = "Tuesday";
-            weekday[3] = "Wednesday";
-            weekday[4] = "Thursday";
-            weekday[5] = "Friday";
-            weekday[6] = "Saturday";
+            
 
-            var day = weekday[d.getDay()].toUpperCase();
-            $('#dateCard-day').html(day);
-            $('#dateCard-date').html(d.toLocaleDateString());
-            $('#dateCard-time').html(d.toLocaleTimeString());
         }
 
         function showDashboard() {
@@ -848,6 +843,39 @@
             });
         }
 
+        function startTime() {
+            var today = new Date();
+            var h = today.getHours();
+            var m = today.getMinutes();
+            var s = today.getSeconds();
+            m = checkTime(m);
+            s = checkTime(s);
+
+            var weekday = new Array(7);
+            weekday[0] = "Sunday";
+            weekday[1] = "Monday";
+            weekday[2] = "Tuesday";
+            weekday[3] = "Wednesday";
+            weekday[4] = "Thursday";
+            weekday[5] = "Friday";
+            weekday[6] = "Saturday";
+
+            var day = weekday[today.getDay()].toUpperCase();
+            $('#dateCard-day').html(day);
+            $('#dateCard-date').html(today.toLocaleDateString());
+            $('#dateCard-time').html(h + ":" + m + ":" + s);
+            var t = setTimeout(function() {
+                startTime()
+            }, 500);
+        }
+
+        function checkTime(i) {
+            if (i < 10) {
+                i = "0" + i
+            }; // add zero in front of numbers < 10
+            return i;
+        }
+
         function openItemDetails(vmName) {
             console.log("openItemDetails(" + vmName + ")");
             var instances = JSON.parse(sessionStorage.getItem("instances"));
@@ -885,31 +913,31 @@
             $('#deployVM').openModal();
         }
 
-        function generateSaleTrendsGraph(date, sale){
-                $('#saleTrendsGraph').highcharts({
-                    chart: {
+        function generateSaleTrendsGraph(date, sale) {
+            $('#saleTrendsGraph').highcharts({
+                chart: {
+                    height: 300,
+                    zoomType: 'xy'
+                },
 
-                        height: 300
-                    },
-
+                title: {
+                    text: 'Sale Trends'
+                },
+                xAxis: {
+                    categories: date
+                },
+                yAxis: {
                     title: {
-                        text: 'Sale Trends'
+                        text: 'Sales'
                     },
-                    xAxis: {
-                        categories: date
-                    },
-                    yAxis: {
-                        title: {
-                            text: 'Sales'
-                        },
-                    },
-                    series: [{
-                        name: 'Date',
-                        data: sale
-                    }]
-                });
-        }
+                },
+                series: [{
+                    name: 'Date',
+                    data: sale,
 
+                }]
+            });
+        }
     </script>
 
 </body>

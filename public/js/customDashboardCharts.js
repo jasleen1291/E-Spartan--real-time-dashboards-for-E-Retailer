@@ -337,13 +337,18 @@ $(function () {
 
     $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=us-population-density.json&callback=?', function (data) {
 
+        console.log("Sample Map:");
+        //console.log(data);
         // Make codes uppercase to match the map data
+        var str = ""
         $.each(data, function () {
             this.code = this.code.toUpperCase();
+            str+=this.code + ":" + this.value +",";
         });
+        console.log(str);
 
         // Instanciate the map
-        $('#usMapSalesChart').highcharts('Map', {
+        $('#usMapSalesChartSample').highcharts('Map', {
 
             chart : {
                 borderWidth : 1
@@ -367,7 +372,7 @@ $(function () {
             },
 
             colorAxis: {
-                min: 1,
+                min: 10,
                 type: 'logarithmic',
                 minColor: '#FFFFFF',
                 maxColor: '#0EA4C9',
