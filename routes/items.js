@@ -2,13 +2,13 @@ module.exports = function(router) {
 
     var ItemSchema = require('../models/Item');
 
-    router.get('/ui/itemBrands1', function(req, res, next) {
+    router.get('/ui/featuredItems', function(req, res, next) {
         var ItemSchema = require('../models/Item');
-        ItemSchema.find({"features.Brand" : {$exists : true} },{"features.Brand": 1}, function(err, brands) {
+        ItemSchema.find({discount: { $gt : 0}}, function(err, featuredItems) {
             if (!err) {
                 res.json({
                     type: true,
-                    data: brands
+                    data: featuredItems
                 });
             } else {
                 console.log(err);

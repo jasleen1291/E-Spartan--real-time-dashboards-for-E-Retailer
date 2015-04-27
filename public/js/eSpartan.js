@@ -6,6 +6,7 @@ $(document).ready(function() {
 
 retrieveCategories();
 retrieveBrands();
+retrieveFeaturedItems();
 
 });
 
@@ -100,7 +101,7 @@ function retrieveCategories() {
 } //End of retrieveCategories()
 
 function retrieveBrands() {
-	DEBUG = true;
+	DEBUG = false;
 	var itemBrands;
 
 	$.ajax({
@@ -125,4 +126,58 @@ function retrieveBrands() {
 	}
 
 } //End of retrieveBrands()
+
+function retrieveFeaturedItems() {
+	DEBUG = false;
+	var featuredItems;
+
+	$.ajax({
+			async: false,
+			type: "GET",
+			url: serverUrl+"/ui/featuredItems",
+			contentType: 'application/json',
+			success: function(data) {
+			  featuredItems = eval(data);
+			  if(DEBUG) { alert("[Request_Server] Request Successful. Data Received: \n"+JSON.stringify(data)); }
+			 },
+			 error: function(response) {
+				  alert('There was a problem connecting to the server. Please try again.\nError details: '+response);
+			  }
+	}); //end of ajax	
+
+	if(featuredItems.type) {
+		featuredItems = featuredItems.data;
+		for(var i=0;i<featuredItems.length;i++) {
+			$(".features_items").append(''+
+				'<div class="col-sm-4">'+
+				'	<div class="product-image-wrapper">'+
+				'		<div class="single-products">'+
+				'			<div class="productinfo text-center">'+
+				'				<img src="images/home/product1.jpg" alt="" />'+
+				'				<h2>$'+featuredItems[i].price+'</h2>'+
+				'				<p>'+featuredItems[i].name+'</p>'+
+				'				<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>'+
+				'			</div>'+
+				'			<div class="product-overlay">'+
+				'				<div class="overlay-content">'+
+				'					<p>'+featuredItems[i].description+'<p>'+
+				'					<h2>$'+featuredItems[i].price+'</h2>'+
+				'					<p>'+featuredItems[i].name+'</p>'+
+				'					<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>'+
+				'				</div>'+
+				'			</div>'+
+				'		</div>'+
+				'	<!-- <div class="choose">'+
+				'			<ul class="nav nav-pills nav-justified">'+
+				'				<li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>'+
+				'				<li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>'+
+				'			</ul>'+
+				'		</div> -->'+
+				'	</div>'+
+				'</div>'+
+				'');
+		}
+	}
+
+} //End of retrieveFeaturedItems()
 
