@@ -6,15 +6,57 @@ module.exports = function(router) {
     /* Get list of all categories */
     router.get('/category', function(req, res, next) {
         var CategorySchema = require('../models/Category');
-        return CategorySchema.find(function(err, categories) {
+        CategorySchema.find(function(err, categories) {
             if (!err) {
-                return res.send(categories);
+                res.json({
+                    type: true,
+                    data: categories
+                });
             } else {
-                return console.log(err);
+                console.log(err);
+                res.json({
+                    type: false,
+                    data: "Error occured: " + err
+                });
             }
         });
     });
 
+    router.get('/categoryParents', function(req, res, next) {
+        var CategorySchema = require('../models/Category');
+        CategorySchema.find({ parent_id: 0, isDeleted: false }, function(err, categories) {
+            if (!err) {
+                res.json({
+                    type: true,
+                    data: categories
+                });
+            } else {
+                console.log(err);
+                res.json({
+                    type: false,
+                    data: "Error occured: " + err
+                });
+            }
+        });
+    });
+
+    router.get('/categoryChildren', function(req, res, next) {
+        var CategorySchema = require('../models/Category');
+        CategorySchema.find({ parent_id: {$gt : 0}, isDeleted: false }, function(err, categories) {
+            if (!err) {
+                res.json({
+                    type: true,
+                    data: categories
+                });
+            } else {
+                console.log(err);
+                res.json({
+                    type: false,
+                    data: "Error occured: " + err
+                });
+            }
+        });
+    });
     router.post('/category/create', function(req, res, next) {
         var CategorySchema = require('../models/Category');
 
