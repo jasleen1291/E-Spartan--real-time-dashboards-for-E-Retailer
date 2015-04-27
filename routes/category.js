@@ -2,11 +2,18 @@
 module.exports = function(router) {
 
     var CategorySchema = require('../models/Category');
-    
+    var accessDeniedMsg = "Access Denied! You need to be logged in to perform this operation.";
+
     /* Get list of all categories */
     router.get('/category', function(req, res, next) {
         var CategorySchema = require('../models/Category');
-        CategorySchema.find(function(err, categories) {
+        if(!req.session.user || req.session.user.role != "retailer") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            CategorySchema.find(function(err, categories) {
             if (!err) {
                 res.json({
                     type: true,
@@ -19,7 +26,8 @@ module.exports = function(router) {
                     data: "Error occured: " + err
                 });
             }
-        });
+            });
+        }
     });
 
     router.get('/ui/categoryParents', function(req, res, next) {
@@ -59,8 +67,13 @@ module.exports = function(router) {
     });
     router.post('/category/create', function(req, res, next) {
         var CategorySchema = require('../models/Category');
-
-        CategorySchema.findOne({
+        if(!req.session.user || req.session.user.role != "retailer") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            CategorySchema.findOne({
             name: req.body.name
         }, function(err, category) {
             if (err) {
@@ -104,13 +117,21 @@ module.exports = function(router) {
 
                 }
             }
-        });
+            });
+        }
+        
     });
 
     // get category by Id.
     router.get('/category/:id', function(req, res) {
         var CategorySchema = require('../models/Category');
-        return CategorySchema.findById(req.params.id, function(err, category) {
+        if(!req.session.user || req.session.user.role != "retailer") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            return CategorySchema.findById(req.params.id, function(err, category) {
             if (!err) {
                 if (category.isDeleted == false) {
                     return res.send(category);
@@ -124,13 +145,21 @@ module.exports = function(router) {
             } else {
                 return console.log(err);
             }
-        });
+            });
+        }
+        
     });
 
     // update category by Id
     router.put('/category/:id', function(req, res) {
         var CategorySchema = require('../models/Category');
-        return CategorySchema.findById(req.params.id, function(err, category) {
+        if(!req.session.user || req.session.user.role != "retailer") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            return CategorySchema.findById(req.params.id, function(err, category) {
             if (category.isDeleted == false) {
                 category.name = req.body.name;
                 category.description = req.body.description;
@@ -168,14 +197,21 @@ module.exports = function(router) {
                 });
                 return console.log("Category does not exist.");
             }
-        });
+            });
+        }
     });
 
 
     // delete category by Id
     router.delete('/category/:id', function(req, res) {
         var CategorySchema = require('../models/Category');
-        return CategorySchema.findById(req.params.id, function(err, category) {
+        if(!req.session.user || req.session.user.role != "retailer") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            return CategorySchema.findById(req.params.id, function(err, category) {
             if (category.isDeleted == false) {
                 category.isDeleted = true;
                 return category.save(function(err) {
@@ -193,7 +229,8 @@ module.exports = function(router) {
                 });
                 return console.log("Category does not exist.");
             }
-        });
+            });
+        }
     });
 
 }

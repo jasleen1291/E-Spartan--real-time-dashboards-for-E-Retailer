@@ -1,18 +1,24 @@
 var q = require("q");
 module.exports = function(router) {
-
+    var accessDeniedMsg = "Access Denied! You need to be logged in to perform this operation.";
+    
     router.get('/user', function(req, res) {
         var UserSchema = require('../models/User');
-
-        console.log("Getting list of users");
-        return UserSchema.find(function(err, users) {
-            if (!err) {
-                return res.send(users);
-            } else {
-                return console.log(err);
-            }
-        });
-
+        if(!req.session.user || req.session.user.role != "admin") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            console.log("Getting list of users");
+            return UserSchema.find(function(err, users) {
+                if (!err) {
+                    return res.send(users);
+                } else {
+                    return console.log(err);
+                }
+            });
+        }
     });
 
     var findUserObj = {
@@ -41,9 +47,14 @@ module.exports = function(router) {
     router.post('/user/:userid/order/create', function(req, res, next) {
         var OrderSchema = require('../models/Order');
         var UserSchema = require('../models/User');
-
-        var findUserRequest = findUserObj.findUser(req.params.userid);
-        findUserRequest.done(function(data) {
+        if(!req.session.user) {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            var findUserRequest = findUserObj.findUser(req.params.userid);
+            findUserRequest.done(function(data) {
             if (data == "Error") {
                 res.json({
                     type: false,
@@ -55,15 +66,21 @@ module.exports = function(router) {
                 var orderModel = new OrderSchema();
                 saveOrder(req, res, orderModel);
             }
-        });
+            });
+        }
     });
 
     //Getting list of orders for user - userid
     router.get('/user/:userid/order', function(req, res) {
         var OrderSchema = require('../models/Order');
         var UserSchema = require('../models/User');
-
-        var findUserRequest = findUserObj.findUser(req.params.userid);
+        if(!req.session.user) {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            var findUserRequest = findUserObj.findUser(req.params.userid);
         findUserRequest.done(function(data) {
             if (data == "Error") {
                 res.json({
@@ -89,8 +106,8 @@ module.exports = function(router) {
                     }
                 });
             }
-        });
-
+            });
+        }
         //        UserSchema.findOne({user_id:req.params.userid}, function(err, user){
         //            if(err){
         //                 res.json({
@@ -110,8 +127,13 @@ module.exports = function(router) {
     router.get('/user/:userid/order/:orderid', function(req, res) {
         var OrderSchema = require('../models/Order');
         var UserSchema = require('../models/User');
-
-        UserSchema.findOne({
+        if(!req.session.user) {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            UserSchema.findOne({
             user_id: req.params.userid
         }, function(err, user) {
             if (err) {
@@ -140,15 +162,21 @@ module.exports = function(router) {
                     });
                 }
             }
-        });
+            });
+        }
     });
 
     //cancelling a order
     router.put('/user/:userid/order/cancel/:orderid', function(req, res) {
         var OrderSchema = require('../models/Order');
         var UserSchema = require('../models/User');
-
-        UserSchema.findOne({
+        if(!req.session.user) {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            UserSchema.findOne({
             user_id: req.params.userid
         }, function(err, user) {
             if (err) {
@@ -187,14 +215,21 @@ module.exports = function(router) {
                     });
                 }
             }
-        });
+            });
+        }
     });
 
     //updating order
     router.put('/user/:userid/order/update/:orderid', function(req, res) {
         var OrderSchema = require('../models/Order');
         var UserSchema = require('../models/User');
-        console.log(req.params.userid);
+        if(!req.session.user || req.session.user.role != "retailer") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            console.log(req.params.userid);
         var findUserRequest = findUserObj.findUser(req.params.userid);
         findUserRequest.done(function(data) {
             if (data == "Error") {
@@ -221,12 +256,19 @@ module.exports = function(router) {
                     }
                 });
             }
-        });
+            });
+        }
     });
 
     //get Average Sales By Month
     router.get('/getAvgSalesByMonth', function(req, res) {
-        console.log("getAvgSalesByMonth API called");
+        if(!req.session.user || req.session.user.role != "retailer") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            console.log("getAvgSalesByMonth API called");
         var yr = req.query.year;
         var rid = req.query.retailerid;
 
@@ -262,12 +304,19 @@ module.exports = function(router) {
         }], function(err, result) {
             console.log(result);
             res.send(result);
-        });
+            });
+        }
     });
 
     //get Average Sales By Year
     router.get('/getAvgSalesByYear', function(req, res) {
-        console.log("getAvgSalesByYear API called");
+        if(!req.session.user || req.session.user.role != "retailer") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            console.log("getAvgSalesByYear API called");
         var rid = req.query.retailerid;
 
         var OrderSchema = require('../models/Order');
@@ -298,12 +347,19 @@ module.exports = function(router) {
         }], function(err, result) {
             console.log(result);
             res.send(result);
-        });
+            });
+        }
     });
 
     //get Total Sales By Year
     router.get('/getTotalSalesByYear', function(req, res) {
-        console.log("getTotalSalesByYear API called");
+        if(!req.session.user || req.session.user.role != "retailer") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            console.log("getTotalSalesByYear API called");
         var rid = req.query.retailerid;
 
         var OrderSchema = require('../models/Order');
@@ -333,12 +389,19 @@ module.exports = function(router) {
             }
         }], function(err, result) {
             res.send(result);
-        });
+            });
+        }
     });
 
     //get Total Sales By Month
     router.get('/getTotalSalesByMonth', function(req, res) {
-        console.log("getTotalSalesByMonth API called");
+        if(!req.session.user || req.session.user.role != "retailer") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            console.log("getTotalSalesByMonth API called");
         var yr = req.query.year;
         var rid = req.query.retailerid;
 
@@ -374,12 +437,19 @@ module.exports = function(router) {
             }
         }], function(err, result) {
             res.send(result);
-        });
+            });
+        }
     });
     
     //get Sales Trends
     router.get('/getSalesTrends', function(req, res) {
-        console.log("getSalesTrends API called");
+        if(!req.session.user || req.session.user.role != "retailer") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            console.log("getSalesTrends API called");
         var date = new Date();
         date.setDate(date.getDate() - 30);
         //console.log(date);
@@ -423,12 +493,19 @@ module.exports = function(router) {
                 else {
                     res.send(err);
                 }
-            });
+                });
+        }
     });
     
     //get Top Products
     router.get('/getTopProducts', function(req, res) {
-        console.log("getTopProducts API called");
+        if(!req.session.user || req.session.user.role != "retailer") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            console.log("getTopProducts API called");
         var date = new Date();
         var year = date.getFullYear(),
             month = date.getMonth() + 1;
@@ -488,11 +565,18 @@ module.exports = function(router) {
                     }
                 // });
             });
+        }
     });
     
     //get Sale by Location
     router.get("/getSaleByLocation", function(req, res) {
-        console.log("getSaleByLocation API called");
+        if(!req.session.user || req.session.user.role != "retailer") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            console.log("getSaleByLocation API called");
         var match = {
 
             status: {
@@ -539,12 +623,19 @@ module.exports = function(router) {
             else {
                 res.send(err);
             }
-        });
+            });
+        }
     });
     
     //get Sale by State
     router.get("/getSaleByLocation/:state", function(req, res) {
-        console.log("getSaleByLocation:" + req.params.state + " API called");
+        if(!req.session.user || req.session.user.role != "retailer") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            console.log("getSaleByLocation:" + req.params.state + " API called");
         var match = {
 
             status: {
@@ -593,7 +684,8 @@ module.exports = function(router) {
             else {
                 res.send(err);
             }
-        });
+            });
+        }
     });
 
     function saveOrder(req, res, order) {

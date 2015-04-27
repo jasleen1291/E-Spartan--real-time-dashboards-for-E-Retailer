@@ -1,9 +1,16 @@
 ///Rate a product.......
 module.exports = function(router) {
+    var accessDeniedMsg = "Access Denied! You need to be logged in to perform this operation.";
 
     var RatingSchema = require('../models/Rating');
     router.post('/rate', function(req, res, next) {
-        var RatingSchema = require('../models/Rating');
+        if(!req.session.user || req.session.user.role == "retailer" || req.session.user.role == "admin") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            var RatingSchema = require('../models/Rating');
         var ItemSchema = require('../models/Item');
 
         ItemSchema.findOne({
@@ -36,6 +43,7 @@ module.exports = function(router) {
                 }
             }
         });
+        }
     });
 
 
@@ -44,7 +52,13 @@ module.exports = function(router) {
     // update item by Id
 
     router.put('/getItem/:id', function(req, res) {
-        var RatingSchema = require('../models/Rating');
+        if(!req.session.user || req.session.user.role == "retailer" || req.session.user.role == "admin") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            var RatingSchema = require('../models/Rating');
         return RatingSchema.findById(req.params.id, function(err, rating) {
             rating.item_id = req.body.item_id;
             rating.stars = req.body.stars;
@@ -59,14 +73,21 @@ module.exports = function(router) {
                 }
                 return res.send(rating);
             });
-        });
+            });
+        }
     });
 
 
 
     // delete item by Id
     router.delete('/getItem/id', function(req, res) {
-        var RatingSchema = require('../models/Rating');
+        if(!req.session.user || req.session.user.role == "retailer" || req.session.user.role == "admin") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            var RatingSchema = require('../models/Rating');
         return RatingSchema.findById(req.params.id, function(err, rating) {
             return rating.remove(function(err) {
                 if (!err) {
@@ -76,6 +97,7 @@ module.exports = function(router) {
                     console.log(err);
                 }
             });
-        });
+            });
+        }
     });
 }

@@ -2,11 +2,18 @@ var formidable = require('formidable');
 var fs = require('fs-extra');
 var qt = require('quickthumb');
 var util = require('util');
-
+	
 module.exports = function(router) {
+	var accessDeniedMsg = "Access Denied! You need to be logged in to perform this operation.";
 
 	router.post('/uploadphoto', function(req, res, next) {
-		  var form = new formidable.IncomingForm();
+		if(!req.session.user || req.session.role != "retailer") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+        	var form = new formidable.IncomingForm();
 		  form.parse(req, function(err, fields, files) {
 		  	if(err) {
 		  		res.json({
@@ -44,13 +51,22 @@ module.exports = function(router) {
 		      }
 		    });
 		  });
-		});
+        }	
+		  
+	});
 
 
 	router.get('/uploadphotoform', function(req, res, next) {
-		res.writeHead(200, {'Content-Type': 'text/html' });
+		if(!req.session.user || req.session.role != "retailer") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+        	res.writeHead(200, {'Content-Type': 'text/html' });
   		var form = '<form action="/api/uploadphoto" enctype="multipart/form-data" method="post">Add a title: <input name="title" type="text" /><br><br><input multiple="multiple" name="upload" type="file" /><br><br><input type="text" name="userName" hidden="hidden" value="mariovinay" /><input type="submit" value="Upload" /></form>';
   		res.end(form); 
+        }
 	});	
 	
 }
