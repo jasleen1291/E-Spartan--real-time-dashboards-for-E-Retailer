@@ -2,6 +2,19 @@
 module.exports = function(router) {
 
     var CategorySchema = require('../models/Category');
+    
+    /* Get list of all categories */
+    router.get('/category', function(req, res, next) {
+        var CategorySchema = require('../models/Category');
+        return CategorySchema.find(function(err, categories) {
+            if (!err) {
+                return res.send(categories);
+            } else {
+                return console.log(err);
+            }
+        });
+    });
+
     router.post('/category/create', function(req, res, next) {
         var CategorySchema = require('../models/Category');
 
