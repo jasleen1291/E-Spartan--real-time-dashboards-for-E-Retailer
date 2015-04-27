@@ -280,11 +280,8 @@
                                                         <span class="">Category Id</span>
                                                     </div>
                                                     <div class="col-sm-4">
-                                                        <input id="itemDetails-categoryid" type="text" class="validate">
+                                                        <input id="itemDetails-categoryid" type="number" class="validate">
                                                     </div>
-
-
-
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-sm-2">
@@ -377,7 +374,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="input-field col-sm-12 col-lg-6 col-md-12">
-                                        <input id="addItem-categoryid" type="text" class="validate">
+                                        <input id="addItem-categoryid" type="number" class="validate">
                                         <label for="addItem-categoryid">Category</label>
                                     </div>
                                 </div>
@@ -435,25 +432,16 @@
                             <table class="bordered hoverable centered" id="orderListTable">
                                 <thead>
                                     <tr>
-                                        <th data-field="id">Item Id</th>
+                                        <th data-field="orderid">Order Id</th>
+                                        <th data-field="itemid">Item Id</th>
                                         <th data-field="name">Reciepent's Name</th>
                                         <th data-field="phone">Reciepent's Phone</th>
-                                        <th data-field="card">Reciepent's Card</th>
                                         <th data-field="address">Address</th>
-                                        <th data-field="created">Created At</th>
-                                        <th data-field="created"> Status</th>
+                                        <th data-field="update_at">Updated At</th>
+                                        <th data-field="status"> Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="modal-trigger" href="#itemDetailsModal">
-                                        <td>1234</td>
-                                        <td>Alvin</td>
-                                        <td>334455667</td>
-                                        <td>Sample Data</td>
-                                        <td>1055 Escalon Ave, Sunnyvale, CA</td>
-                                        <td>12/2/1014</td>
-                                        <td>Pending</td>
-                                    </tr>
                                 </tbody>
                             </table>
                             <!-- Modal Structure -->
@@ -607,6 +595,26 @@
             $(".button-collapse").sideNav();
             $('.modal-trigger').leanModal();
             showDashboard();
+        });
+
+          $('#logOut').click(function() {
+            console.log("logout");
+             $.ajax({
+                url: 'logout',
+                type: 'POST',
+                async: true,
+                cache: false,
+                crossDomain: true,
+                dataType: "json",
+                success: function(res) {
+                    if (!res.type) {
+                        console.log("Please try again.");
+                    } else {
+                        sessionStorage.removeItem("user_id");
+                        window.location.href = "/";
+                    }
+                }
+            });
         });
 
         function loadCards() {
@@ -848,33 +856,38 @@
 
         function getOrderList() {
             console.log("getting order List");
+            $("#orderListTable tbody").empty();
+            userid = sessionStorage.getItem("user_id");
+            url = "retailer/" + userid + "/order";
+            $.get(url, function(res) {
+                resLen = res.data.length;
+                var data = res.data;
+                console.log(data);
 
+                for(var i=0;i<15; i++){
+                 // $.each(data, function(thisdata) {
+                    thisdata = data[i];
+                    var tr = "<tr id=\"" + thisdata.orderid + "\" onclick=\"openOrderDetails(\'" + thisdata.orderid + "\') \">";
+                    tr += "<td>" + thisdata.orderid + "</td>";
+                    tr += "<td>" + thisdata.item_id + "</td>";
+                    tr += "<td>" + thisdata.receipientName + "</td>";
+                    tr += "<td>" + thisdata.receipientPhoneNumber + "</td>";
+                    tr += "<td>" + thisdata.shippingAddress.State + "</td>";
+                    tr += "<td>" + thisdata.updated_at + "</td>";
+                    tr += "<td>" + thisdata.status + "</td>";
+                    tr += "</tr>";
+                    $("#orderListTable tbody").append(tr);
+                }
+                // });
             $('#retailerDashboard').hide();
             $('#retailerDashboard2').hide();
             $('#listItem').hide();
             $('#addItem').hide();
             $('#listOrder').show();
+            });
         }
 
-        $('#logOut').click(function() {
-            console.log("logout");
-             $.ajax({
-                url: 'logout',
-                type: 'POST',
-                async: true,
-                cache: false,
-                crossDomain: true,
-                dataType: "json",
-                success: function(res) {
-                    if (!res.type) {
-                        console.log("Please try again.");
-                    } else {
-                        window.location.href = "/";
-                    }
-                }
-            });
-        });
-
+      
         function startTime() {
             var today = new Date();
             var h = today.getHours();
@@ -972,7 +985,7 @@
             var category_id= $('#addItem-categoryid').val();
             var name = $('#addItem-name').val();
             var description= $('#addItem-desc').val();
-            var price= $('#addItem--price').val();
+            var price= $('#addItem-price').val();
             var discount= $('#addItem-discount').val();
             var quantity= $('#addItem-quantity').val();
             var features = JSON.stringify($('#addItem-features').val());
@@ -993,8 +1006,7 @@
                     features: features
                 },
                 success: function(){
-
-                    $("#addItemForm input[type=text], textarea").val("");
+                    $("#addItemForm input[type=text], #addItemForm input[type=number]").val("");
                 }
             });
 

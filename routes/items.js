@@ -24,7 +24,7 @@ module.exports = function(router) {
                         data: "The item already exists!"
                     });
                 } else {
-                    console.log('new');
+                    console.log(req.body);
                     var itemModel = new ItemSchema();
                     console.log("data: " + req.body.name);
                     itemModel.name = req.body.name;

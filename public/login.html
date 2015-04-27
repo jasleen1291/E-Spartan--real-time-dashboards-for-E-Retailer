@@ -134,7 +134,7 @@
 		</div><!--/header-bottom-->
 	</header><!--/header-->
 	
-	<section id="form"><!--form-->
+	<section id=""><!--form-->
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-4 col-sm-offset-1">
@@ -283,6 +283,7 @@
                     }
                     else{
                         var role = data.data.role;
+                        sessionStorage.setItem("user_id", data.data.user_id);
 						if(role == "retailer") {
 							window.location.href ="/api/retailerhome";
 						}

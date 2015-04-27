@@ -59,11 +59,11 @@ module.exports = function(router) {
     });
 
     //Getting list of orders for user - userid
-    router.get('/user/:userid/order', function(req, res) {
+    router.get('/retailer/:retailerid/order', function(req, res) {
         var OrderSchema = require('../models/Order');
         var UserSchema = require('../models/User');
 
-        var findUserRequest = findUserObj.findUser(req.params.userid);
+        var findUserRequest = findUserObj.findUser(req.params.retailerid);
         findUserRequest.done(function(data) {
             if (data == "Error") {
                 res.json({
@@ -72,9 +72,9 @@ module.exports = function(router) {
                 });
             } else {
                 console.log("User found");
-                console.log("Finding orders for user " + req.params.userid);
+                console.log("Finding orders for user " + req.params.retailerid);
                 OrderSchema.find({
-                    userid: req.params.userid
+                    retailerid: req.params.retailerid
                 }, function(err, orders) {
                     if (err) {
                         res.json({
@@ -82,6 +82,7 @@ module.exports = function(router) {
                             data: null
                         });
                     } else {
+                        console.log("returning orders");
                         res.json({
                             type: true,
                             data: orders
