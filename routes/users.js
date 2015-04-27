@@ -1,8 +1,16 @@
 module.exports = function(router) {
 
+    var accessDeniedMsg = "Access Denied! You need to be logged in to perform this operation.";
     var UserSchema = require('../models/User.js');
+
     router.post('/signup', function(req, res, next) {
-        var UserSchema = require('../models/User.js');
+        if(req.session.user) {
+            res.json({
+                type: false,
+                data: "You have to sign out to perform this step!"
+            });
+        } else {
+            var UserSchema = require('../models/User.js');
 
         UserSchema.findOne({
             username: req.body.userName,
@@ -46,12 +54,20 @@ module.exports = function(router) {
                     });
                 }
             }
-        });
+            });
+        }
+        
     });
+
     router.post('/login', function(req, res, next) {
         var UserSchema = require('../models/User');
-
-        UserSchema.findOne({
+        if(req.session.user) {
+            res.json({
+                type: false,
+                data: "Error: User already signed in!"
+            });
+        } else {
+            UserSchema.findOne({
             username: req.body.userName,
             password: req.body.password
         }, function(err, user) {
@@ -78,9 +94,17 @@ module.exports = function(router) {
                 }
             }
         });
+        }
     });
+
     router.post('/logout', function(req, res) {
-        try {
+        if(!req.session.user) {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            try {
             console.log("logout api called Node.");
             req.session = null;
             res.json({
@@ -91,9 +115,18 @@ module.exports = function(router) {
         } catch (e) {
             console.log("Entering catch block: " + e);
         }
+        }
+        
     });
+    
     router.post('/editProfile', function(req, res, next) {
-        var UserSchema = require('../models/User.js');
+        if(!req.session.user) {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            var UserSchema = require('../models/User.js');
 
         UserSchema.findOne({
             username: req.body.userName
@@ -125,5 +158,6 @@ module.exports = function(router) {
                 }
             }
         });
+        }
     });
 }

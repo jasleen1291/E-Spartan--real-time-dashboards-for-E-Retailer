@@ -1,13 +1,55 @@
 module.exports = function(router) {
 
     var ItemSchema = require('../models/Item');
+    var accessDeniedMsg = "Access Denied! You need to be logged in to perform this operation.";
+
+    router.get('/ui/featuredItems', function(req, res, next) {
+        var ItemSchema = require('../models/Item');
+            ItemSchema.find({discount: { $gt : 0}}, function(err, featuredItems) {
+            if (!err) {
+                res.json({
+                    type: true,
+                    data: featuredItems
+                });
+            } else {
+                console.log(err);
+                res.json({
+                    type: false,
+                    data: "Error occured: " + err
+                });
+            }
+            });          
+    });
+
+    router.get('/ui/itemBrands', function(req, res, next) {
+        var ItemSchema = require('../models/Item');
+        ItemSchema.aggregate([{ $match : {"features.Brand" : {$exists : true}}},{$group :{ _id: "$features.Brand" , count: { $sum: 1}}}], function(err, brands) {
+            if (!err) {
+                res.json({
+                    type: true,
+                    data: brands
+                });
+            } else {
+                console.log(err);
+                res.json({
+                    type: false,
+                    data: "Error occured: " + err
+                });
+            }
+        });
+    });
 
     //create single item
     
     router.post('/item/create', function(req, res, next) {
         var ItemSchema = require('../models/Item');
-
-        ItemSchema.findOne({
+        if(!req.session.user || req.session.user.role != "retailer") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            ItemSchema.findOne({
             name: req.body.name
         }, function(err, item) {
             if (err) {
@@ -60,38 +102,59 @@ module.exports = function(router) {
                     }
                 }
             }
-        });
+            });
+        }
     });
 
     // get all the items
     router.get('/item', function(req, res) {
         var ItemSchema = require('../models/Item');
-        return ItemSchema.find(function(err, items) {
+        if(!req.session.user || req.session.user.role != "retailer") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            return ItemSchema.find(function(err, items) {
             if (!err) {
                 return res.send(items);
             } else {
                 return console.log(err);
             }
-        });
+            });
+        }
     });
 
     // get item by Id.
     router.get('/item/:id', function(req, res) {
         var ItemSchema = require('../models/Item');
-        return ItemSchema.findById(req.params.id, function(err, item) {
+        if(!req.session.user || req.session.user.role != "retailer") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            return ItemSchema.findById(req.params.id, function(err, item) {
             if (!err) {
                 return res.send(item);
             } else {
                 return console.log(err);
             }
-        });
+            });
+        }
     });
 
 
     // update item by Id
     router.put('/item/update/:id', function(req, res) {
         var ItemSchema = require('../models/Item');
-        return ItemSchema.findById(req.params.id, function(err, item) {
+        if(!req.session.user || req.session.user.role != "retailer") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            return ItemSchema.findById(req.params.id, function(err, item) {
             item.name = req.body.name;
             item.description = req.body.description;
             item.price = req.body.price;
@@ -121,14 +184,21 @@ module.exports = function(router) {
                     data: e
                 });
             }
-        });
+            });
+        }
     });
 
 
     // delete item by Id
     router.delete('/item/delete/:id', function(req, res) {
         var ItemSchema = require('../models/Item');
-        return ItemSchema.findById(req.params.id, function(err, item) {
+        if(!req.session.user || req.session.user.role != "retailer") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            return ItemSchema.findById(req.params.id, function(err, item) {
             return item.remove(function(err) {
                 if (!err) {
                     console.log("Item Deleted");
@@ -137,6 +207,7 @@ module.exports = function(router) {
                     console.log(err);
                 }
             });
-        });
+            });
+        }
     });
 }

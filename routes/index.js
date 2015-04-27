@@ -1,11 +1,20 @@
 module.exports = function(router) {
+    var accessDeniedMsg = "Access Denied! You need to be logged in to perform this operation.";
 
     router.get('/', function(req, res) {
         res.render('index');
     });
 
     router.get('/retailerhome', function(req, res) {
-        res.render('retailer_home');
+        if(!req.session.user || req.session.user.role != "retailer") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+          res.render('retailer_home');
+        }
+        
     });
 
 

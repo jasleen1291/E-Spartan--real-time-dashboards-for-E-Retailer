@@ -1,6 +1,14 @@
 module.exports = function(router) {
+    var accessDeniedMsg = "Access Denied! You need to be logged in as a normal user of this application to perform this operation.";
+
     router.post('/addToCart', function(req, res, next) {
-        var Cart = require("../models/Cart");
+        if(!req.session.user || req.session.user.role == "admin" || req.session.user.role == "retailer") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            var Cart = require("../models/Cart");
         var Item = require("../models/Item");
         Cart.findOne({
             user_id: req.body.userid
@@ -113,10 +121,17 @@ module.exports = function(router) {
             }
         });
 
+        }
     });
 
     router.put('/updateCart', function(req, res, next) {
-        var Cart = require("../models/Cart");
+        if(!req.session.user || req.session.user.role == "admin" || req.session.user.role == "retailer") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            var Cart = require("../models/Cart");
         Cart.findOne({
             user_id: req.body.userid
         }, function(err, doc) {
@@ -172,10 +187,18 @@ module.exports = function(router) {
 
             }
         });
+        }
 
     });
+
     router.put('/deleteItemFromCart', function(req, res, next) {
-        var Cart = require("../models/Cart");
+        if(!req.session.user || req.session.user.role == "admin" || req.session.user.role == "retailer") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            var Cart = require("../models/Cart");
         Cart.findOne({
             user_id: req.body.userid
         }, function(err, doc) {
@@ -254,10 +277,18 @@ module.exports = function(router) {
 
             }
         });
+        }
 
     });
+
     router.put('/emptyCart', function(req, res, next) {
-        var Cart = require("../models/Cart");
+        if(!req.session.user || req.session.user.role == "admin" || req.session.user.role == "retailer") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            var Cart = require("../models/Cart");
         Cart.findOne({
             user_id: req.body.userid
         }, function(err, doc) {
@@ -281,6 +312,8 @@ module.exports = function(router) {
 
         });
 
+        }
+        
     });
 
 
@@ -317,7 +350,13 @@ module.exports = function(router) {
 
     }
     router.post('/checkout', function(req, res, next) {
-        var Cart = require("../models/Cart");
+        if(!req.session.user || req.session.user.role == "admin" || req.session.user.role == "retailer") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            var Cart = require("../models/Cart");
         var Order = require("../models/Order");
         var Item = require("../models/Item");
         Cart.findOne({
@@ -384,6 +423,7 @@ module.exports = function(router) {
 
 
         });
+        }
 
     });
 
