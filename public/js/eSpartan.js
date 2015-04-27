@@ -1,16 +1,18 @@
 
 var serverUrl = "http://localhost:3000/api";
-var DEBUG = false;
+var DEBUG = true;
 
 $(document).ready(function() {
 
 retrieveCategories();
+retrieveBrands();
 
 });
 
 function retrieveCategories() {
 	var parentCategories;
 	var childCategories;
+	DEBUG = false;
 
 	var categorySkeleton = ''+
 		'<div class="panel panel-default">'+
@@ -43,7 +45,7 @@ function retrieveCategories() {
 	$.ajax({
 			async: false,
 			type: "GET",
-			url: serverUrl+"/categoryParents",
+			url: serverUrl+"/ui/categoryParents",
 			contentType: 'application/json',
 			success: function(data) {
 			  parentCategories = eval(data);
@@ -57,7 +59,7 @@ function retrieveCategories() {
 	$.ajax({
 			async: false,
 			type: "GET",
-			url: serverUrl+"/categoryChildren",
+			url: serverUrl+"/ui/categoryChildren",
 			contentType: 'application/json',
 			success: function(data) {
 			  childCategories = eval(data);
@@ -95,8 +97,32 @@ function retrieveCategories() {
 		} //End of for
 	} //End of if
 
+} //End of retrieveCategories()
 
-/*
+function retrieveBrands() {
+	DEBUG = true;
+	var itemBrands;
 
-*/
-}
+	$.ajax({
+			async: false,
+			type: "GET",
+			url: serverUrl+"/ui/itemBrands",
+			contentType: 'application/json',
+			success: function(data) {
+			  itemBrands = eval(data);
+			  if(DEBUG) { alert("[Request_Server] Request Successful. Data Received: \n"+JSON.stringify(data)); }
+			 },
+			 error: function(response) {
+				  alert('There was a problem connecting to the server. Please try again.\nError details: '+response);
+			  }
+	}); //end of ajax
+
+	if(itemBrands.type) {
+		itemBrands = itemBrands.data;
+		for(var i=0;i<itemBrands.length;i++) {
+			$(".brands-name").find("ul").append('<li><a href="#"><span class="pull-right">('+itemBrands[i].count+')</span>'+itemBrands[i]._id+'</a></li>');
+		}
+	}
+
+} //End of retrieveBrands()
+

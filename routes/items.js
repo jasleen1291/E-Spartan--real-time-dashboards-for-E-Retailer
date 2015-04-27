@@ -2,6 +2,42 @@ module.exports = function(router) {
 
     var ItemSchema = require('../models/Item');
 
+    router.get('/ui/itemBrands1', function(req, res, next) {
+        var ItemSchema = require('../models/Item');
+        ItemSchema.find({"features.Brand" : {$exists : true} },{"features.Brand": 1}, function(err, brands) {
+            if (!err) {
+                res.json({
+                    type: true,
+                    data: brands
+                });
+            } else {
+                console.log(err);
+                res.json({
+                    type: false,
+                    data: "Error occured: " + err
+                });
+            }
+        });
+    });
+
+    router.get('/ui/itemBrands', function(req, res, next) {
+        var ItemSchema = require('../models/Item');
+        ItemSchema.aggregate([{ $match : {"features.Brand" : {$exists : true}}},{$group :{ _id: "$features.Brand" , count: { $sum: 1}}}], function(err, brands) {
+            if (!err) {
+                res.json({
+                    type: true,
+                    data: brands
+                });
+            } else {
+                console.log(err);
+                res.json({
+                    type: false,
+                    data: "Error occured: " + err
+                });
+            }
+        });
+    });
+
     //create single item
     
     router.post('/item/create', function(req, res, next) {

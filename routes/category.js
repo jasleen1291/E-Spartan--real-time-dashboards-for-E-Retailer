@@ -22,7 +22,7 @@ module.exports = function(router) {
         });
     });
 
-    router.get('/categoryParents', function(req, res, next) {
+    router.get('/ui/categoryParents', function(req, res, next) {
         var CategorySchema = require('../models/Category');
         CategorySchema.find({ parent_id: 0, isDeleted: false }, function(err, categories) {
             if (!err) {
@@ -40,7 +40,7 @@ module.exports = function(router) {
         });
     });
 
-    router.get('/categoryChildren', function(req, res, next) {
+    router.get('/ui/categoryChildren', function(req, res, next) {
         var CategorySchema = require('../models/Category');
         CategorySchema.find({ parent_id: {$gt : 0}, isDeleted: false }, function(err, categories) {
             if (!err) {
