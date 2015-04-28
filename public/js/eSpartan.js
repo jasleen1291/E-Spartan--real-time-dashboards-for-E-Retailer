@@ -5,6 +5,40 @@ $(document).ready(function() {
 	retrieveCategories();
 	retrieveBrands();
 	retrieveFeaturedItems();
+
+$(".add-to-cart").on('click', function() {
+		alert("Add to cart is clicked");
+		DEBUG = true;
+		alert($(this).parents(".single-products").find("#itemPrice").attr('data-price'));
+		alert($(this).parents(".single-products").find("#itemId").attr('data-id'));
+
+		var  itemPrice = $(this).parents(".single-products").find("#itemPrice").attr('data-price');
+		var itemId = $(this).parents(".single-products").find("#itemId").attr('data-id');
+
+		var s = JSON.stringify({"item_id" : itemId, "price": itemPrice, "quantity": "1"});
+		alert(s);
+		console.log(s);
+		alert(JSON.parse(s).item_id);
+
+		$.ajax({
+			async: false,
+			type: "POST",
+			url: "addToCart",
+			data: s,
+			contentType: 'application/json',
+			dataType: 'json',
+			success: function(data) {
+			  parentCategories = eval(data);
+			  if(DEBUG) { alert("[Request_Server] Request Successful. Data Received: \n"+JSON.stringify(data)); }
+			 },
+			 error: function(response) {
+				  alert('There was a problem connecting to the server. Please try again.\nError details: '+JSON.stringify(response));
+			  }
+	}); //end of ajax
+
+		//Required fields
+
+	});
 });
 
 function retrieveCategories() {
@@ -37,7 +71,7 @@ function retrieveCategories() {
 		'	</div>'+
 		'</div>';
 
-	var categoryChildSkeleton = '<li><a href="#"></a></li>';		
+	var categoryChildSkeleton = '<li><a href="#"></a></li>';
 
 	$.ajax({
 			async: false,
@@ -139,7 +173,7 @@ function retrieveFeaturedItems() {
 			 error: function(response) {
 				  alert('There was a problem connecting to the server. Please try again.\nError details: '+response);
 			  }
-	}); //end of ajax	
+	}); //end of ajax
 
 	if(featuredItems.type) {
 		featuredItems = featuredItems.data;
@@ -150,8 +184,8 @@ function retrieveFeaturedItems() {
 				'		<div class="single-products">'+
 				'			<div class="productinfo text-center">'+
 				'				<img src="images/home/product1.jpg" alt="" />'+
-				'				<h2>$'+featuredItems[i].price+'</h2>'+
-				'				<p>'+featuredItems[i].name+'</p>'+
+				'				<h2 id="itemPrice" data-price="'+featuredItems[i].price+'">$'+featuredItems[i].price+'</h2>'+
+				'				<p id="itemId" data-id="'+featuredItems[i]._id+'">'+featuredItems[i].name+'</p>'+
 				'				<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>'+
 				'			</div>'+
 				'			<div class="product-overlay">'+

@@ -61,13 +61,8 @@ module.exports = function(router) {
 
     router.post('/login', function(req, res, next) {
         var UserSchema = require('../models/User');
-        if(req.session.user) {
-            res.json({
-                type: false,
-                data: "Error: User already signed in!"
-            });
-        } else {
-            UserSchema.findOne({
+        req.session.user = null;
+        UserSchema.findOne({
             username: req.body.userName,
             password: req.body.password
         }, function(err, user) {
@@ -80,8 +75,7 @@ module.exports = function(router) {
             } else {
                 if (user) {
                     req.session.user = user;
-                    console.log(req.session.user.user_id);
-
+                    //console.log(req.session.user.user_id);
                     res.json({
                         type: true,
                         data: user
@@ -94,7 +88,6 @@ module.exports = function(router) {
                 }
             }
         });
-        }
     });
 
     router.post('/logout', function(req, res) {

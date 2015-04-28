@@ -19,6 +19,25 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+
+    <script src="https://cdn.localizejs.com/localize.js"></script>
+    <script>
+        ! function(a) {
+            if (!a.Localize) {
+                a.Localize = {};
+                for (var e = ["translate", "untranslate", "phrase", "initialize", "translatePage", "setLanguage", "getLanguage", "detectLanguage", "untranslatePage", "bootstrap", "prefetch", "on", "off"], t = 0; t < e.length; t++) a.Localize[e[t]] = function() {}
+            }
+        }(window);
+    </script>
+
+    <script>
+        Localize.initialize({
+            key: 'wUxiYerVkuwvM',
+            rememberLanguage: true,
+            saveNewPhrases: true,
+            translateBody: true
+        });
+    </script>
 </head><!--/head-->
 
 <body>
@@ -37,7 +56,12 @@
 							<ul class="nav navbar-nav">
 								<li><a href="cart"><i class="fa fa-shopping-cart"></i> Cart</a></li>						
 								<li><a href="checkout"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+								 <% if(locals.session != null) {%>
+								 	<li><a href="#"><%= session.user.username %></a> </li>
+								 	<li><a id="logOut"><i class="fa fa-lock"></i>Logout</a></li>
+								 <% } else {	%>
 								<li><a href="login"><i class="fa fa-lock"></i> Login</a></li>
+								<% } %>
 							</ul>
 						</div>
 					</div>
@@ -535,6 +559,7 @@
 						<div class="companyinfo">
 							<h2><span>E</span>-spartan</h2>
 							<p>Get the most recent updates from our site and keep updates yourself...</p>
+<a onclick="Localize.setLanguage('en')">Translate</a>
 						</div>
 					</div>
 				</div>
