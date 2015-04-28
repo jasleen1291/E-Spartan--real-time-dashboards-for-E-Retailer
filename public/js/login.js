@@ -23,9 +23,9 @@ function login() {
                 if (role == "retailer") {
                     window.location.href = "/api/retailerhome";
                 }
-                //else {
-                //window.location.href ="/api/home";
-                //}
+                else {
+                    window.location.href ="/";
+                }
                 // var url = '/home';
                 //  var form = $('<form action="' + url + '" method="post">' +
                 //    '<input type="text" name="api_url" value="' +url + '" />' +
