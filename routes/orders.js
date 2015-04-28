@@ -497,18 +497,18 @@ module.exports = function(router) {
             });
         } else {
             console.log("getTopProducts API called");
-        var date = new Date();
-        var year = date.getFullYear(),
-            month = date.getMonth() + 1;
-        if (req.query.year) {
-            year = Number(req.query.year);
-        }
-        if (req.query.month) {
-            month = Number(req.query.month);
-        }
-        var OrderSchema = require('../models/Order');
+            var date = new Date();
+            var year = date.getFullYear(),
+                month = date.getMonth() + 1;
+            if (req.query.year) {
+                year = Number(req.query.year);
+            }
+            if (req.query.month) {
+                month = Number(req.query.month);
+            }
+            var OrderSchema = require('../models/Order');
 
-        OrderSchema.aggregate(
+            OrderSchema.aggregate(
             [{
                 $project: {
                     year: {
@@ -742,7 +742,7 @@ module.exports = function(router) {
                         //ids[result[i]._id].push(result[i]);
                         var r= JSON.parse(JSON.stringify(result[i]));
                         r["qty"]=ids[result[i]._id].qty;
-                        console.log(typeof result[i]);
+                        //console.log(typeof result[i]);
                         results.push(r);
                     }
                     res.send(results);
