@@ -1,13 +1,10 @@
 
-var serverUrl = "http://localhost:3000/api";
 var DEBUG = true;
 
 $(document).ready(function() {
-
-retrieveCategories();
-retrieveBrands();
-retrieveFeaturedItems();
-
+	retrieveCategories();
+	retrieveBrands();
+	retrieveFeaturedItems();
 });
 
 function retrieveCategories() {
@@ -42,11 +39,10 @@ function retrieveCategories() {
 
 	var categoryChildSkeleton = '<li><a href="#"></a></li>';		
 
-
 	$.ajax({
 			async: false,
 			type: "GET",
-			url: serverUrl+"/ui/categoryParents",
+			url: "/ui/categoryParents",
 			contentType: 'application/json',
 			success: function(data) {
 			  parentCategories = eval(data);
@@ -60,7 +56,7 @@ function retrieveCategories() {
 	$.ajax({
 			async: false,
 			type: "GET",
-			url: serverUrl+"/ui/categoryChildren",
+			url: "/ui/categoryChildren",
 			contentType: 'application/json',
 			success: function(data) {
 			  childCategories = eval(data);
@@ -107,7 +103,7 @@ function retrieveBrands() {
 	$.ajax({
 			async: false,
 			type: "GET",
-			url: serverUrl+"/ui/itemBrands",
+			url: "/ui/itemBrands",
 			contentType: 'application/json',
 			success: function(data) {
 			  itemBrands = eval(data);
@@ -134,7 +130,7 @@ function retrieveFeaturedItems() {
 	$.ajax({
 			async: false,
 			type: "GET",
-			url: serverUrl+"/ui/featuredItems",
+			url: "/ui/featuredItems",
 			contentType: 'application/json',
 			success: function(data) {
 			  featuredItems = eval(data);

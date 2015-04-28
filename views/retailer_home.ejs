@@ -72,14 +72,14 @@
                                 <li><a onclick="showDashboard()" class="active">Dashboard</a></li>
                                 <li class="dropdown"><a href="#">Items<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a onclick="addItem()">Add Items</a></li>
-                                        <li><a onclick="getItemList()">View Items</a></li>
+                                        <li><a onclick="showAddItem()">Add Items</a></li>
+                                        <li><a onclick="showItemList()">View Items</a></li>
                                     </ul>
                                 </li>
                                 <li class="dropdown"><a href="#">Orders<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a onclick="updateOrder()">Update Orders</a></li>
-                                        <li><a onclick="getOrderList()">View Orders</a></li>
+                                        <!-- <li><a onclick="showUpdateOrder()">Update Orders</a></li> -->
+                                        <li><a onclick="showOrderList()">View Orders</a></li>
                                     </ul>
                                 </li>
 
@@ -219,7 +219,7 @@
                 <div class="row">
                     <div class="col-sm-12">
 
-                        <table class="bordered hoverable centered" id="itemListTable">
+                        <table class="bordered hoverable centered striped" id="itemListTable">
                             <thead>
                                 <tr>
                                     <th data-field="id">Item Id</th>
@@ -229,7 +229,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                
+                                <!--Do not remove it... Keep it blank as data is populating from script -->
                             </tbody>
                         </table>
 
@@ -309,9 +309,9 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <a class="waves-effect waves-light btn" id="updateItem"><i class="mdi-file-cloud left"></i>Update</a>
-                                        <a class="waves-effect waves-light btn" id="deleteItem"><i class="mdi-action-delete"></i>Delete</a>
-                                        <a class="waves-effect waves-light btn" data-dismiss="modal">Close</a>
+                                        <a class="waves-effect waves-light btn blue lighten-1" id="updateItem"><i class="mdi-file-cloud left"></i>Update</a>
+                                        <a class="waves-effect waves-light btn red accent-2" id="deleteItem"><i class="mdi-action-delete"></i>Delete</a>
+                                        <a class="waves-effect waves-light btn black lighten-3" data-dismiss="modal">Close</a>
                                     </div>
                                 </div>
                                 <!-- /.modal-content -->
@@ -331,61 +331,59 @@
                 <div class="col-sm-12">
                     <div class="section">
                         <div class="row" id="addItemDiv">
-                            <div class="col-sm-12 col-lg-6 col-md-12 center-align ">
+                            <div class="col-sm-12 col-lg-offset-3 col-lg-6 col-md-8 center-align ">
                                 <h3>Add Item</h3>
                             </div>
-                            <form id="addItemForm" class="col-sm-12">
+                            <form id="addItemForm" class="col-sm-12 col-lg-offset-3 col-lg-6 col-md-8 center-align ">
                                 <div class="row">
-                                    <div class="input-field col-sm-12 col-lg-6 col-md-12">
+                                    <div class="input-field col-sm-12">
                                         <input id="addItem-name" type="text" class="validate" in >
                                         <label for="addItem-name">Item Name</label>
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="input-field col-sm-12 col-lg-6 col-md-12">
-                                        <input id="addItem-desc" type="text" class="validate">
+                                    <div class="input-field col-sm-12">
+                                       <input id="addItem-desc" type="text" class="validate">
                                         <label for="addItem-desc">Description</label>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="input-field col-sm-12 col-lg-6 col-md-12">
+                                    <div class="input-field col-sm-12">
                                         <input id="addItem-categoryid" type="number" class="validate">
-                                        <label for="addItem-categoryid">Category</label>
+                                        <label for="addItem-categoryid">Category Id</label>
                                     </div>
                                 </div>
-
-
                                 <div class="row">
-                                    <div class="input-field col-sm-12 col-lg-6 col-md-12">
+                                    <div class="input-field col-sm-12">
                                         <input id="addItem-price" type="number" class="validate">
                                         <label for="addItem-price">Price</label>
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="input-field col-sm-12 col-lg-6 col-md-12">
+                                    <div class="input-field col-sm-12">
                                         <input id="addItem-quantity" type="number" class="validate">
                                         <label for="addItem-quantity">Quantity</label>
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="input-field col-sm-12 col-lg-6 col-md-12">
+                                    <div class="input-field col-sm-12">
                                         <input id="addItem-discount" type="number" class="validate">
                                         <label for="addItem-discount">Enter your Discount</label>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="input-field col-sm-12 col-lg-6 col-md-12">
+                                    <div class="input-field col-sm-12">
                                         <input id="addItem-features" type="text" class="validate">
                                         <label for="addItem-features">Enter the features</label>
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="input-field col-sm-12 col-lg-6 col-md-12 center-align">
-                                        <a class="btn-floating btn-large waves-effect waves-light red" id="addItemLink"><i class="mdi-content-add"></i></a>
+                                    <div class="input-field col-sm-12">
+                                        <a class="btn-floating btn-large waves-effect waves-light red" id="addItem"><i class="mdi-content-add"></i></a>
                                     </div>
                                 </div>
                             </form>
@@ -405,7 +403,7 @@
                             <div class="col s12 center-align ">
                                 <h3>View All Orders</h3>
                             </div>
-                            <table class="bordered hoverable centered" id="orderListTable">
+                            <table class="bordered hoverable centered striped" id="orderListTable">
                                 <thead>
                                     <tr>
                                         <th data-field="orderid">Order Id</th>
@@ -418,8 +416,101 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <!--Do not remove it... Keep it blank as data is populating from script -->
                                 </tbody>
                             </table>
+
+                            <!-- Modal Structure -->
+                            <div id="orderDetailsModal" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title" id="itemDetails-header">Order Details</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="container-fluid">
+                                                <div class="row">
+                                                <form class="col-lg-12 col-md-12 col-sm-12">
+                                                    <div class="row">
+                                                        <div class="col-sm-2">
+                                                            <span class="">Order Id</span>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <input id="orderDetails-orderid" type="text" class="validate">
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <span class="">Item Id</span>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <input id="orderDetails-item_id" type="number" class="validate">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-2">
+                                                            <span class="">Reciepent Name</span>
+                                                        </div>
+                                                        <div class="col-sm-10">
+                                                            <input id="orderDetails-receipientName" type="text" class="validate">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-2">
+                                                            <span class="">Reciepent Phone</span>
+                                                        </div>
+                                                        <div class="col-sm-10">
+                                                            <input id="orderDetails-receipientPhoneNumber" type="text" class="validate">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-2">
+                                                            <span class="">Address</span>
+                                                        </div>
+                                                        <div class="col-sm-10">
+                                                            <input id="orderDetails-address" type="text" class="validate">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-2">
+                                                            <span class="">Updated At</span>
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <input id="orderDetails-updated_at" type="text" class="validate">
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <span class="">Status</span>
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <input id="orderDetails-status" type="text" class="validate">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-2">
+                                                            <span class="">Shipping Address</span>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <input id="orderDetails-shippingAddress" type="number" class="validate">
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a class="waves-effect waves-light btn blue lighten-1" id="updateItem"><i class="mdi-file-cloud left"></i>Update</a>
+                                            <a class="waves-effect waves-light btn red accent-2" id="deleteItem"><i class="mdi-action-delete"></i>Delete</a>
+                                            <a class="waves-effect waves-light btn black lighten-3" data-dismiss="modal">Close</a>
+                                        </div>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                            <!-- /.modal -->
+
+
+
+
                             <!-- Modal Structure -->
                             <div id="orderDetailsModal" class="modal">
                                 <div class="modal-content">
@@ -427,38 +518,35 @@
                                     <form class="col s12">
                                         <div class="row">
                                             <div class="input-field col s4">
-                                                <input id="id" type="text" class="validate">
-                                                <label for="id">Item Id</label>
+                                                
                                             </div>
 
                                             <div class="input-field col s4">
-                                                <input id="name" type="text" class="validate">
-                                                <label for="name">Reciepent's Name</label>
+                                                <input id="orderDetails-name" type="text" class="validate">
+                                                <label for="orderDetails-name">Reciepent's Name</label>
                                             </div>
 
                                             <div class="input-field col s4">
-                                                <input id="phone" type="number" class="validate">
-                                                <label for="phone">Reciepent's Phone</label>
+                                                <input id="orderDetails-phone" type="number" class="validate">
+                                                <label for="orderDetails-phone">Reciepent's Phone</label>
                                             </div>
                                         </div>
 
                                         <div class="row">
                                             <div class="input-field col s4">
-                                                <input id="card" type="number" class="validate">
-                                                <label for="card">Reciepent's Card</label>
+                                                <input id="orderDetails-card" type="number" class="validate">
+                                                <label for="orderDetails-card">Reciepent's Card</label>
                                             </div>
 
                                             <div class="input-field col-sm-12 col-lg-6 col-md-12">
-                                                <input id="Address" type="number" class="validate">
-                                                <label for="Address">Address</label>
+                                                <input id="orderDetails-address" type="number" class="validate">
+                                                <label for="orderDetails-address">Address</label>
                                             </div>
                                             <div class="input-field col s2">
-                                                <input id="status" type="number" class="validate">
-                                                <label for="Status">Status</label>
+                                                <input id="orderDetails-status" type="number" class="validate">
+                                                <label for="orderDetails-status">Status</label>
                                             </div>
                                         </div>
-
-
                                     </form>
                                     <p class="center-align"><a class="waves-effect waves-light btn"><i class="mdi-file-cloud left"></i>Update</a>
                                         <a class="waves-effect waves-light btn"><i class="mdi-action-delete "></i></a></p>
@@ -564,508 +652,7 @@
     <script src="http://code.highcharts.com/maps/modules/map.js"></script>
     <script src="http://code.highcharts.com/mapdata/countries/us/us-all.js"></script>
     <script src="/js/customDashboardCharts.js"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            startTime();
-            $(".button-collapse").sideNav();
-            $('.modal-trigger').leanModal();
-            showDashboard();
-        });
-
-          $('#logOut').click(function() {
-            console.log("logout");
-             $.ajax({
-                url: 'logout',
-                type: 'POST',
-                async: true,
-                cache: false,
-                crossDomain: true,
-                dataType: "json",
-                success: function(res) {
-                    if (!res.type) {
-                        console.log("Please try again.");
-                    } else {
-                        sessionStorage.removeItem("user_id");
-                        window.location.href = "/";
-                    }
-                }
-            });
-        });
-
-        function loadCards() {
-            loadSaleCard();
-            loadUSMapChartCard();
-
-        }
-
-        function loadSaleCard() {
-            var d = new Date();
-            yr = d.getFullYear();
-            month = d.getMonth() + 1;
-            rid = 4;
-            startDate = month + "/01/" + yr;
-
-
-            $.get("getAvgSalesByMonth", {
-                year: yr,
-                retailerid: rid
-            }, function(res) {
-                // console.log(res);
-                res.forEach(function(obj) {
-                    if (obj._id == month) {
-                        avg = parseFloat(obj.avg).toFixed(0);
-                        $('#avgSaleCard-month').html("$" + avg);
-                    }
-                });
-            });
-            $.get("getAvgSalesByYear", {
-                retailerid: rid
-            }, function(res) {
-                //console.log(res);
-                res.forEach(function(obj) {
-
-                    if (obj._id == yr) {
-                        avg = parseFloat(obj.avg).toFixed(0);
-                        $('#avgSaleCard-year').html("$" + avg);
-                    }
-                });
-            });
-
-            $.get("getTotalSalesByMonth", {
-                year: yr,
-                retailerid: rid
-            }, function(res) {
-                //console.log(res);
-                res.forEach(function(obj) {
-                    if (obj._id == month) {
-                        $('#totalSaleCard-month').html("$" + obj.sum);
-                    }
-                });
-
-            });
-            $.get("getTotalSalesByYear", {
-                retailerid: rid
-            }, function(res) {
-                //console.log(res);
-                res.forEach(function(obj) {
-                    if (obj._id == yr) {
-                        $('#totalSaleCard-year').html("$" + obj.sum);
-                    }
-                });
-            });
-
-            $.get("getSalesTrends", {
-                startDate: startDate,
-                endDate: new Date(),
-                retailerid: rid
-            }, function(res) {
-                //console.log(res);
-                var date = [];
-                var sale = [];
-                res.forEach(function(obj) {
-                    var d = new Date(obj.date)
-                    date[date.length] = d.getDate() + "-" + (d.getMonth() + 1);
-                    sale[sale.length] = obj.sale;
-                });
-                // console.log(date);
-                // console.log(sale);
-                generateSaleTrendsGraph(date, sale);
-            });
-
-            $.get("getTopProducts", {
-                year: yr,
-                month: month,
-                retailerid: rid
-            }, function(res) {
-                //console.log(res);
-                var productIds = [];
-                var quantity = [];
-                var productName = [];
-                res.forEach(function(obj) {
-                    productIds[productIds.length] = obj._id;
-                    productName[productName.length] = obj.name;
-                    quantity[quantity.length] = obj.qty;
-                });
-
-                $('#topProductsChart').highcharts({
-                    chart: {
-                        type: 'bar'
-                    },
-                    title: {
-                        text: 'Top Products'
-                    },
-                    xAxis: {
-                        categories: productName,
-                        title: {
-                            text: null
-                        }
-                    },
-                    yAxis: {
-                        min: 0,
-                        title: {
-                            text: null,
-                            align: 'high'
-                        }
-                    },
-                    plotOptions: {
-                        bar: {
-                            dataLabels: {
-                                enabled: true,
-                                borderWidth: 0
-                            },
-                            borderWidth: 0
-                        }
-                    },
-                    series: [{
-                        name: 'This Month',
-                        data: quantity
-                    }]
-
-                });
-            });
-
-
-            $.get("getSaleByLocation", {
-                year: yr,
-                retailerid: rid
-            }, function(res) {
-                //console.log("Original Map:")
-                    // console.log(res);
-
-                var state = [];
-                var str = "";
-                res.forEach(function(obj) {
-                    str += obj._id + ":" + obj.qty + ", ";
-                });
-              //  console.log(str);
-
-                $('#usMapSalesChart').highcharts('Map', {
-
-                    chart: {
-                        borderWidth: 1
-                    },
-
-                    title: {
-                        text: 'Sale Locations'
-                    },
-
-                    legend: {
-                        layout: 'horizontal',
-                        borderWidth: 0,
-                        backgroundColor: '#0EA4C9',
-                        floating: true,
-                        verticalAlign: 'top',
-                        y: 25
-                    },
-
-                    mapNavigation: {
-                        enabled: true
-                    },
-
-                    colorAxis: {
-                        min: 1000,
-                        max: 10000,
-                        type: 'logarithmic',
-                        stops: [
-                            [0, '#FFFFFF'],
-                            [0.8, '#0EA4C9'],
-                            [1, '#0EA4C9']
-                        ]
-
-                    },
-
-                    series: [{
-                        animation: {
-                            duration: 1000
-                        },
-                        minColor: '#FFFFFF',
-                        maxColor: '#0EA4C9',
-                        data: res,
-                        mapData: Highcharts.maps['countries/us/us-all'],
-                        joinBy: ['postal-code', '_id'],
-                        dataLabels: {
-                            enabled: true,
-                            color: 'white',
-                            format: '{point._id}'
-                        },
-                        name: 'Sale Count',
-                        tooltip: {
-                            pointFormat: '{point._id}: {point.qty}'
-                        }
-                    }]
-                });
-            });
-
-
-        }
-
-        function loadUSMapChartCard() {
-            //console.log("loadDateCard");
-
-
-        }
-
-        function showDashboard() {
-            $('#retailerDashboardSection').show();
-            $('#listItemSection').hide();
-            $('#addItemSection').hide();
-            $('#listOrderSection').hide();
-            loadCards();
-        }
-
-        function addItem() {
-            $('#retailerDashboardSection').hide();
-            $('#listItemSection').hide();
-            $('#addItemSection').show();
-            $('#listOrderSection').hide();
-        }
-
-        function updateOrder() {
-            $('#retailerDashboardSection').hide();
-            $('#listItemSection').hide();
-            $('#addItemSection').hide();
-            $('#listOrderSection').hide();
-        }
-
-        function getOrderList() {
-            console.log("getting order List");
-            $("#orderListTable tbody").empty();
-            userid = sessionStorage.getItem("user_id");
-            url = "retailer/" + userid + "/order";
-            $.get(url, function(res) {
-                resLen = res.data.length;
-                var data = res.data;
-                console.log(data);
-
-                for(var i=0;i<15; i++){
-                 // $.each(data, function(thisdata) {
-                    thisdata = data[i];
-                    var tr = "<tr id=\"" + thisdata.orderid + "\" onclick=\"openOrderDetails(\'" + thisdata.orderid + "\') \">";
-                    tr += "<td>" + thisdata.orderid + "</td>";
-                    tr += "<td>" + thisdata.item_id + "</td>";
-                    tr += "<td>" + thisdata.receipientName + "</td>";
-                    tr += "<td>" + thisdata.receipientPhoneNumber + "</td>";
-                    tr += "<td>" + thisdata.shippingAddress.State + "</td>";
-                    tr += "<td>" + thisdata.updated_at + "</td>";
-                    tr += "<td>" + thisdata.status + "</td>";
-                    tr += "</tr>";
-                    $("#orderListTable tbody").append(tr);
-                }
-                // });
-            $('#retailerDashboardSection').hide();
-            $('#listItemSection').hide();
-            $('#addItemSection').hide();
-            $('#listOrderSection').show();
-            });
-        }
-
-      
-        function startTime() {
-            var today = new Date();
-            var h = today.getHours();
-            var m = today.getMinutes();
-            var s = today.getSeconds();
-            m = checkTime(m);
-            s = checkTime(s);
-
-            var weekday = new Array(7);
-            weekday[0] = "Sunday";
-            weekday[1] = "Monday";
-            weekday[2] = "Tuesday";
-            weekday[3] = "Wednesday";
-            weekday[4] = "Thursday";
-            weekday[5] = "Friday";
-            weekday[6] = "Saturday";
-
-            var day = weekday[today.getDay()].toUpperCase();
-            $('#dateCard-day').html(day);
-            $('#dateCard-date').html(today.toLocaleDateString());
-            $('#dateCard-time').html(h + ":" + m + ":" + s);
-            var t = setTimeout(function() {
-                startTime()
-            }, 500);
-        }
-
-        function checkTime(i) {
-            if (i < 10) {
-                i = "0" + i
-            }; // add zero in front of numbers < 10
-            return i;
-        }
-
-        function getItemList() {
-            console.log("getting Item List");
-            $("#itemListTable tbody").empty();
-            $.get("item", function(res) {
-                console.log("success");
-                console.log(res);
-                res.forEach(function(thisdata) {
-                    var tr = "<tr id=\"" + thisdata.name + "\" onclick=\"openItemDetails(\'" + thisdata._id + "\') \">";
-                    tr += "<td>" + thisdata._id + "</td>";
-                    if (thisdata.name.length > 50) {
-                        name = thisdata.name.substring(0, 48) + "...";
-                    } else {
-                        name = thisdata.name;
-                    }
-                    if (thisdata.description.length > 100) {
-                        description = thisdata.description.substring(0, 98) + "...";
-                    } else {
-                        description = thisdata.description;
-                    }
-                    tr += "<td>" + name + "</td>";
-                    tr += "<td>" + description + "</td>";
-                    tr += "<td>" + "$" + thisdata.price + "</td>";
-                    tr += "</tr>";
-                    $("#itemListTable tbody").append(tr);
-                });
-            });
-            $('#retailerDashboardSection').hide();
-            $('#listItemSection').show();
-            $('#addItemSection').hide();
-            $('#listOrderSection').hide();
-        }
-
-        function openItemDetails(itemId) {
-            console.log("openItemDetails(" + itemId + ")");
-            $.ajax({
-                url: 'item/' + itemId,
-                type: 'GET',
-                async: true,
-                crossDomain: true, // enable this
-                dataType: "json",
-                cache: false,
-                success: function(res) {
-                    console.log(res);
-                    $('#itemDetails-id').val(res._id);
-                    $('#itemDetails-categoryid').val(res.category_id);
-                    
-                    $('#itemDetails-name').val(res.name);
-                    $('#itemDetails-desc').val(res.description);
-                    $('#itemDetails-price').val(res.price);
-                    $('#itemDetails-discount').val(res.discount);
-                    $('#itemDetails-quantity').val(res.quantity);
-                    $('#itemDetails-features').val(JSON.parse(res.features));
-                }
-            });
-
-            $('#itemDetailsModal').modal('show');
-        }
-
-        $('#addItemLink').click(function(){
-            
-            var category_id= $('#addItem-categoryid').val();
-            var name = $('#addItem-name').val();
-            var description= $('#addItem-desc').val();
-            var price= $('#addItem-price').val();
-            var discount= $('#addItem-discount').val();
-            var quantity= $('#addItem-quantity').val();
-            var features = JSON.stringify($('#addItem-features').val());
-            $.ajax({
-                url: 'item/create',
-                type: 'POST',
-                async: true,
-                cache: false,
-                crossDomain: true,
-                dataType: "json",
-                data: {
-                    name: name,
-                    description: description,
-                    price: price,
-                    quantity: quantity,
-                    category_id: category_id,
-                    discount: discount,
-                    features: features
-                },
-                success: function(){
-                    $("#addItemForm input[type=text], #addItemForm input[type=number]").val("");
-                }
-            });
-
-        });
-
-
-        $('#updateItem').click(function(){
-            var id = $('#itemDetails-id').val();
-            var category_id= $('#itemDetails-categoryid').val();
-            var name = $('#itemDetails-name').val();
-            var description= $('#itemDetails-desc').val();
-            var price= $('#itemDetails-price').val();
-            var discount= $('#itemDetails-discount').val();
-            var quantity= $('#itemDetails-quantity').val();
-            var features = JSON.stringify($('#itemDetails-features').val());
-
-            if(id!=null){
-                $.ajax({
-                    url: 'item/update/' + id,
-                    type: 'PUT',
-                    async: true,
-                    cache: false,
-                    crossDomain: true,
-                    dataType: "json",
-                    data: {
-                        name: name,
-                        description: description,
-                        price: price,
-                        quantity: quantity,
-                        category_id: category_id,
-                        discount: discount,
-                        features: features
-                    },
-                    success: function(){
-                        alert('Item Updated');
-                        getItemList();
-                        $('#itemDetailsModal').modal('hide');
-                    }
-                });
-            }
-        });
-
-        $('#deleteItem').click(function(){
-            var id = $('#itemDetails-id').val();
-            if(id!=null){
-                $.ajax({
-                    url: 'item/delete/' + id,
-                    type: 'DELETE',
-                    async: 'true',
-                    crossDomain: true,
-                    success: function(){
-                        alert('Item Deleted');
-                        getItemList();
-                        $('#itemDetailsModal').modal('hide');
-                    }
-                });
-            }
-        });
-
-        
-        function generateSaleTrendsGraph(date, sale) {
-            $('#saleTrendsGraph').highcharts({
-                chart: {
-                    height: 300,
-                    zoomType: 'xy'
-                },
-
-                title: {
-                    text: 'Sale Trends'
-                },
-                xAxis: {
-                    categories: date
-                },
-                yAxis: {
-                    title: {
-                        text: 'Sales'
-                    },
-                },
-                series: [{
-                    name: 'Date',
-                    data: sale,
-
-                }]
-            });
-        }
-    </script>
-
+    <script src="/js/retailer_home.js"></script>
 </body>
 
 </html>

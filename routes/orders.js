@@ -111,18 +111,6 @@ module.exports = function(router) {
             }
             });
         }
-        //        UserSchema.findOne({user_id:req.params.userid}, function(err, user){
-        //            if(err){
-        //                 res.json({
-        //                        type: false,
-        //                        data: "User not found"
-        //                 });
-        //            }
-        //            else{
-        //                if(user){
-        //                }
-        //            }            
-        //        });
     });
 
 
