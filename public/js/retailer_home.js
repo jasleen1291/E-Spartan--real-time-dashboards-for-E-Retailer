@@ -284,7 +284,7 @@ function showItemList() {
     $("#itemListTable tbody").empty();
     $.get("item", function(res) {
         console.log("success");
-        console.log(res);
+        //console.log(res);
         res.forEach(function(thisdata) {
             var tr = "<tr id=\"" + thisdata.name + "\" onclick=\"openItemDetails(\'" + thisdata._id + "\') \">";
             tr += "<td>" + thisdata._id + "</td>";
@@ -319,7 +319,7 @@ function showOrderList() {
     $.get(url, function(res) {
         resLen = res.data.length;
         var data = res.data;
-        console.log(data);
+        //console.log(data);
 
         for (var i = 0; i < 15; i++) {
             // $.each(data, function(thisdata) {
@@ -380,20 +380,36 @@ function openOrderDetails(orderId) {
         dataType: "json",
         cache: false,
         success: function(res) {
-            console.log(res);
-            $('#orderDetails-orderid').val(res.orderid);
-            $('#orderDetails-updated_at').val(res.updated_at);
-            $('#orderDetails-item_id').val(res.item_id);
-            $('#orderDetails-quantity').val(res.quantity);
-            $('#orderDetails-price').val(res.price);
-            $('#orderDetails-receipientName').val(res.receipientName);
-            $('#orderDetails-receipientPhoneNumber').val(res.receipientPhoneNumber);
-            $('#orderDetails-status').val(res.status);
-            $('#orderDetails-shippingAddress').val(JSON.parse(res.shippingAddress));
+            //console.log(res);
+            $('#orderDetails-orderid').val(res.data.orderid);
+            $('#orderDetails-updated_at').val(res.data.updated_at);
+            $('#orderDetails-item_id').val(res.data.item_id);
+            $('#orderDetails-quantity').val(res.data.quantity);
+            $('#orderDetails-price').val(res.data.price);
+            $('#orderDetails-receipientName').val(res.data.receipientName);
+            $('#orderDetails-receipientPhoneNumber').val(res.data.receipientPhoneNumber);
+            //var x = JSON.parse(res.data.shippingAddress);
+
+            $('#orderDetails-addressline1').val(res.data.shippingAddress.AddressLine1);
+            $('#orderDetails-addressline2').val(res.data.shippingAddress.AddressLine2);
+            $('#orderDetails-city').val(res.data.shippingAddress.City);    
+            $('#orderDetails-state').val(res.data.shippingAddress.State);    
+            $('#orderDetails-zop').val(res.data.shippingAddress.Zip);
+            var status = res.data.status;
+            console.log(status);
+            if(status=="Pending"){
+                $('#orderDetails-status').val(1);
+            }else if(status=="Shipped"){
+                $('#orderDetails-status').val(2);
+            }else if(status=="Delivered"){
+                $('#orderDetails-status').val(3);
+            }else if(status="Cancelled"){
+                $('#orderDetails-status').val(4);
+            }
         }
     });
 
-    $('#itemDetailsModal').modal('show');
+    $('#orderDetailsModal').modal('show');
 }
 
 
