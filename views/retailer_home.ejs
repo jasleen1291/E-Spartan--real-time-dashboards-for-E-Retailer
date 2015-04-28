@@ -13,9 +13,7 @@
 
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="/stylesheets/materialize.css" media="screen,projection" />
-    <!-- <link type="text/css" rel="stylesheet" href="/stylesheets/materialize.css">
-         -->
-    <!-- <link type="text/css" rel="stylesheet" href="/stylesheets/style.css" media="screen,projection"/> -->
+    <link type="text/css" rel="stylesheet" href="/stylesheets/style.css" media="screen,projection"/>
 
     <link rel="stylesheet" type="text/css" href="http://www.highcharts.com/media/com_demo/highslide.css" />
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
@@ -26,35 +24,11 @@
     <link href="/stylesheets/main.css" rel="stylesheet">
     <link href="/stylesheets/responsive.css" rel="stylesheet">
 
-    <!--        <link type="text/css" rel="stylesheet" href="../public/stylesheets/ghpages-materialize.css">-->
-
     <link rel="shortcut icon" href="images/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
-
-    <style>
-        .card-header {
-            font-size: 1.2em;
-        }
-        
-        .largetext {
-            font-size: 2.5em;
-        }
-        
-        .mediumtext {
-            font-size: 1.5em;
-        }
-        
-        .normaltext {
-            font-size: 1em;
-        }
-        
-        .smalltext {
-            font-size: 0.8em;
-        }
-    </style>
 
 </head>
 
@@ -66,7 +40,7 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="logo pull-left">
-                            <a href="index.html"><img src="/images/home/logo.jpg" alt="Retailer dashboard page" /></a>
+                            <a href="index"><img src="/images/home/logo.jpg" alt="Retailer dashboard page" /></a>
                         </div>
                     </div>
                     <div class="col-sm-8">
@@ -124,7 +98,7 @@
     </header>
     <!--/header-->
 
-    <section id="retailerDashboard">
+    <section id="retailerDashboardSection">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
@@ -234,7 +208,7 @@
         </div>
     </section>
 
-    <section id="listItem">
+    <section id="listItemSection">
         <div class="container">
             <div class="row">
                 <div class="row" id="listItemDiv">
@@ -351,7 +325,7 @@
         </div>
     </section>
 
-    <section id="addItem">
+    <section id="addItemSection">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
@@ -422,7 +396,7 @@
         </div>
     </section>
 
-    <section id="listOrder">
+    <section id="listOrderSection">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
@@ -833,27 +807,25 @@
         }
 
         function showDashboard() {
-            $('#retailerDashboard').show();
-            $('#listItem').hide();
-            $('#addItem').hide();
-            $('#listOrder').hide();
+            $('#retailerDashboardSection').show();
+            $('#listItemSection').hide();
+            $('#addItemSection').hide();
+            $('#listOrderSection').hide();
             loadCards();
         }
 
         function addItem() {
-            $('#retailerDashboard').hide();
-            $('#retailerDashboard2').hide();
-            $('#listItem').hide();
-            $('#addItem').show();
-            $('#listOrder').hide();
+            $('#retailerDashboardSection').hide();
+            $('#listItemSection').hide();
+            $('#addItemSection').show();
+            $('#listOrderSection').hide();
         }
 
         function updateOrder() {
-            $('#retailerDashboard').hide();
-            $('#retailerDashboard2').hide();
-            $('#listItem').hide();
-            $('#addItem').hide();
-            $('#listOrder').hide();
+            $('#retailerDashboardSection').hide();
+            $('#listItemSection').hide();
+            $('#addItemSection').hide();
+            $('#listOrderSection').hide();
         }
 
         function getOrderList() {
@@ -881,11 +853,10 @@
                     $("#orderListTable tbody").append(tr);
                 }
                 // });
-            $('#retailerDashboard').hide();
-            $('#retailerDashboard2').hide();
-            $('#listItem').hide();
-            $('#addItem').hide();
-            $('#listOrder').show();
+            $('#retailerDashboardSection').hide();
+            $('#listItemSection').hide();
+            $('#addItemSection').hide();
+            $('#listOrderSection').show();
             });
         }
 
@@ -949,11 +920,10 @@
                     $("#itemListTable tbody").append(tr);
                 });
             });
-            $('#retailerDashboard').hide();
-            $('#retailerDashboard2').hide();
-            $('#listItem').show();
-            $('#addItem').hide();
-            $('#listOrder').hide();
+            $('#retailerDashboardSection').hide();
+            $('#listItemSection').show();
+            $('#addItemSection').hide();
+            $('#listOrderSection').hide();
         }
 
         function openItemDetails(itemId) {
@@ -1049,7 +1019,6 @@
                     }
                 });
             }
-
         });
 
         $('#deleteItem').click(function(){
@@ -1069,12 +1038,7 @@
             }
         });
 
-        function openModal(templateName) {
-            console.log(templateName);
-            templatenameglobal = templateName;
-            $('#deployVM').openModal();
-        }
-
+        
         function generateSaleTrendsGraph(date, sale) {
             $('#saleTrendsGraph').highcharts({
                 chart: {

@@ -40,10 +40,10 @@ app.use(session({
     keys: ['key1','key2']
 }));
 
+app.use('/',router);
 app.use('/api',router);
 var publicDir = require('path').join(__dirname, '/public');
 app.use(express.static(publicDir)); 
-
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB Connection error: Unable to connect. Resolve connection issue before starting application'));

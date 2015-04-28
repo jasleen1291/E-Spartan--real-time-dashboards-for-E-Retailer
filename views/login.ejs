@@ -1,192 +1,296 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Login as a retailer to sell and view the Dashboard for your sales. As a normal user you can buy your favorite styles. ">
+    <meta name="author" content="Cmpe-280, Team 9, E Spartan.">
+    <title>Login | E-Spartan Shop.</title>
+    <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
+    <link href="stylesheets/font-awesome.min.css" rel="stylesheet">
+    <link href="stylesheets/prettyPhoto.css" rel="stylesheet">
+    <link href="stylesheets/price-range.css" rel="stylesheet">
+    <link href="stylesheets/animate.css" rel="stylesheet">
+	<link href="stylesheets/main.css" rel="stylesheet">
+	<link href="stylesheets/responsive.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->       
+    <link rel="shortcut icon" href="images/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+</head><!--/head-->
 
-  <!--Import materialize.css-->
-  <link type="text/css" rel="stylesheet" href="stylesheets/materialize.min.css"  media="screen,projection"/>
-  <!--Let browser know website is optimized for mobile-->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <title>Login Page</title>
-
-  <!--  Scripts-->
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="javascripts/materialize.js"></script>  
-
-  <!-- Compiled and minified CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.0/css/materialize.min.css">
-  <!-- Compiled and minified JavaScript -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.0/js/materialize.min.js"></script>
-</head>
 <body>
-  <nav class="grey darken-3 lighten-1" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">VM Manager</a>
-      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
-    </div>
-  </nav>
+		<div class="header-middle"><!--header-middle-->
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="logo pull-left">
+							<a href="/"><img src="images/home/logo.jpg" alt="" /></a>
+						</div>
+						
+					</div>
+					<div class="col-sm-8">
+						<div class="shop-menu pull-right">
+							<ul class="nav navbar-nav">
+								<li><a href="cart"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+								<li><a href="checkout"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+								<li><a href="login" class="active"><i class="fa fa-lock"></i> Login</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!--/header-middle-->
+	
+		<div class="header-bottom"><!--header-bottom-->
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-9">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+						</div>
+						<div class="mainmenu pull-left">
+							<ul class="nav navbar-nav collapse navbar-collapse">
+								<li><a href="/">Home</a></li>
+								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
+                                    <ul role="menu" class="sub-menu">
+                                        <li><a href="shop">Products</a></li>
+										<li><a href="product-details">Product Details</a></li> 
+										<li><a href="checkout">Checkout</a></li> 
+										<li><a href="cart">Cart</a></li> 
+										<li><a href="login" class="active">Login</a></li> 
+                                    </ul>
+                                </li> 
+								<li><a href="contact-us">Contact</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-sm-3">
+						<div class="search_box pull-right">
+							<input type="text" placeholder="Search"/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!--/header-bottom-->
+	</header><!--/header-->
+	
+	<section id=""><!--form-->
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4 col-sm-offset-1">
+					<div class="login-form"><!--login form-->
+						<h2>Login to your account</h2>
+						<form action="#">
+							<input type="text" placeholder="Username" id="userName" required/>
+							<input type="password" placeholder="Password" id="password" required/>
+							<span>
+								<input type="checkbox" class="checkbox"> 
+								Keep me signed in
+							</span>
+							<button type="submit" class="btn btn-default" onclick="event.preventDefault(); login();">Login</button>
+							<button type="reset" class="btn btn-danger" id="wrongpassword" style="display:none;background:red">Incorrect username or password!</button>
+						</form>
+					</div><!--/login form-->
+				</div>
+				<div class="col-sm-1">
+					<h2 class="or">OR</h2>
+				</div>
+				<div class="col-sm-4">
+					<div class="signup-form"><!--sign up form-->
+						<h2>New User Signup!</h2>
+						<form action="#">
+							<input type="text" placeholder="First Name" id="firstName" required/>
+							<input type="text" placeholder="Last Name" id="lastName" required/>
+							<input type="email" placeholder="Email Address" id="emailAddress" required/>
+							<input type="password" placeholder="Password" id="signupPassword" required/>
+							<span>
+								<select type="text" id="userRole" required>
+	  								  <option value="retailer">retailer</option>
+									  <option value="user">user</option>
+								</select>
+							</span>
+							<button type="submit" class="btn btn-default" onclick="event.preventDefault(); signup();">Signup</button>
+							<br /><br />
+							<button type="reset" class="btn btn-danger" id="signuperror" style="display:none;background:red">Sign up Error! </button>
+							<br />
+							<button type="reset" class="btn btn-success" id="signupsuccessful" style="display:none;">Sign up Successful!</button>
+						</form>
+					</div><!--/sign up form-->
+				</div>
+			</div>
+		</div>
+	</section><!--/form-->
+	
+	
+	<footer id="footer"><!--Footer-->
+		<div class="footer-widget">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-2">
+						<div class="single-widget">
+							<h2>Service</h2>
+							<ul class="nav nav-pills nav-stacked">
+								<li><a href="">Online Help</a></li>
+								<li><a href="">Contact Us</a></li>
+								<li><a href="">Order Status</a></li>
+								<li><a href="">Change Location</a></li>
+								<li><a href="">FAQ’s</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-sm-2">
+						<div class="single-widget">
+							<h2>Quick Shop</h2>
+							<ul class="nav nav-pills nav-stacked">
+								<li><a href="">T-Shirt</a></li>
+								<li><a href="">Mens</a></li>
+								<li><a href="">Womens</a></li>
+								<li><a href="">Gift Cards</a></li>
+								<li><a href="">Shoes</a></li>
+							</ul>
+						</div>
+					</div>
+				<!-- 	<div class="col-sm-2">
+						<div class="single-widget">
+							<h2>Policies</h2>
+							<ul class="nav nav-pills nav-stacked">
+								<li><a href="">Terms of Use</a></li>
+								<li><a href="">Privecy Policy</a></li>
+								<li><a href="">Refund Policy</a></li>
+								<li><a href="">Billing System</a></li>
+								<li><a href="">Ticket System</a></li>
+							</ul>
+						</div>
+					</div> -->
+					<div class="col-sm-2">
+						<div class="single-widget">
+							<h2>About Shopper</h2>
+							<ul class="nav nav-pills nav-stacked">
+								<li><a href="">Company Information</a></li>
+						<!-- 		<li><a href="">Careers</a></li>
+								<li><a href="">Store Location</a></li>
+								<li><a href="">Affillate Program</a></li> -->
+								<li><a href="">Copyright</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-sm-3 col-sm-offset-1">
+						<div class="companyinfo">
+							<h2><span>E</span>-spartan</h2>
+							<p>Get the most recent updates from <br />our site and be updated your self...</p>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		
+		<div class="footer-bottom">
+			<div class="container">
+				<div class="row">
+					<p class="pull-left">Copyright © 2015 E-SPARTAN Shop. All rights reserved.</p>
+					<p class="pull-right">Designed by <span><a target="_blank" href="#">CMPE 280  - Team 9</a></span></p>
+				</div>
+			</div>
+		</div>
+		
+	</footer><!--/Footer-->
+	
+
   
+    <script src="js/jquery.js"></script>
+	<script src="js/price-range.js"></script>
+    <script src="js/jquery.scrollUp.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.prettyPhoto.js"></script>
+    <script src="js/main.js"></script>
 
-  <div class="container">
-    <div class="section">
-      <div class="row">
-          <div class="input-field col s12 center">    
-            <label class="error-color" id="error" for="error"></label>
-          </div>      
-      </div>
-      <div class="row">
-        
-      <form class="col s6">
-        <h4>Sign In</h4>
-         <div class="input-field col s12">    
-          <input id="userName" type="text" class="validate">
-          <label for="userName">User Name</label>
-        </div>
-        <div class="input-field col s12">    
-          <input id="password" type="password" class="validate">
-            <label for="password">Password</label>
-        </div>
-        <div class="input-field col s12 center">          
-          <a  class="btn waves-effect waves-light  grey darken-3" onclick="login();">Sign In</a>
-        </div>
-
-          
-      </form>
-      
-      <form id="signupForm" class="col s6" method="POST" action="/signup">
-        <h4>Sign Up</h4>
-        <div class="input-field col s12">    
-          <input id="firstName" type="text" class="validate">
-          <label for="firstName">First Name</label>
-        </div>
-        <div class="input-field col s12">    
-          <input id="lastName" type="text" class="validate">
-          <label for="lastName">Last Name</label>
-        </div>
-         <div class="input-field col s12">    
-          <input id="userName" type="text" class="validate">
-          <label for="email">User Name</label>
-        </div>
-        <div class="input-field col s12">    
-          <input id="password" type="password" class="validate">
-            <label for="password">Password</label>
-            <!-- <i><img class="circle" src="../public/images/help.jpg" height="20px" weight="20px" onmouseover="showDvHelp();" onmouseout='hideDvHelp();'/> -->
-              <div id="dvHelp" style="display:none; float:right; width:225px"></div>
-              <progress id="pBarPasswordStrength" style="display:none" max="100" value="0"></progress>
-              <label id="lblPasswordStrength" style="float:right"></label></i>
-        </div>    
-        <div class="input-field col s12">    
-          <input id="confirmPassword" type="password" class="validate">
-            <label for="confirmPassword">Confirm Password</label>
-        </div>
-        <div class="input-field col s12 center"><!-- 
-          <button class="btn waves-effect waves-light  grey darken-3" type="submit" name="action">Sign Up
-          </button> -->
-          <a  class="btn waves-effect waves-light  grey darken-3" onclick="signup();">Sign Up</a>
-        </div>
-      </form>
-      </div>
-
-      <!--   Icon Section   -->
-    </div>
-    <br><br>
-
-  </div>
-
-  <footer class="page-footer grey darken-3">
-
-<div class="container">
-      <div class="row">
-        <div class="col l6 s12">
-          <h5 class="white-text">TEAM 01</h5>
-          <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
-        </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Team Members</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Piyush</a></li>
-            <li><a class="white-text" href="#!">Sumit</a></li>
-            <li><a class="white-text" href="#!">Vaibhav</a></li>
-            <li><a class="white-text" href="#!">Surabhi</a><li><a class="white-text" href="#!">Prajakta</a></li></li>
-          </ul>
-        </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Connect</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div class="footer-copyright">
-      <div class="container">
-      Made by <a class="green-text text-lighten-3" href="http://materializecss.com">CmpE 283: Team 01</a>
-      </div>
-    </div>
-  </footer>
-
-
-  
-  <script>
-  function login()
-  {
-    var username= $('#userName').val();
-    var password= $('#password').val();
-    console.log(username + " : " + password);
-    if (username == ''|| password == '') {
-      console.log("error")
-      $('#error').text("error");
-      return;
-    }else{
-      $.post("/login",{ username:username,password:password}).done(function(data){        
-        if(!data.type){
-          return;
+        <script type="text/javascript">
+    	function login()
+        {
+            var username= $('#userName').val();
+            var password= $('#password').val();
+            //console.log(username + " : " + password);
+            $("#wrongpassword").css("display", "none");
+            if (username == ''|| password == '') {
+                console.log("error")
+                $('#error').text("error");
+                return;
+            }else{
+                $.post("/api/login",{ userName:username,password:password}).done(function(data){        
+                    if(!data.type){
+                    	console.log("Login Error:"+data.data)
+                    	$("#wrongpassword").show();
+                        return;
+                    }
+                    else{
+                        var role = data.data.role;
+                        sessionStorage.setItem("user_id", data.data.user_id);
+						if(role == "retailer") {
+							window.location.href ="/api/retailerhome";
+						}
+						//else {
+							//window.location.href ="/api/home";
+						//}
+                        // var url = '/home';
+                        //  var form = $('<form action="' + url + '" method="post">' +
+                        //    '<input type="text" name="api_url" value="' +url + '" />' +
+                        //    '</form>');
+                        //  $('body').append(form);
+                        //  form.submit();
+                    }
+                });
+            }
         }
-        else{
-           console.log("login successfull");
-           window.location.href ="/home";
-           // var url = '/home';
-           //  var form = $('<form action="' + url + '" method="post">' +
-           //    '<input type="text" name="api_url" value="' +url + '" />' +
-           //    '</form>');
-           //  $('body').append(form);
-           //  form.submit();
-         }
-      });
-    }
-  }
 
-  function signup(){
-    var form = document.getElementById("signupForm");
-    var inputElements = $('#signupForm input');
-    //creating a object of form Data
-    var signupData = new Object();
-
-    for(var i=0; i< inputElements.length; i++){
-      var inputId = '\"#'+ inputElements[i].id + '\"';      
-      if(inputElements[i].value == ""){
-        //console.log( inputElements[i].id + " : " + $('\'#'+ inputElements[i].id + '\'').val());
-        console.log("Please fill all the input fields.");
-        $('#error').text("Please fill all the input fields.");
-        return;
-      }
-      signupData[inputElements[i].id] = inputElements[i].value;
-    }
-    console.log(signupData);
-     $.post("signup", signupData).done(function(data){
-        if(!data.type){
-          return;
+        function signup()
+        {
+            var firstName= $('#firstName').val();
+            var lastName= $('#lastName').val();
+            var emailAddress= $('#emailAddress').val();
+            var password= $('#signupPassword').val();
+            var x = document.getElementById("userRole").selectedIndex;
+			var y = document.getElementById("userRole").options;
+			var role = y[x].text;
+            //console.log(username + " : " + password);
+            $("#signuperror").css("display", "none");
+            $("#signupsuccessful").css("display", "none");
+            if (emailAddress == ''|| password == '' || firstName == '' || lastName == '') {
+                console.log("error")
+                $('#error').text("error");
+                return;
+            }else{
+                $.post("/api/signup",{ "userName":emailAddress,"password":password,"firstName":firstName,"lastName":lastName,"role":role,"password":password}).done(function(data){        
+                    if(!data.type){
+                    	console.log("Signup Error:"+data.data)
+                    	$("#signuperror").show();
+                        return;
+                    }
+                    else{
+                        console.log("Signup successfull");
+                        $("#signupsuccessful").show();
+                        //window.location.href ="/api/retailerhome";
+                        // var url = '/home';
+                        //  var form = $('<form action="' + url + '" method="post">' +
+                        //    '<input type="text" name="api_url" value="' +url + '" />' +
+                        //    '</form>');
+                        //  $('body').append(form);
+                        //  form.submit();
+                    }
+                });
+            }
         }
-        else{
-           console.log("login successfull");
-           window.location.href ="/home";
-         }
-     });
-  }
-  </script>
-
-  </body>
+    </script>
+</body>
 </html>

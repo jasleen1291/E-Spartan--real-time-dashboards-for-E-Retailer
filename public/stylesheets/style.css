@@ -9,7 +9,27 @@ a {
   color: #00B7FF;
 }
 
-header, main, footer {
+.card-header {
+    font-size: 1.2em;
+}
+    
+.largetext {
+    font-size: 2.5em;
+}
+
+.mediumtext {
+    font-size: 1.5em;
+}
+
+.normaltext {
+    font-size: 1em;
+}
+
+.smalltext {
+    font-size: 0.8em;
+}
+
+/*header, main, footer {
   padding-left: 240px; }
 
 
@@ -48,4 +68,4 @@ a.button-collapse.top-nav.full {
  .card-item-name .card-item-price .card-item-add-to-cart{
  	font-size: 1.2em;
  }
-  
+  */
