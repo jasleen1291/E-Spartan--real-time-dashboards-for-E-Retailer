@@ -4,8 +4,8 @@
 
 	var RGBChange = function() {
 	  $('#RGB').css('background', 'rgb('+r.getValue()+','+g.getValue()+','+b.getValue()+')')
-	};	
-		
+	};
+
 /*scroll to top*/
 
 $(document).ready(function(){
@@ -26,5 +26,25 @@ $(document).ready(function(){
 	        activeOverlay: false, // Set CSS color to display scrollUp active point, e.g '#00FFFF'
 	        zIndex: 2147483647 // Z-Index for the overlay
 		});
+	});
+
+	$('#logOut').click(function() {
+	    console.log("logout");
+	    $.ajax({
+	        url: 'logout',
+	        type: 'POST',
+	        async: true,
+	        cache: false,
+	        crossDomain: true,
+	        dataType: "json",
+	        success: function(res) {
+	            if (!res.type) {
+	                console.log("Please try again.");
+	            } else {
+	                sessionStorage.removeItem("user_id");
+	                window.location.href = "/";
+	            }
+	        }
+	    });
 	});
 });
