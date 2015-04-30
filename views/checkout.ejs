@@ -86,7 +86,7 @@
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="/">Home</a></li>
+								<li><a id="home" href="/">Home</a></li>
 								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
 										<li><a href="checkout" class="active">Checkout</a></li> 
@@ -341,7 +341,22 @@
 		</div>
 	</section> <!--/#cart_items-->
 
-	
+	<div class="modal fade" id="checkoutModal">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title">E-Spartan</h4>
+	      </div>
+	      <div class="modal-body">
+	        <p>Your order has been received! The items are on their way. Thank you for shopping with E-Spartan.</p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
 
 	<footer id="footer"><!--Footer-->
 		<div class="footer-widget">

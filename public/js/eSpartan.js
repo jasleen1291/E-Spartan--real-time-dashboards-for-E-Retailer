@@ -191,14 +191,14 @@ function retrieveFeaturedItems() {
 								'				<img src="'+featuredItems[i].imagePath+'" alt="" height = "290px" width="280px"/>'+
 				'				<h2 id="itemPrice" data-price="'+featuredItems[i].price+'">$'+featuredItems[i].price+'</h2>'+
 				'				<p id="itemId" data-id="'+featuredItems[i]._id+'">'+featuredItems[i].name.substring(0, 35)+'</p>'+
-				'				<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>'+
+				'				<a href="#" class="btn btn-default add-to-cart" data-toggle="modal" data-target="#addToCartModal"><i class="fa fa-shopping-cart"></i>Add to cart</a>'+
 				'			</div>'+
 				'			<div class="product-overlay">'+
 				'				<div class="overlay-content">'+
 				'					<p>'+featuredItems[i].description+'<p>'+
 				'					<h2>$'+featuredItems[i].price+'</h2>'+
 				'					<p>'+featuredItems[i].name+'</p>'+
-				'					<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>'+
+				'					<a href="#" class="btn btn-default add-to-cart" data-toggle="modal" data-target="#addToCartModal"><i class="fa fa-shopping-cart"></i>Add to cart</a>'+
 				'				</div>'+
 				'			</div>'+
 				'		</div>'+
@@ -250,14 +250,14 @@ function retrieveSelectedCategoryItems(category_id,category_name) {
 								'				<img src="'+categoryItems[i].imagePath+'" alt="" height = "290px" width="280px"/>'+
 				'				<h2 id="itemPrice" data-price="'+categoryItems[i].price+'">$'+categoryItems[i].price+'</h2>'+
 				'				<p id="itemId" data-id="'+categoryItems[i]._id+'">'+categoryItems[i].name.substring(0, 35)+'</p>'+
-				'				<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>'+
+				'				<a href="#" class="btn btn-default add-to-cart"  data-toggle="modal" data-target="#addToCartModal"><i class="fa fa-shopping-cart"></i>Add to cart</a>'+
 				'			</div>'+
 				'			<div class="product-overlay">'+
 				'				<div class="overlay-content">'+
 				'					<p>'+categoryItems[i].description+'<p>'+
 				'					<h2>$'+categoryItems[i].price+'</h2>'+
 				'					<p>'+categoryItems[i].name+'</p>'+
-				'					<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>'+
+				'					<a href="#" class="btn btn-default add-to-cart"  data-toggle="modal" data-target="#addToCartModal"><i class="fa fa-shopping-cart"></i>Add to cart</a>'+
 				'				</div>'+
 				'			</div>'+
 				'		</div>'+

@@ -75,7 +75,7 @@ function retrieveCart() {
 }// End of retrieveCart()
 
 function checkoutCart() {
-	DEBUG = true;
+	DEBUG = false;
 
 	if($("#form1")[0].checkValidity() && $("#form2")[0].checkValidity()) {
 		var infoToSend;
@@ -89,7 +89,7 @@ function checkoutCart() {
 		var ZipCode = document.getElementById("zip");
 
 		infoToSend = JSON.stringify({"receipientName": receipientName.value, "receipientPhoneNumber": receipientPhoneNumber.value, "creditCard": creditCard.value, "shippingAddress": { "AddressLine1": AddressLine1.value, "AddressLine2": AddressLine2.value,	"City": City.value, "State": State.value, "ZipCode": ZipCode.value } });
-		alert(infoToSend);
+		
 		$.ajax({
 			async: false,
 			type: "POST",
@@ -105,6 +105,8 @@ function checkoutCart() {
 			  }
 	}); //end of ajax
 
+		$("#checkoutModal").modal('show');
+		$("#home").trigger('click');
 	} else {
 		//Display message to enter form details - mandatory fields
 		alert("Please enter all the fields in the form");
