@@ -217,7 +217,6 @@ module.exports = function(router) {
 
     //updating order
     router.put('/user/:userid/order/update/:orderid', function(req, res) {
-        console.log("Update Order API called.");
         var OrderSchema = require('../models/Order');
         var UserSchema = require('../models/User');
         if(!req.session.user || req.session.user.role != "retailer") {
@@ -241,7 +240,6 @@ module.exports = function(router) {
                     orderid: Number(req.params.orderid)
                 }, function(err, order) {
                     if (err) {
-                        console.log('No order found for this id');
                         res.json({
                             type: false,
                             data: "No order found for this id"
@@ -251,15 +249,15 @@ module.exports = function(router) {
                         if (order.status != 'Delivered') {
                             console.log('Updating Order status');
                             saveOrder(req, res, order);
-                        }else{
-                            console.log("Order already Delivered. You cannot change its status.");
-                            res.json({
+                            }else{
+                                console.log("Order already Delivered. You cannot change its status.");
+                                res.json({
                                 type: false,
                                 data: "Order already Delivered. You cannot change its status."
                             });
 
-                        }
-                    }
+                         }                               }
+                    
                 });
             }
             });
@@ -696,7 +694,7 @@ module.exports = function(router) {
     });
 
     function saveOrder(req, res, order) {
-        //console.log(req.data);
+       // console.log(req.data);
         //Added if statements so that anything doesnt get set to undefined by accident
         if (req.params.userid)
             order.userid = req.params.userid;
@@ -724,8 +722,8 @@ module.exports = function(router) {
             order.status = "Pending";
         else
             order.status = req.body.status;
-            console.log(req.body);
-            order.save(function(err, order) {
+        console.log(req.body);
+        order.save(function(err, order) {
             if (err) {
                 res.json({
                     type: false,

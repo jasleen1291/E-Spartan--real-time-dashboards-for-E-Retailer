@@ -421,22 +421,7 @@ function openOrderDetails(orderId) {
 
 
 $('#addItem').click(function() {
-    console.log('additem click');  
 
-/*    $('#addItemForm').submit( function( e ) {
-        alert( "Handler for .submit() called." );
-        var data = new FormData( this );
-        console.log(data);
-        // $.ajax( {
-        //   url: 'http://host.com/action/',
-        //   type: 'POST',
-        //   data: new FormData( this ),
-        //   processData: false,
-        //   contentType: false
-        // } );
-        //e.preventDefault();
-    } );
-*/
     var category_id = $('#addItem-categoryid').val();
     var name = $('#addItem-name').val();
     var description = $('#addItem-desc').val();
@@ -444,7 +429,6 @@ $('#addItem').click(function() {
     var discount = $('#addItem-discount').val();
     var quantity = $('#addItem-quantity').val();
     var features = JSON.stringify($('#addItem-features').val());
-    var imagepath = $('#addItem-img');
     $.ajax({
         url: 'item/create',
         type: 'POST',
@@ -532,7 +516,6 @@ $('#updateOrder').click(function() {
         });
     }
 });
-
 
 $('#deleteItem').click(function() {
     var id = $('#itemDetails-id').val();

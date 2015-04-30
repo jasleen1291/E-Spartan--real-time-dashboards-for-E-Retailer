@@ -391,6 +391,7 @@ module.exports = function(router) {
         }
 
     }
+
     router.post('/checkout', function(req, res, next) {
         if(!req.session.user || req.session.user.role == "admin" || req.session.user.role == "retailer") {
             res.json({
@@ -402,7 +403,7 @@ module.exports = function(router) {
         var Order = require("../models/Order");
         var Item = require("../models/Item");
         Cart.findOne({
-            user_id: req.body.userid
+            user_id: req.session.user.user_id
         }, function(err, doc) {
             if (err) {
                 res.send({
@@ -417,7 +418,7 @@ module.exports = function(router) {
                         for (i = 0; i < doc.items.length; i++) {
                             var item = doc.items[i];
                             var order = new Order();
-                            order.userid = Number(req.body.userid);
+                            order.userid = Number(req.session.user.user_id);
                             order.retailerid = item.retailer_id;
                             order.item_id = item._id;
 

@@ -6,7 +6,8 @@ $(document).ready(function() {
 	retrieveBrands();
 	retrieveFeaturedItems();
 
-$(".add-to-cart").on('click', function() {
+$(".add-to-cart").on('click', function(e) {
+		e.preventDefault();
 		//alert("Add to cart is clicked");
 		DEBUG = false;
 		//alert($(this).parents(".single-products").find("#itemPrice").attr('data-price'));
@@ -117,13 +118,15 @@ function retrieveCategories() {
 			if(matchingChildren.length == 0){
 				$(".category-products").append(categorySkeleton);
 				$(".category-products").children().last().find("#categoryName").html(parentCategories[i].name);
-			}else if(matchingChildren.length > 0){
+				$(".category-products").children().last().find("#categoryName").attr('onclick','retrieveSelectedCategoryItems('+parentCategories[i]._id+',"'+parentCategories[i].name+'")');
+			}else if(matchingChildren.length > 0) {
 				$(".category-products").append(categoryParentSkeleton);
 				$(".category-products").children().last().find("#categoryName").html(parentCategories[i].name);
 				$(".category-products").children().last().find("#categoryParentLink").attr("href","#"+parentCategories[i].name);
 				$(".category-products").children().last().find("#categoryChildLink").attr("id",parentCategories[i].name);
 				for(var j=0;j<matchingChildren.length;j++) {
 					$(".category-products").children().last().find("#subCategoryName").append('<li><a href="#">'+matchingChildren[j].name+'</a></li>');
+					$(".category-products").children().last().find("#subCategoryName").find("li").last().attr('onclick','event.preventDefault();retrieveSelectedCategoryItems('+matchingChildren[j]._id+',"'+matchingChildren[j].name+'")');
 				}
 			}
 			//alert($(".category-products").html());
@@ -187,7 +190,7 @@ function retrieveFeaturedItems() {
 				'			<div class="productinfo text-center">'+
 								'				<img src="'+featuredItems[i].imagePath+'" alt="" height = "290px" width="280px"/>'+
 				'				<h2 id="itemPrice" data-price="'+featuredItems[i].price+'">$'+featuredItems[i].price+'</h2>'+
-				'				<p id="itemId" data-id="'+featuredItems[i]._id+'">'+featuredItems[i].name+'</p>'+
+				'				<p id="itemId" data-id="'+featuredItems[i]._id+'">'+featuredItems[i].name.substring(0, 35)+'</p>'+
 				'				<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>'+
 				'			</div>'+
 				'			<div class="product-overlay">'+
@@ -208,6 +211,66 @@ function retrieveFeaturedItems() {
 				'	</div>'+
 				'</div>'+
 				'');
+		}
+	}
+
+} //End of retrieveFeaturedItems()
+
+function retrieveSelectedCategoryItems(category_id,category_name) {
+	DEBUG = false;
+	var categoryItems;
+
+	$.ajax({
+			async: false,
+			type: "post",
+			url: "/ui/selectedCategoryItems",
+			contentType: 'application/json',
+			data: JSON.stringify({ "category_id": category_id}),
+			success: function(data) {
+			  categoryItems = eval(data);
+			  if(DEBUG) { alert("[Request_Server] Request Successful. Data Received: \n"+JSON.stringify(data)); }
+			 },
+			 error: function(response) {
+				  alert('There was a problem connecting to the server. Please try again.\nError details: '+response);
+			  }
+	}); //end of ajax
+
+	if(categoryItems.type) {
+		categoryItems = categoryItems.data;
+		if(categoryItems.length < 1) {
+			$(".features_items").html('<h2 class="title text-center">There are no items in this category</h2>');
+		} else {
+			$(".features_items").html('<h2 class="title text-center">Items in '+category_name+'</h2>');
+			for(var i=0;i<categoryItems.length;i++) {
+			$(".features_items").append(''+
+				'<div class="col-sm-4">'+
+				'	<div class="product-image-wrapper">'+
+				'		<div class="single-products">'+
+				'			<div class="productinfo text-center">'+
+								'				<img src="'+categoryItems[i].imagePath+'" alt="" height = "290px" width="280px"/>'+
+				'				<h2 id="itemPrice" data-price="'+categoryItems[i].price+'">$'+categoryItems[i].price+'</h2>'+
+				'				<p id="itemId" data-id="'+categoryItems[i]._id+'">'+categoryItems[i].name.substring(0, 35)+'</p>'+
+				'				<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>'+
+				'			</div>'+
+				'			<div class="product-overlay">'+
+				'				<div class="overlay-content">'+
+				'					<p>'+categoryItems[i].description+'<p>'+
+				'					<h2>$'+categoryItems[i].price+'</h2>'+
+				'					<p>'+categoryItems[i].name+'</p>'+
+				'					<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>'+
+				'				</div>'+
+				'			</div>'+
+				'		</div>'+
+				'	<!-- <div class="choose">'+
+				'			<ul class="nav nav-pills nav-justified">'+
+				'				<li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>'+
+				'				<li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>'+
+				'			</ul>'+
+				'		</div> -->'+
+				'	</div>'+
+				'</div>'+
+				'');
+		}
 		}
 	}
 
