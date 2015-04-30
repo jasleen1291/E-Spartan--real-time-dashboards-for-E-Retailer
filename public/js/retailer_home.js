@@ -6,10 +6,10 @@ $(document).ready(function() {
     $('.modal-trigger').leanModal();
     showDashboard();
     socket = io();
-    socket.on('updateDashboard', function(msg){
+    socket.on('updateDashboard', function(msg) {
         loadSalesCard();
     });
-    
+
 });
 
 $('#logOut').click(function() {
@@ -69,7 +69,7 @@ function loadSalesCard() {
     var d = new Date();
     yr = d.getFullYear();
     month = d.getMonth() + 1;
-    rid = 4;
+    rid = sessionStorage.getItem('user_id');
     startDate = month + "/01/" + yr;
 
 
@@ -209,7 +209,9 @@ function loadSalesCard() {
         $('#usMapSalesChart').highcharts('Map', {
 
             chart: {
-                borderWidth: 1
+                borderWidth: 1,
+                height: 340
+
             },
 
             title: {
@@ -289,10 +291,17 @@ function showUpdateOrder() {
 function showItemList() {
     console.log("getting Item List");
     $("#itemListTable tbody").empty();
-    $.get("item", function(res) {
+    userid = sessionStorage.getItem("user_id");
+    url = "retailer/" + userid + "/item";
+    $.get(url, function(res) {
         console.log("success");
-        //console.log(res);
-        res.forEach(function(thisdata) {
+        console.log(res);
+        resLen = res.data.length;
+        var data = res.data;
+        console.log(data);
+        // for (var i = 0; i < resLen; i++) {
+        //     thisdata = data[i];
+        (res.data).forEach(function(thisdata) {
             var tr = "<tr id=\"" + thisdata.name + "\" onclick=\"openItemDetails(\'" + thisdata._id + "\') \">";
             tr += "<td>" + thisdata._id + "</td>";
             if (thisdata.name.length > 50) {
@@ -328,7 +337,7 @@ function showOrderList() {
         var data = res.data;
         //console.log(data);
 
-        for (var i = 0; i < 15; i++) {
+        for (var i = 0; i < resLen; i++) {
             // $.each(data, function(thisdata) {
             thisdata = data[i];
             var tr = "<tr id=\"" + thisdata.orderid + "\" onclick=\"openOrderDetails(\'" + thisdata.orderid + "\') \">";
@@ -375,7 +384,7 @@ function openItemDetails(itemId) {
 }
 
 function openOrderDetails(orderId) {
-    console.log("openOrderDetails(" + orderId + ")"); 
+    console.log("openOrderDetails(" + orderId + ")");
     userid = sessionStorage.getItem("user_id");
     url = "user/" + userid + "/order/" + orderId;
 
@@ -399,18 +408,18 @@ function openOrderDetails(orderId) {
 
             $('#orderDetails-addressline1').val(res.data.shippingAddress.AddressLine1);
             $('#orderDetails-addressline2').val(res.data.shippingAddress.AddressLine2);
-            $('#orderDetails-city').val(res.data.shippingAddress.City);    
-            $('#orderDetails-state').val(res.data.shippingAddress.State);    
+            $('#orderDetails-city').val(res.data.shippingAddress.City);
+            $('#orderDetails-state').val(res.data.shippingAddress.State);
             $('#orderDetails-zop').val(res.data.shippingAddress.Zip);
             var status = res.data.status;
             //console.log(status);
-            if(status=="Pending"){
+            if (status == "Pending") {
                 $('#orderDetails-status').val(1);
-            }else if(status=="Shipped"){
+            } else if (status == "Shipped") {
                 $('#orderDetails-status').val(2);
-            }else if(status=="Delivered"){
+            } else if (status == "Delivered") {
                 $('#orderDetails-status').val(3);
-            }else if(status="Cancelled"){
+            } else if (status = "Cancelled") {
                 $('#orderDetails-status').val(4);
             }
         }
@@ -419,8 +428,53 @@ function openOrderDetails(orderId) {
     $('#orderDetailsModal').modal('show');
 }
 
-
 $('#addItem').click(function() {
+    console.log('additem click');
+    $("#addItemForm").submit();
+});
+
+$("form#addItemForm").submit(function(event) {
+    console.log('form submit');
+    //disable the default form submission
+    var category_id = $('#addItem-categoryid').val();           var category_id = $('#addItem-categoryid').val();
+    var name = $('#addItem-name').val();            var name = $('#addItem-name').val();
+    var description = $('#addItem-desc').val();         var description = $('#addItem-desc').val();
+    var price = $('#addItem-price').val();          var price = $('#addItem-price').val();
+    var discount = $('#addItem-discount').val();            var discount = $('#addItem-discount').val();
+    var quantity = $('#addItem-quantity').val();            var quantity = $('#addItem-quantity').val();
+    var features = JSON.stringify($('#addItem-features').val());            var features = JSON.stringify($('#addItem-features').val());
+    //var imagepath = $('#addItem-img');
+    event.preventDefault();
+    var formData = new FormData();
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("quantity", quantity);
+    formData.append("category_id", category_id);
+    formData.append("discount", discount);
+    formData.append("features", features);
+    console.log(formData);
+    var files = $("#addItem-img").get(0).files;
+    if (files.length > 0) {
+        console.log(files.length);
+        formData.append("files", files[0]);
+    }
+    console.log(formData);
+    $.ajax({
+        url: 'item/create',
+        type: 'POST',
+        data: formData,
+        async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function(data) {
+            //alert(data)
+        }
+    });
+    return false;
+});
+
+$('#addItem1').click(function() {
 
     var category_id = $('#addItem-categoryid').val();
     var name = $('#addItem-name').val();
@@ -504,14 +558,14 @@ $('#updateOrder').click(function() {
                 status: status
             },
             success: function(res) {
-                if(res.type){
+                if (res.type) {
                     alert('Order Updated: ' + orderid);
                     showOrderList();
                     $('#orderDetailsModal').modal('hide');
-                }else{
+                } else {
                     alert(res.data);
-                    $('#orderDetails-status').val(3); 
-                }                
+                    $('#orderDetails-status').val(3);
+                }
             }
         });
     }
@@ -537,7 +591,7 @@ $('#deleteItem').click(function() {
 function generateSaleTrendsGraph(date, sale) {
     $('#saleTrendsGraph').highcharts({
         chart: {
-            height: 300,
+            //height: 300,
             zoomType: 'xy'
         },
 

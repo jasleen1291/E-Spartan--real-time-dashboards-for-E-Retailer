@@ -74,7 +74,7 @@ module.exports = function(router) {
         }
     });
 
-    //Getting list of orders for user - userid
+    //Getting list of orders for retailer - retailerid
     router.get('/retailer/:retailerid/order', function(req, res) {
         var OrderSchema = require('../models/Order');
         var UserSchema = require('../models/User');
@@ -217,6 +217,7 @@ module.exports = function(router) {
 
     //updating order
     router.put('/user/:userid/order/update/:orderid', function(req, res) {
+        console.log("Update Order API called.");
         var OrderSchema = require('../models/Order');
         var UserSchema = require('../models/User');
         if(!req.session.user || req.session.user.role != "retailer") {
@@ -239,6 +240,7 @@ module.exports = function(router) {
                 OrderSchema.findOne({
                     orderid: Number(req.params.orderid)
                 }, function(err, order) {
+                    console.log('No order found for this id');
                     if (err) {
                         res.json({
                             type: false,
@@ -307,8 +309,12 @@ module.exports = function(router) {
                 }
             }
         }], function(err, result) {
-            console.log(result);
-            res.send(result);
+            if(!err){
+                    console.log(result);
+                    res.send(result);
+                }else{
+                    console.log(err);
+                }
             });
         }
     });
