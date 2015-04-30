@@ -10,6 +10,15 @@ module.exports = function(router) {
         
     });
 
+    router.get('/index', function(req, res) {
+        if(req.session.user) {
+            res.render('index',req);
+        } else {
+            res.render('index');    
+        }
+        
+    });
+
     router.get('/cart', function(req, res) {
         if(req.session.user) {
             res.render('cart',req);

@@ -105,8 +105,14 @@ function checkoutCart() {
 			  }
 	}); //end of ajax
 
-		$("#checkoutModal").modal('show');
-		$("#home").trigger('click');
+		if(userCart.type) {
+			$("#checkoutModal").modal('show');
+		} else {
+			$("#cantCheckoutModal").modal('show');
+		}
+		
+
+		//$("#home").find("a").trigger('click');
 	} else {
 		//Display message to enter form details - mandatory fields
 		alert("Please enter all the fields in the form");

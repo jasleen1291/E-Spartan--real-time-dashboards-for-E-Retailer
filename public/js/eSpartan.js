@@ -1,6 +1,13 @@
 
 var DEBUG = true;
 
+$('#sl2').slider();
+
+	var RGBChange = function() {
+	  $('#RGB').css('background', 'rgb('+r.getValue()+','+g.getValue()+','+b.getValue()+')')
+	};
+
+
 $(document).ready(function() {
 	retrieveCategories();
 	retrieveBrands();
@@ -10,6 +17,7 @@ $(".add-to-cart").on('click', function(e) {
 		e.preventDefault();
 		//alert("Add to cart is clicked");
 		DEBUG = false;
+		var addToCartResponse;
 		//alert($(this).parents(".single-products").find("#itemPrice").attr('data-price'));
 		//alert($(this).parents(".single-products").find("#itemId").attr('data-id'));
 
@@ -29,14 +37,22 @@ $(".add-to-cart").on('click', function(e) {
 			contentType: 'application/json',
 			dataType: 'json',
 			success: function(data) {
-			  parentCategories = eval(data);
-			  if(DEBUG) { alert("[Request_Server] Request Successful. Data Received: \n"+JSON.stringify(data)); }
+			  addToCartResponse = eval(data);
+			  if(DEBUG) { alert("[Request_Server] Request Successful. Data Received: \n"+JSON.stringify(data)); 
+			  
+			}
+			
 			 },
 			 error: function(response) {
 				  alert('There was a problem connecting to the server. Please try again.\nError details: '+JSON.stringify(response));
+				  
 			  }
 	}); //end of ajax
-
+		if(addToCartResponse.type) {
+			$("#addToCartModal").modal('show');
+		} else {
+			$("#signupModal").modal('show');
+		}
 		//Required fields
 
 	});
@@ -191,14 +207,14 @@ function retrieveFeaturedItems() {
 								'				<img src="'+featuredItems[i].imagePath+'" alt="" height = "290px" width="280px"/>'+
 				'				<h2 id="itemPrice" data-price="'+featuredItems[i].price+'">$'+featuredItems[i].price+'</h2>'+
 				'				<p id="itemId" data-id="'+featuredItems[i]._id+'">'+featuredItems[i].name.substring(0, 35)+'</p>'+
-				'				<a href="#" class="btn btn-default add-to-cart" data-toggle="modal" data-target="#addToCartModal"><i class="fa fa-shopping-cart"></i>Add to cart</a>'+
+				'				<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>'+
 				'			</div>'+
 				'			<div class="product-overlay">'+
 				'				<div class="overlay-content">'+
 				'					<p>'+featuredItems[i].description+'<p>'+
 				'					<h2>$'+featuredItems[i].price+'</h2>'+
 				'					<p>'+featuredItems[i].name+'</p>'+
-				'					<a href="#" class="btn btn-default add-to-cart" data-toggle="modal" data-target="#addToCartModal"><i class="fa fa-shopping-cart"></i>Add to cart</a>'+
+				'					<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>'+
 				'				</div>'+
 				'			</div>'+
 				'		</div>'+
@@ -250,14 +266,14 @@ function retrieveSelectedCategoryItems(category_id,category_name) {
 								'				<img src="'+categoryItems[i].imagePath+'" alt="" height = "290px" width="280px"/>'+
 				'				<h2 id="itemPrice" data-price="'+categoryItems[i].price+'">$'+categoryItems[i].price+'</h2>'+
 				'				<p id="itemId" data-id="'+categoryItems[i]._id+'">'+categoryItems[i].name.substring(0, 35)+'</p>'+
-				'				<a href="#" class="btn btn-default add-to-cart"  data-toggle="modal" data-target="#addToCartModal"><i class="fa fa-shopping-cart"></i>Add to cart</a>'+
+				'				<a href="#" class="btn btn-default add-to-cart" onclick="event.preventDefault(); addToCart(this)"><i class="fa fa-shopping-cart"></i>Add to cart</a>'+
 				'			</div>'+
 				'			<div class="product-overlay">'+
 				'				<div class="overlay-content">'+
 				'					<p>'+categoryItems[i].description+'<p>'+
 				'					<h2>$'+categoryItems[i].price+'</h2>'+
 				'					<p>'+categoryItems[i].name+'</p>'+
-				'					<a href="#" class="btn btn-default add-to-cart"  data-toggle="modal" data-target="#addToCartModal"><i class="fa fa-shopping-cart"></i>Add to cart</a>'+
+				'					<a href="#" class="btn btn-default add-to-cart" onclick="event.preventDefault(); addToCart(this)"><i class="fa fa-shopping-cart"></i>Add to cart</a>'+
 				'				</div>'+
 				'			</div>'+
 				'		</div>'+
@@ -276,3 +292,46 @@ function retrieveSelectedCategoryItems(category_id,category_name) {
 
 } //End of retrieveFeaturedItems()
 
+function addToCart(xy) {
+	
+		//alert("Add to cart is clicked");
+		DEBUG = false;
+		var addToCartResponse;
+		//alert($(this).parents(".single-products").find("#itemPrice").attr('data-price'));
+		//alert($(this).parents(".single-products").find("#itemId").attr('data-id'));
+
+		var  itemPrice = $(xy).parents(".single-products").find("#itemPrice").attr('data-price');
+		var itemId = $(xy).parents(".single-products").find("#itemId").attr('data-id');
+
+		var s = JSON.stringify({"item_id" : itemId, "price": itemPrice, "quantity": "1"});
+		//alert(s);
+		console.log(s);
+		//alert(JSON.parse(s).item_id);
+
+		$.ajax({
+			async: false,
+			type: "POST",
+			url: "addToCart",
+			data: s,
+			contentType: 'application/json',
+			dataType: 'json',
+			success: function(data) {
+			  addToCartResponse = eval(data);
+			  if(DEBUG) { alert("[Request_Server] Request Successful. Data Received: \n"+JSON.stringify(data)); 
+			  
+			}
+			
+			 },
+			 error: function(response) {
+				  alert('There was a problem connecting to the server. Please try again.\nError details: '+JSON.stringify(response));
+				  
+			  }
+	}); //end of ajax
+		if(addToCartResponse.type) {
+			$("#addToCartModal").modal('show');
+		} else {
+			$("#signupModal").modal('show');
+		}
+		//Required fields
+
+}
