@@ -1,8 +1,15 @@
+var socket;
+
 $(document).ready(function() {
     startTime();
     $(".button-collapse").sideNav();
     $('.modal-trigger').leanModal();
     showDashboard();
+    socket = io();
+    socket.on('updateDashboard', function(msg){
+        loadSalesCard();
+    });
+    
 });
 
 $('#logOut').click(function() {

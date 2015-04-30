@@ -1,3 +1,5 @@
+var socket = require('../app');
+
 module.exports = function(router) {
 
     var accessDeniedMsg = "Access Denied! You need to be logged in to perform this operation.";
@@ -75,6 +77,7 @@ module.exports = function(router) {
             } else {
                 if (user) {
                     req.session.user = user;
+                    console.log("User logged in:"+user);
                     //console.log(req.session.user.user_id);
                     res.json({
                         type: true,

@@ -1,3 +1,5 @@
+var socket = require('../app');
+
 module.exports = function(router) {
 
     var ItemSchema = require('../models/Item');

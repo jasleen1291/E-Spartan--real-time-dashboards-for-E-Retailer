@@ -1,3 +1,5 @@
+var socket = require('../app');
+
 //create category
 module.exports = function(router) {
 

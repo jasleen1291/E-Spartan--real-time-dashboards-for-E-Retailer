@@ -1,5 +1,47 @@
+var socket = require('../app');
+
 module.exports = function(router) {
     var accessDeniedMsg = "Access Denied! You need to be logged in as a normal user of this application to perform this operation.";
+
+    router.get('/loadCartDetails', function(req, res, next) {
+        if(!req.session.user || req.session.user.role == "admin" || req.session.user.role == "retailer") {
+            res.json({
+                type: false,
+                data: accessDeniedMsg
+            });
+        } else {
+            var Cart = require("../models/Cart");
+            Cart.findOne({
+                user_id: req.session.user.user_id
+                }, function(err, doc) {
+                    if (err) {
+                        console.log("Error in finding cart");
+                        res.send({
+                            type: false,
+                            data: "Error in finding cart" + err
+                        });
+                    } else {
+                        if(doc) {
+                            //case: Found cart
+                            console.log("Found the cart");
+                            res.send({
+                                type: true,
+                                data: doc
+                            });
+                        } else {
+                            //case: Didnt find cart
+                            console.log("Couldnt find the cart");
+                            res.send({
+                                type: true,
+                                data: doc
+                            });
+                        }    
+                    }
+                    
+            });
+
+        }
+    });
 
     router.post('/addToCart', function(req, res, next) {
         if(!req.session.user || req.session.user.role == "admin" || req.session.user.role == "retailer") {
@@ -11,7 +53,7 @@ module.exports = function(router) {
             var Cart = require("../models/Cart");
         var Item = require("../models/Item");
         Cart.findOne({
-            user_id: req.body.userid
+            user_id: req.session.user.user_id
         }, function(err, doc) {
             if (err) {
                 res.send({
@@ -21,7 +63,7 @@ module.exports = function(router) {
             } else {
                 if (doc) {
                     Item.findOne({
-                        "_id": JSON.parse(req.body.item).item_id
+                        "_id": req.body.item_id
                     }, function(err, item) {
                         if (err) {
                             res.send({
@@ -44,7 +86,7 @@ module.exports = function(router) {
 
                 } else {
                     var cart = new Cart({
-                        user_id: req.body.userid,
+                        user_id: req.session.user.userid,
                         items: []
                     });
                     cart.save(function(err, doc) {
@@ -55,7 +97,7 @@ module.exports = function(router) {
                             });
                         else {
                             Item.findOne({
-                                "_id": JSON.parse(req.body.item).item_id
+                                "_id": req.body.item_id
                             }, function(err, item) {
                                 if (err) {
                                     res.send({
@@ -83,7 +125,7 @@ module.exports = function(router) {
             function callback(cart, itemF) {
                 try {
                     var items = cart.items;
-                    var item = JSON.parse(req.body.item);
+                    var item = req.body;
                     if (item.quantity > itemF.quantity) {
                         res.send({
                             type: false,
@@ -93,7 +135,7 @@ module.exports = function(router) {
                         itemF.quantity = item.quantity;
                         items.push(itemF);
 
-                        cart.user_id = req.body.userid;
+                        cart.user_id = req.session.user.user_id;
                         cart.total = cart.total + (item.price * item.quantity);
                         //console.log(cart);
                         cart.save(function(err, doc) {
@@ -133,7 +175,7 @@ module.exports = function(router) {
         } else {
             var Cart = require("../models/Cart");
         Cart.findOne({
-            user_id: req.body.userid
+            user_id: req.session.user.user_id
         }, function(err, doc) {
             if (err) {
                 res.send({
@@ -156,14 +198,14 @@ module.exports = function(router) {
                 try {
 
 
-                    var items = JSON.parse(req.body.items);
+                    var items = req.body;
                     var total = 0;
                     for (q = 0; q < items.length; q++) {
                         ////console.log(items[q].quantity * items[q].price);
                         total = total + (items[q].quantity * items[q].price);
                     }
                     cart.total = total;
-                    cart.items = JSON.parse(req.body.items);
+                    cart.items = req.body;
                     cart.save(function(err, doc) {
                         if (err)
                             res.send({
@@ -200,7 +242,7 @@ module.exports = function(router) {
         } else {
             var Cart = require("../models/Cart");
         Cart.findOne({
-            user_id: req.body.userid
+            user_id: req.session.user.user_id
         }, function(err, doc) {
             if (err) {
                 res.send({
@@ -423,6 +465,7 @@ module.exports = function(router) {
 
 
         });
+        socket.socketio.emit('updateDashboard', "");
         }
 
     });

@@ -7,18 +7,18 @@ $(document).ready(function() {
 	retrieveFeaturedItems();
 
 $(".add-to-cart").on('click', function() {
-		alert("Add to cart is clicked");
-		DEBUG = true;
-		alert($(this).parents(".single-products").find("#itemPrice").attr('data-price'));
-		alert($(this).parents(".single-products").find("#itemId").attr('data-id'));
+		//alert("Add to cart is clicked");
+		DEBUG = false;
+		//alert($(this).parents(".single-products").find("#itemPrice").attr('data-price'));
+		//alert($(this).parents(".single-products").find("#itemId").attr('data-id'));
 
 		var  itemPrice = $(this).parents(".single-products").find("#itemPrice").attr('data-price');
 		var itemId = $(this).parents(".single-products").find("#itemId").attr('data-id');
 
 		var s = JSON.stringify({"item_id" : itemId, "price": itemPrice, "quantity": "1"});
-		alert(s);
+		//alert(s);
 		console.log(s);
-		alert(JSON.parse(s).item_id);
+		//alert(JSON.parse(s).item_id);
 
 		$.ajax({
 			async: false,
@@ -39,6 +39,8 @@ $(".add-to-cart").on('click', function() {
 		//Required fields
 
 	});
+
+
 });
 
 function retrieveCategories() {
@@ -180,12 +182,12 @@ function retrieveFeaturedItems() {
 		for(var i=0;i<featuredItems.length;i++) {
 			$(".features_items").append(''+
 				'<div class="col-sm-4">'+
-				'	<div class="product-image-wrapper" >'+
+				'	<div class="product-image-wrapper">'+
 				'		<div class="single-products">'+
 				'			<div class="productinfo text-center">'+
-				'				<img src="'+featuredItems[i].imagePath+'" alt="" height = "290px" width="280px"/>'+
+								'				<img src="'+featuredItems[i].imagePath+'" alt="" height = "290px" width="280px"/>'+
 				'				<h2 id="itemPrice" data-price="'+featuredItems[i].price+'">$'+featuredItems[i].price+'</h2>'+
-				'				<p id="itemId" data-id="'+featuredItems[i]._id+'">'+featuredItems[i].name.substring(0, 35) +'</p>'+
+				'				<p id="itemId" data-id="'+featuredItems[i]._id+'">'+featuredItems[i].name+'</p>'+
 				'				<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>'+
 				'			</div>'+
 				'			<div class="product-overlay">'+

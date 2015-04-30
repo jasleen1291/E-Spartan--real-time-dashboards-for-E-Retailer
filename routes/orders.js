@@ -1,4 +1,6 @@
 var q = require("q");
+var socket = require('../app');
+
 module.exports = function(router) {
     var accessDeniedMsg = "Access Denied! You need to be logged in to perform this operation.";
     
@@ -47,13 +49,14 @@ module.exports = function(router) {
     router.post('/user/:userid/order/create', function(req, res, next) {
         var OrderSchema = require('../models/Order');
         var UserSchema = require('../models/User');
+        
         if(!req.session.user) {
             res.json({
                 type: false,
                 data: accessDeniedMsg
             });
         } else {
-            var findUserRequest = findUserObj.findUser(req.params.userid);
+            var findUserRequest = findUserObj.findUser(req.session.user.user_id);
             findUserRequest.done(function(data) {
             if (data == "Error") {
                 res.json({
@@ -67,6 +70,7 @@ module.exports = function(router) {
                 saveOrder(req, res, orderModel);
             }
             });
+            socket.socketio.emit('updateDashboard', "");
         }
     });
 
@@ -207,6 +211,7 @@ module.exports = function(router) {
                 }
             }
             });
+        socket.socketio.emit('updateDashboard', "");
         }
     });
 
@@ -248,6 +253,7 @@ module.exports = function(router) {
                 });
             }
             });
+        socket.socketio.emit('updateDashboard', "");
         }
     });
 

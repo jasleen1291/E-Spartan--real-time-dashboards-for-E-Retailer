@@ -1,3 +1,5 @@
+var socket = require('../app');
+
 ///Rate a product.......
 module.exports = function(router) {
     var accessDeniedMsg = "Access Denied! You need to be logged in to perform this operation.";

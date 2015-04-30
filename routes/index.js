@@ -2,31 +2,60 @@ module.exports = function(router) {
     var accessDeniedMsg = "Access Denied! You need to be logged in to perform this operation.";
 
     router.get('/', function(req, res) {
-        res.render('index');
+        if(req.session.user) {
+            res.render('index',req);
+        } else {
+            res.render('index');    
+        }
+        
     });
 
     router.get('/cart', function(req, res) {
-        res.render('cart');
+        if(req.session.user) {
+            res.render('cart',req);
+        } else {
+            res.render('login');
+        }
     });
 
     router.get('/checkout', function(req, res) {
-        res.render('checkout');
+        if(req.session.user) {
+            res.render('checkout',req);
+        } else {
+            res.render('login');
+        }
     });
 
     router.get('/product-details', function(req, res) {
-        res.render('product-details');
+        if(req.session.user) {
+            res.render('product-details',req);
+        } else {
+            res.render('product-details');
+        }
     });
 
     router.get('/shop', function(req, res) {
-        res.render('shop');
+        if(req.session.user) {
+            res.render('shop',req);    
+        } else {
+            res.render('shop');
+        }
     });
 
     router.get('/login', function(req, res) {
-        res.render('login');
+        if(req.session.user) {
+            res.render('login',req);
+        } else {
+            res.render('login');
+        }
     });
 
     router.get('/contact-us', function(req, res) {
-        res.render('contact-us');
+        if(req.session.user) {
+            res.render('contact-us',req);
+        } else {
+            res.render('contact-us');
+        }
     });
 
     router.get('/retailerhome', function(req, res) {
@@ -36,7 +65,7 @@ module.exports = function(router) {
                 data: accessDeniedMsg
             });
         } else {
-          res.render('retailer_home');
+          res.render('retailer_home',req);
         }
         
     });

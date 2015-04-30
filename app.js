@@ -44,6 +44,13 @@ app.use('/',router);
 app.use('/api',router);
 var publicDir = require('path').join(__dirname, '/public');
 app.use(express.static(publicDir)); 
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+io.on('connection', function(socket){
+  //console.log('a user connected');
+});
+
+exports.socketio = io;
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB Connection error: Unable to connect. Resolve connection issue before starting application'));
@@ -52,7 +59,7 @@ app.on('error', appError);
 
 function dbListening() {
   console.log("Successfully connected to MongoDB!");
-  var server = app.listen(port, function() {
+  var server = http.listen(port, function() {
   console.log("Successfully started application");
 	  var host = server.address().address;
 	  var port = server.address().port;
