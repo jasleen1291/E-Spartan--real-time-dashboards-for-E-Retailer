@@ -607,7 +607,7 @@ function generateSaleTrendsGraph(date, sale) {
             },
         },
         series: [{
-            name: 'Date',
+            name: 'Sales Amount',
             data: sale
 
         }]
