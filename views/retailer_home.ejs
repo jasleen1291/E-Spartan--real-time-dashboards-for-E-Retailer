@@ -45,7 +45,7 @@
                         <div class="shop-menu pull-right">
                             <ul class="nav navbar-nav">
                                 <% if(locals.session != null) {%>
-                                    <li><a><%= session.user.username %></a> </li>
+                                    <li><a><%= session.user.firstname %></a> </li>
                                     <li><a id="logOut"><i class="fa fa-lock"></i>Logout</a></li>
                                  <% } else {    %>
                                 <li><a href="login"><i class="fa fa-lock"></i> Login</a></li>
@@ -638,8 +638,8 @@
         <div class="footer-bottom">
             <div class="container">
                 <div class="row">
-                    <p class="pull-left">Copyright © 2015 E-SPARTAN Shop. All rights reserved.</p>
-                    <p class="pull-right">Designed by <span><a href="#">CMPE 280  - Team 9</a></span></p>
+                    <p class="col-sm-4">Copyright © 2015 E-SPARTAN Shop. All rights reserved.</p>
+                    <p class="col-sm-4">Designed by <span><a href="#">CMPE 280  - Team 9</a></span></p>
                 </div>
             </div>
         </div>

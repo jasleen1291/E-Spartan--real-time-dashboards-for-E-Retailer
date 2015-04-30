@@ -40,10 +40,10 @@ function retrieveCart() {
 			//Add each TR here
 			'	<tr>'+
 			'		<td class="cart_product">'+
-			'			<a href=""><img src="images/cart/one.png" alt=""></a>'+
+			'			<a><img src="' + userCart.items[i].imagePath +'" alt="' + userCart.items[i].name+ '" height = "100px" width="150px"></a>'+
 			'		</td>'+
 			'		<td class="cart_description">'+
-			'			<h4><a href="">'+userCart.items[i].name+'</a></h4>'+
+			'			<h4><a>'+userCart.items[i].name+'</a></h4>'+
 			'			<p>Retailer ID: '+userCart.items[i].retailer_id+'</p>'+
 			'		</td>'+
 			'		<td class="cart_price">'+
@@ -51,16 +51,14 @@ function retrieveCart() {
 			'		</td>'+
 			'		<td class="cart_quantity">'+
 			'			<div class="cart_quantity_button">'+
-			'				<a class="cart_quantity_up" href=""> + </a>'+
-			'				<input class="cart_quantity_input" type="text" name="quantity" value="'+userCart.items[i].quantity+'" autocomplete="off" size="2">'+
-			'				<a class="cart_quantity_down" href=""> - </a>'+
+			'				<input class="cart_quantity_input" disabled type="text" name="quantity" value="'+userCart.items[i].quantity+'" autocomplete="off" size="2">'+
 			'			</div>'+
 			'		</td>'+
 			'		<td class="cart_total">'+
 			'			<p class="cart_total_price">$'+userCart.items[i].price+'</p>'+
 			'		</td>'+
 			'		<td class="cart_delete">'+
-			'			<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>'+
+			'			<a class="cart_quantity_delete"><i class="fa fa-times"></i></a>'+
 			'		</td>'+
 			'	</tr>'+
 			'');	

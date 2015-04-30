@@ -234,6 +234,7 @@ module.exports = function(router) {
     });
 
     router.put('/deleteItemFromCart', function(req, res, next) {
+        console.log("Deleting Item from cart");
         if(!req.session.user || req.session.user.role == "admin" || req.session.user.role == "retailer") {
             res.json({
                 type: false,
@@ -304,10 +305,6 @@ module.exports = function(router) {
                                     message: "Ok"
                                 });
                         });
-
-
-
-
                     }
 
                 } catch (e) {
