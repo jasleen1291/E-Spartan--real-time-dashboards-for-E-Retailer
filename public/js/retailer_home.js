@@ -403,7 +403,7 @@ function openOrderDetails(orderId) {
             $('#orderDetails-state').val(res.data.shippingAddress.State);    
             $('#orderDetails-zop').val(res.data.shippingAddress.Zip);
             var status = res.data.status;
-            console.log(status);
+            //console.log(status);
             if(status=="Pending"){
                 $('#orderDetails-status').val(1);
             }else if(status=="Shipped"){
@@ -421,7 +421,22 @@ function openOrderDetails(orderId) {
 
 
 $('#addItem').click(function() {
+    console.log('additem click');  
 
+/*    $('#addItemForm').submit( function( e ) {
+        alert( "Handler for .submit() called." );
+        var data = new FormData( this );
+        console.log(data);
+        // $.ajax( {
+        //   url: 'http://host.com/action/',
+        //   type: 'POST',
+        //   data: new FormData( this ),
+        //   processData: false,
+        //   contentType: false
+        // } );
+        //e.preventDefault();
+    } );
+*/
     var category_id = $('#addItem-categoryid').val();
     var name = $('#addItem-name').val();
     var description = $('#addItem-desc').val();
@@ -429,6 +444,7 @@ $('#addItem').click(function() {
     var discount = $('#addItem-discount').val();
     var quantity = $('#addItem-quantity').val();
     var features = JSON.stringify($('#addItem-features').val());
+    var imagepath = $('#addItem-img');
     $.ajax({
         url: 'item/create',
         type: 'POST',
@@ -486,6 +502,37 @@ $('#updateItem').click(function() {
         });
     }
 });
+
+$('#updateOrder').click(function() {
+    var orderid = $('#orderDetails-orderid').val();
+    var status = $('#orderDetails-status :selected').text();
+    userid = sessionStorage.getItem("user_id");
+    var url = '/user/' + userid + '/order/update/' + orderid;
+    if (userid != null) {
+        $.ajax({
+            url: url,
+            type: 'PUT',
+            async: true,
+            cache: false,
+            crossDomain: true,
+            dataType: "json",
+            data: {
+                status: status
+            },
+            success: function(res) {
+                if(res.type){
+                    alert('Order Updated: ' + orderid);
+                    showOrderList();
+                    $('#orderDetailsModal').modal('hide');
+                }else{
+                    alert(res.data);
+                    $('#orderDetails-status').val(3); 
+                }                
+            }
+        });
+    }
+});
+
 
 $('#deleteItem').click(function() {
     var id = $('#itemDetails-id').val();

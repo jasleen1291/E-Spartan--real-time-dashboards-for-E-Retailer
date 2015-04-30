@@ -4,8 +4,7 @@ function login() {
     //console.log(username + " : " + password);
     $("#wrongpassword").css("display", "none");
     if (username == '' || password == '') {
-        console.log("error")
-        $('#error').text("error");
+        alert('Something is missing!. Please fill out the fields properly.');
         return;
     } else {
         $.post("/api/login", {

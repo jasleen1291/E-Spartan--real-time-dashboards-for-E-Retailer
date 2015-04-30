@@ -36,7 +36,7 @@ module.exports = function(router) {
 		    /* The file name of the uploaded file */
 		    var file_name = this.openedFiles[0].name;
 		    /* Location where we want to copy the uploaded file */
-		    var new_location = 'F:\\Workspace\\280-Project\\CMPE280\\public\\images\\uploads\\';
+		    var new_location = '\\images\\uploads\\';
 		    
 		    //fs.copy(temp_path, new_location + req.body.form.userName + "_" + file_name, function(err) {  
 		    fs.copy(temp_path, new_location + file_name, function(err) {  

@@ -332,7 +332,7 @@
                             <div class="col-sm-12 col-lg-offset-3 col-lg-6 col-md-8 center-align ">
                                 <h3>Add Item</h3>
                             </div>
-                            <form id="addItemForm" class="col-sm-12 col-lg-offset-3 col-lg-6 col-md-8 center-align ">
+                            <form id="addItemForm"  class="col-sm-12 col-lg-offset-3 col-lg-6 col-md-8 center-align ">
                                 <div class="row">
                                     <div class="input-field col-sm-12">
                                         <input id="addItem-name" type="text" class="validate" in>
@@ -378,12 +378,23 @@
                                         <label for="addItem-features">Enter the features</label>
                                     </div>
                                 </div>
-
+                                <div class="row">
+                                    <div class="file-field input-field col-sm-12">
+                                        <input class="file-path validate" type="text"/>
+      <div class="btn">
+        <i class="mdi-file-file-upload"></i>
+        <span>Upload</span>
+        <input type="file" id="addItem-img"/>
+                                    </div>
+                                </div>
+</div>
                                 <div class="row">
                                     <div class="input-field col-sm-12">
                                         <a class="btn-floating btn-large waves-effect waves-light red" id="addItem"><i class="mdi-content-add"></i></a>
                                     </div>
                                 </div>
+
+
                             </form>
                         </div>
                     </div>
@@ -539,7 +550,7 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <a class="waves-effect waves-light btn blue lighten-1" id="updateItem"><i class="mdi-file-cloud left"></i>Update</a>
+                                            <a class="waves-effect waves-light btn blue lighten-1" id="updateOrder"><i class="mdi-file-cloud left"></i>Update</a>
                                             <a class="waves-effect waves-light btn black lighten-3" data-dismiss="modal">Close</a>
                                         </div>
                                     </div>
