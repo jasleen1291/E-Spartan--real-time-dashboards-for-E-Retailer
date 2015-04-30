@@ -49,6 +49,25 @@ module.exports = function(router) {
         });
     });
 
+     router.post('/ui/selectedCategoryItems', function(req, res, next) {
+        var ItemSchema = require('../models/Item');
+        //console.log(req.body.category_id);
+            ItemSchema.find({category_id: { $eq : req.body.category_id }}, function(err, featuredItems) {
+            if (!err) {
+                res.json({
+                    type: true,
+                    data: featuredItems
+                });
+            } else {
+                console.log(err);
+                res.json({
+                    type: false,
+                    data: "Error occured: " + err
+                });
+            }
+            });          
+    });
+
     router.get('/ui/itemBrands', function(req, res, next) {
         var ItemSchema = require('../models/Item');
         ItemSchema.aggregate([{
