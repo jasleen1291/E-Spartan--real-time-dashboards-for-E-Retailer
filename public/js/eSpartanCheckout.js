@@ -57,9 +57,6 @@ function retrieveCart() {
 			'		<td class="cart_total">'+
 			'			<p class="cart_total_price">$'+userCart.items[i].price+'</p>'+
 			'		</td>'+
-			'		<td class="cart_delete">'+
-			'			<a class="cart_quantity_delete"><i class="fa fa-times"></i></a>'+
-			'		</td>'+
 			'	</tr>'+
 			'');	
 		} //End of for loop

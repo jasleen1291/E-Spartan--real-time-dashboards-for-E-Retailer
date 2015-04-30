@@ -252,8 +252,8 @@ module.exports = function(router) {
                 });
             } else {
                 if (doc) {
+                    //console.log(doc);
                     callback(doc);
-
                 } else {
                     res.send({
                         type: false,
@@ -265,32 +265,34 @@ module.exports = function(router) {
             function callback(cart) {
                 try {
 
-                    ////console.log(1);
+                    console.log(1);
                     var items = cart.items;
                     var index = -1;
+                    //console.log(items);
+                    //console.log(items.length);
+                    console.log("item to deleted ID:" + req.body.itemid);
                     for (q = 0; q < items.length; q++) {
-
-                        if (items[q]._id === req.body.itemid) {
+                        if (items[q]._id == req.body.itemid) {
                             index = q;
                             break;
                         }
                     }
-                    ////console.log(2);
-                    if (index === -1) {
+                    console.log(2);
+                    if (index == -1) {
                         res.send({
                             type: false,
                             message: "Item not found"
                         });
                     } else {
-                        ////console.log(index);
+                        console.log(index);
                         items.splice(index, 1);
-                        ////console.log(items);
+                        console.log(items);
                         var total = 0;
                         for (q = 0; q < items.length; q++) {
-                            ////console.log(items[q]);
+                            console.log(items[q]);
                             total = total + (items[q].quantity * items[q].price);
                         }
-                        ////console.log(4);
+                        console.log(4);
                         cart.total = total;
                         cart.items = items;
                         cart.save(function(err, doc) {
