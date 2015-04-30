@@ -180,12 +180,12 @@ function retrieveFeaturedItems() {
 		for(var i=0;i<featuredItems.length;i++) {
 			$(".features_items").append(''+
 				'<div class="col-sm-4">'+
-				'	<div class="product-image-wrapper">'+
+				'	<div class="product-image-wrapper" >'+
 				'		<div class="single-products">'+
 				'			<div class="productinfo text-center">'+
-				'				<img src="images/home/product1.jpg" alt="" />'+
+				'				<img src="'+featuredItems[i].imagePath+'" alt="" height = "290px" width="280px"/>'+
 				'				<h2 id="itemPrice" data-price="'+featuredItems[i].price+'">$'+featuredItems[i].price+'</h2>'+
-				'				<p id="itemId" data-id="'+featuredItems[i]._id+'">'+featuredItems[i].name+'</p>'+
+				'				<p id="itemId" data-id="'+featuredItems[i]._id+'">'+featuredItems[i].name.substring(0, 35) +'</p>'+
 				'				<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>'+
 				'			</div>'+
 				'			<div class="product-overlay">'+
