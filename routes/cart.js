@@ -392,18 +392,21 @@ module.exports = function(router) {
     }
 
     router.post('/checkout', function(req, res, next) {
+        console.log("checkout API Called.");
         if(!req.session.user || req.session.user.role == "admin" || req.session.user.role == "retailer") {
             res.json({
                 type: false,
                 data: accessDeniedMsg
             });
         } else {
-            var Cart = require("../models/Cart");
+        var Cart = require("../models/Cart");
         var Order = require("../models/Order");
         var Item = require("../models/Item");
+
         Cart.findOne({
             user_id: req.session.user.user_id
         }, function(err, doc) {
+            //console.log("User found:" + req.session.user.user_id);
             if (err) {
                 res.send({
                     type: false,
@@ -411,32 +414,31 @@ module.exports = function(router) {
                 });
             } else {
                 if (doc) {
+                    //console.log(doc);
+                    //console.log(doc.items.length);
+                    //console.log(req.body.shippingAddress);
                     if (doc.items.length > 0) {
                         var orders = [];
-
                         for (i = 0; i < doc.items.length; i++) {
                             var item = doc.items[i];
                             var order = new Order();
                             order.userid = Number(req.session.user.user_id);
                             order.retailerid = item.retailer_id;
                             order.item_id = item._id;
-
                             order.quantity = item.quantity;
                             order.price = item.price;
                             try {
-                                order.shippingAddress = JSON.parse(req.body.shippingAddress);
+                                order.shippingAddress = JSON.parse(JSON.stringify(req.body.shippingAddress));
                                 order.receipientName = req.body.receipientName;
                                 order.receipientPhoneNumber = req.body.receipientPhoneNumber;
                                 order.creditCard = req.body.creditCard;
                                 order.status = "Pending";
                                 orders.push(order);
-                                //console.log(order);
+                                console.log(order);
 
                             } catch (e) {
-                                //console.log("Error"+e);
+                                console.log("Error"+e);
                             }
-
-
                         }
 
                         Order.create(orders, onInsert);
@@ -445,6 +447,7 @@ module.exports = function(router) {
                             if (err) {
                                 res.send(err);
                             } else {
+                                console.log("Creating order");
                                 callback(doc, req, res);
                             }
                         }

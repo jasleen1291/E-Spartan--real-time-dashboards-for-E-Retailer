@@ -84,7 +84,7 @@ function checkoutCart() {
 		var ZipCode = document.getElementById("zip");
 
 		infoToSend = JSON.stringify({"receipientName": receipientName.value, "receipientPhoneNumber": receipientPhoneNumber.value, "creditCard": creditCard.value, "shippingAddress": { "AddressLine1": AddressLine1.value, "AddressLine2": AddressLine2.value,	"City": City.value, "State": State.value, "ZipCode": ZipCode.value } });
-		
+		console.log(infoToSend);
 		$.ajax({
 			async: false,
 			type: "POST",
@@ -105,8 +105,6 @@ function checkoutCart() {
 		} else {
 			$("#cantCheckoutModal").modal('show');
 		}
-		
-
 		//$("#home").find("a").trigger('click');
 	} else {
 		//Display message to enter form details - mandatory fields
