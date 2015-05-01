@@ -428,7 +428,7 @@ function openOrderDetails(orderId) {
     $('#orderDetailsModal').modal('show');
 }
 
-$('#addItem').click(function() {
+$('#addItem1').click(function() {
     console.log('additem click');
     $("#addItemForm").submit();
 });
@@ -474,7 +474,7 @@ $("form#addItemForm").submit(function(event) {
     return false;
 });
 
-$('#addItem1').click(function() {
+$('#addItem').click(function() {
 
     var category_id = $('#addItem-categoryid').val();
     var name = $('#addItem-name').val();

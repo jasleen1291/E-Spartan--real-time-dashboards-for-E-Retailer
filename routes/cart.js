@@ -448,6 +448,7 @@ module.exports = function(router) {
                                 res.send(err);
                             } else {
                                 console.log("Creating order");
+                                socket.socketio.emit('updateDashboard', "");
                                 callback(doc, req, res);
                             }
                         }
