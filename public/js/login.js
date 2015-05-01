@@ -45,6 +45,8 @@ function signup() {
     var y = document.getElementById("userRole").options;
     var role = y[x].text;
     //console.log(username + " : " + password);
+    // $('#signupButton').prop('disabled', true);
+    $("#signupstatus").show();
     $("#signuperror").css("display", "none");
     $("#signupsuccessful").css("display", "none");
     if (emailAddress == '' || password == '' || firstName == '' || lastName == '') {
@@ -62,10 +64,14 @@ function signup() {
         }).done(function(data) {
             if (!data.type) {
                 console.log("Signup Error:" + data.data)
+                // $('#signupButton').prop('disabled', false);
+                $("#signupstatus").css("display", "none");
                 $("#signuperror").show();
                 return;
             } else {
                 console.log("Signup successfull");
+                // $('#signupButton').prop('disabled', false);
+                $("#signupstatus").css("display", "none");
                 $("#signupsuccessful").show();
                 //window.location.href ="/api/retailerhome";
                 // var url = '/home';

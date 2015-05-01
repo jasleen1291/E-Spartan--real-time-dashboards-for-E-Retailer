@@ -114,7 +114,7 @@
 					<div class="login-form"><!--login form-->
 						<h2>Login to your account</h2>
 						<form action="#">
-							<input type="text" placeholder="Username" id="userName" required/>
+							<input type="text" placeholder="Email Address" id="userName" required/>
 							<input type="password" placeholder="Password" id="password" required/>
 							<span>
 								<input type="checkbox" class="checkbox"> 
@@ -142,8 +142,10 @@
 									  <option value="user">user</option>
 								</select>
 							</span>
-							<button type="submit" class="btn btn-default" onclick="event.preventDefault(); signup();">Signup</button>
-							<br /><br />
+							<br />
+							<button type="submit" id="signupButton" class="btn btn-default" onclick="event.preventDefault(); signup();">Signup</button>
+							<br />
+							<button type="reset" class="btn btn-success" id="signupstatus" style="display:none;">Signing up! Please Wait</button>
 							<button type="reset" class="btn btn-danger" id="signuperror" style="display:none;background:red">Sign up Error! </button>
 							<br />
 							<button type="reset" class="btn btn-success" id="signupsuccessful" style="display:none;">Sign up Successful!</button>
